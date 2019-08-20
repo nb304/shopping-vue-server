@@ -7,21 +7,21 @@
       <el-row :gutter="24">
         <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">
           <el-form-item label="商品状态" style="width: 100% !important;">
-            <el-select v-model="formInline.productState" placeholder="选择" style="width: 100% !important;">
-              <el-option label="全部" value="6" />
-              <el-option label="上架中" value="5" />
-              <el-option label="下架" value="1" />
-              <el-option label="删除" value="2" />
-              <el-option label="库存充足" value="3" />
-              <el-option label="库存不足" value="4" />
-              <el-option label="编辑中" value="77" />
+            <el-select v-model="formInline.goodsState" placeholder="选择" style="width: 100% !important;">
+              <el-option label="全部" value="0" />
+              <el-option label="上架中" value="1" />
+              <el-option label="下架" value="2" />
+              <el-option label="删除" value="3" />
+              <el-option label="库存充足" value="4" />
+              <el-option label="库存不足" value="5" />
+              <el-option label="编辑中" value="6" />
             </el-select>
           </el-form-item>
         </el-col>
 
         <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">
           <el-form-item label="搜索商品" style="width: 100%;">
-            <el-input v-model="formInline.user" placeholder="商品的名称/类型"><i slot="prefix" class="el-icon-edit" /></el-input>
+            <el-input v-model="formInline.goodsType" placeholder="商品的名称/类型"><i slot="prefix" class="el-icon-edit" /></el-input>
           </el-form-item>
         </el-col>
 
@@ -117,7 +117,6 @@
 
     <!-- ======================= 添加商品弹出层 =========================  -->
     <el-dialog
-      v-loading="isProductLoading"
       top="7vh"
       width="60%"
       :append-to-body="true"
@@ -153,16 +152,16 @@
           <el-row :gutter="24">
             <el-col :sm="{span: 11,offset: 1}" :xs="{span: 24}">
               <el-form-item label="商品名称" style="width:100%;">
-                <el-input v-model="addProductTwoFrom.name" placeholder="请输入商品名称" />
+                <el-input maxlength="50" v-model="addProductTwoFrom.goodsName" placeholder="请输入商品名称" />
               </el-form-item>
             </el-col>
 
             <el-col :sm="{span: 11}" :xs="{span: 24}">
 
               <el-form-item label="商品品牌" style="width:100%;">
-                <el-select v-model="addProductTwoFrom.region" style="width:100% !important;" placeholder="请选择商品品牌">
-                  <el-option label="区域一" value="shanghai" />
-                  <el-option label="区域二" value="beijing" />
+                <el-select v-model="addProductTwoFrom.goodsBrand" style="width:100% !important;" placeholder="请选择商品品牌">
+                  <el-option :label="item.brandName" v-for="(item, index) in brands" :key="index" :value="item.brandId" />
+               
                 </el-select>
               </el-form-item>
             </el-col>
@@ -172,13 +171,13 @@
           <el-row :gutter="24">
             <el-col :sm="{span: 11,offset: 1}" :xs="{span: 24}">
               <el-form-item label="市场价格" style="width:100%;">
-                <el-input v-model="addProductTwoFrom.name" placeholder="请输入市场价格" />
+                <el-input type="number" :rules="priceRuleShC" maxlength="9" v-model="addProductTwoFrom.marketPrick" placeholder="请输入市场价格" />
               </el-form-item>
             </el-col>
 
             <el-col :sm="{span: 11}" :xs="{span: 24}">
               <el-form-item label="商城价格" style="width:100%;">
-                <el-input v-model="addProductTwoFrom.name" placeholder="请输入商城价格" />
+                <el-input type="number" :rules="priceRuleShC" maxlength="9" v-model="addProductTwoFrom.shopPrick" placeholder="请输入商城价格" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -193,14 +192,13 @@
           <el-row :gutter="24">
             <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
               <el-form-item label="商品卖点" style="width:100%;" class="addProductItem">
-                <el-input v-model="addProductTwoFrom.name" class="addProductFormInput" placeholder="请输入商品卖点" />
+                <el-input v-model="addProductTwoFrom.goodsSell" maxlength="50" class="addProductFormInput" placeholder="请输入商品卖点" />
               </el-form-item>
             </el-col>
 
             <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-
               <el-form-item label="排序" style="width:100%;" class="addProductItem">
-                <el-input v-model="addProductTwoFrom.name" class="addProductFormInput" placeholder="请输入商品排序" />
+                <el-input v-model="addProductTwoFrom.goodsSort" type="number" class="addProductFormInput" placeholder="请输入商品排序" />
               </el-form-item>
             </el-col>
 
@@ -209,13 +207,13 @@
           <el-row :gutter="24">
             <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
               <el-form-item label="商品单位" style="width:100%;" class="addProductItem">
-                <el-input v-model="addProductTwoFrom.name" class="addProductFormInput" placeholder="请输入商品单位" />
+                <el-input v-model="addProductTwoFrom.goodsUnit" maxlength="9" class="addProductFormInput" placeholder="请输入商品单位" />
               </el-form-item>
             </el-col>
 
             <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
               <el-form-item label="商品简述" style="width:100%;">
-                <el-input v-model="addProductTwoFrom.desc" type="textarea" class="addProductFormInput" />
+                <el-input v-model="addProductTwoFrom.goodsSketch" maxlength="200" type="textarea" class="addProductFormInput" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -223,9 +221,9 @@
           <el-row :gutter="24">
             <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
              <el-form-item label="是否支持" style="width:100%;" class="addProductItem">
-               <el-radio v-model="radio" label="1">支持无理由退货</el-radio>
-               <el-radio v-model="radio" label="2">不支持无理由退货</el-radio>
-                <el-input v-model="addProductTwoFrom.desc" placeholder="设置无理由退款天数(默认7天)"  class="addProductFormInput" />
+               <el-radio v-model="retreatRadio"  label="1">支持无理由退货</el-radio>
+               <el-radio v-model="retreatRadio" label="2">不支持无理由退货</el-radio>
+                <el-input type="number" v-if="retreatRadio == 1" v-model="addProductTwoFrom.goodsDatanum" placeholder="设置无理由退款天数(默认7天)"  class="addProductFormInput" />
              </el-form-item>
            </el-col>
           </el-row>
@@ -238,16 +236,16 @@
       <div v-if="isShowFourFlag" id="stepfour">
         <el-form ref="addProductTwoFrom" :inline="true" label-position="left" :model="addProductTwoFrom" label-width="80px">
           <el-row :gutter="24">
+
             <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="SPU" style="width:100%;" class="addProductItem">
-                <el-button type="primary" style="width:270px;" @click="addProductSPU">添加商品的SPU</el-button>
+              <el-form-item label="SKU" style="width:100%;" class="addProductItem">
+                <el-button type="primary" style="width:270px;" @click="addProductSKU">添加商品的SKU</el-button>
               </el-form-item>
             </el-col>
 
             <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-
-              <el-form-item label="SKU" style="width:100%;" class="addProductItem">
-                <el-button type="primary" style="width:270px;" @click="addProductSKU">添加商品的SKU</el-button>
+              <el-form-item label="SPU" style="width:100%;" class="addProductItem">
+                <el-button type="primary" style="width:270px;" @click="addProductSPU">添加商品的SPU</el-button>
               </el-form-item>
             </el-col>
 
@@ -280,19 +278,19 @@
             <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
               <el-col :sm="{span: 8}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.spuKey" class="SpuInput" placeholder="请输入Key" />
+                  <el-input v-model="o.productSpuName" class="SpuInput" maxlength="10" placeholder="请输入Key" />
                 </el-form-item>
               </el-col>
 
               <el-col :sm="{span: 8}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.spuValue" class="SpuInput" placeholder="请输入值" />
+                  <el-input v-model="o.productSpuValue" class="SpuInput" maxlength="10" placeholder="请输入值" />
                 </el-form-item>
               </el-col>
 
               <el-col :sm="{span: 4}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.spuOrder" class="SpuInput2" placeholder="排序" />
+                  <el-input :value="index" class="SpuInput2" disabled placeholder="排序" />
                 </el-form-item>
               </el-col>
 
@@ -340,21 +338,19 @@
             <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
               <el-col :sm="{span: 8}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.spuKey" class="SpuInput" placeholder="SKU名称" />
+                  <el-input v-if="o.isSystemCreate != 1" v-model="o.productSkuKeyName" class="SpuInput" maxlength="10" placeholder="SKU名称" />
+                  <el-input v-else disabled v-model="o.productSkuKeyName" class="SpuInput" maxlength="10" placeholder="SKU名称" />
+                  
                 </el-form-item>
               </el-col>
 
               <el-col :sm="{span: 8}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.spuValue" class="SpuInput" placeholder="SKU值" />
+                  <el-input v-model="o.skuValue" class="SpuInput" maxlength="10" placeholder="SKU值" />
                 </el-form-item>
               </el-col>
 
-              <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input v-model="o.spuOrder" class="SpuInput2" placeholder="排序" />
-                </el-form-item>
-              </el-col>
+<!-- +1 -->
 
               <el-col :sm="{span: 4}" :xs="{span: 12}">
                 <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSkuLink(o)" />
@@ -378,9 +374,6 @@
                   <el-button type="primary" style="width: 100%;" class="addAndClose" @click="closeSkuWindows">保存SKU配置并关闭窗口</el-button>
                 </el-col>
 
-                <el-col :sm="{span: 8}" :xs="{span: 23}">
-                  <el-button type="primary" style="width: 100%;" class="addAndClose" @click="createProductSku">生成商品的SKU库存与价格</el-button>
-                </el-col>
 
                 <el-col :sm="{span: 5}" :xs="{span: 23}">
                   <el-button style="width: 100%;" @click="closeSkuWindows">关闭窗口</el-button>
@@ -579,21 +572,17 @@
             <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
               <el-col :sm="{span: 8}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.spuKey" class="SpuInput" placeholder="请输入Key" />
+                  <el-input v-model="o.productSpuName" class="SpuInput" placeholder="请输入Key" />
                 </el-form-item>
               </el-col>
 
               <el-col :sm="{span: 8}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.spuValue" class="SpuInput" placeholder="请输入值" />
+                  <el-input v-model="o.productSpuValue" class="SpuInput" placeholder="请输入值" />
                 </el-form-item>
               </el-col>
 
-              <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input v-model="o.spuOrder" class="SpuInput2" placeholder="排序" />
-                </el-form-item>
-              </el-col>
+<!-- +1 -->
 
               <el-col :sm="{span: 4}" :xs="{span: 12}">
                 <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSpuLink(o)" />
@@ -637,19 +626,13 @@
             <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
               <el-col :sm="{span: 8}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.spuKey" class="SpuInput" placeholder="请输入Key" />
+                  <el-input v-model="o.productSpuName" class="SpuInput" placeholder="请输入Key" />
                 </el-form-item>
               </el-col>
-
-              <el-col :sm="{span: 8}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input v-model="o.spuValue" class="SpuInput" placeholder="请输入值" />
-                </el-form-item>
-              </el-col>
-
+              
               <el-col :sm="{span: 4}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.spuOrder" class="SpuInput2" placeholder="排序" />
+                  <el-input :value="index" class="SpuInput2" placeholder="排序" />
                 </el-form-item>
               </el-col>
 
@@ -940,7 +923,7 @@
 
       <div style="max-height: 550px;" class="title-menu-min">
         <el-table :data="SKUInfoForm" border style="width: 100%">
-          <el-table-column fixed show-overflow-tooltip="true" prop="SKUValue" label="商品SKU值" min-width="200" />
+          <el-table-column fixed show-overflow-tooltip="true" prop="skuValue" label="商品SKU值" min-width="200" />
           <el-table-column label="库存数量" width="120">
             <el-input v-model="scope.row.SKUKuCun" slot-scope="scope" :value="scope.row.SKUKuCun" />
           </el-table-column>
@@ -1160,8 +1143,21 @@
 export default {
   data() {
     return {
-      radio: '',
+      goodsArr: {},
+      retreatRadio: '1',
       // 商品图片列表
+      priceRuleShC: [{ required: true, message: '请输入', trigger: 'blur' }, {
+      validator(rule, value, callback) {
+        var reg = /(^[\d]|^[1-9][\d]*)($|[\.][\d]{0,2}$)/
+        if (reg.test(value)) {
+          callback()
+        } else {
+          callback(new Error('请输入正确的价格'))
+        }
+      },
+        trigger: 'blur'
+      }],
+      
       productImages: [{
         imageId: '1',
         imageUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
@@ -1211,76 +1207,78 @@ export default {
       isProductSKULoading: false,
       // 商品SKU库存与价格模拟数据
       SKUInfoForm: [{
-        SKUValue: '红色,16GB,中国大陆红色,16GB,中国大陆红色,16GB,中国大陆',
+        skuValue: '红色,16GB,中国大陆红色,16GB,中国大陆红色,16GB,中国大陆',
         SKUKuCun: 10,
         SKUPrice: '3000.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       },
       {
-        SKUValue: '红色2,16GB,中国大陆',
+        skuValue: '红色2,16GB,中国大陆',
         SKUKuCun: 102,
         SKUPrice: '30020.00'
       }
       ],
+      // 商品品牌信息
+      brands: [],
       // 商品SKU信息操作flag
       productInfoSkuInfos: false,
       // 商品详细信息距离网页头顶的距离
@@ -1321,22 +1319,17 @@ export default {
       // Sku键值对表单
       addProductSkuForm: {
         domains: [{
-          spuKey: '',
-          spuValue: '',
-          spuOrder: '',
           isSystemDef: true
         }]
       },
       // 添加商品的SkuFlag
       addProductSkuFlag: false,
       // 是否开启"加载"
-      isProductLoading: false,
       // SPU的表单
       addProductSpuForm: {
         domains: [{
-          spuKey: '',
-          spuValue: '',
-          spuOrder: '',
+          productSpuName: '',
+          productSpuValue: '',
           isSystemDef: true
         }]
       },
@@ -1395,7 +1388,19 @@ export default {
       }],
       // 第二步用到的表单
       addProductTwoFrom: {
-        name: '',
+        // 步骤2
+        goodsName: '',
+        goodsBrand: '',
+        marketPrick: '',
+        shopPrick: '',
+        // 步骤3
+        goodsSell: '',
+        goodsSort: '',
+        goodsUnit: '',
+        goodsSketch: '',
+        goodsDesc: '',
+        goodsDatanum: '',
+        
         region: '',
         date1: '',
         date2: '',
@@ -1430,9 +1435,9 @@ export default {
       value2: '',
       listLoading: true,
       formInline: {
-        user: '',
+        goodsType: '',
         region: '',
-        productState: ''
+        goodsState: ''
       },
       total: 100,
       currentPage: 2,
@@ -1619,31 +1624,23 @@ export default {
     },
     // 显示修改SPU窗口
     addProductInfoSpu2() {
-      this.isProductLoading = true
       this.addProductSpuFlag3 = true
       this.productSpuFlag2 = false
-      this.isProductLoading = false
     },
     // 关闭修改SPU的窗口
     closeSpuWindows3() {
-      this.isProductLoading = true
       this.addProductSpuFlag3 = false
       this.productSpuFlag2 = true
-      this.isProductLoading = false
     },
     // 关闭商品信息SPU的 新增窗口
     closeSpuWindows2() {
-      this.isProductLoading = true
       this.addProductSpuFlag2 = false
       this.productSpuFlag2 = true
-      this.isProductLoading = false
     },
     // 显示商品SPU信息的SPU添加窗口
     addProductInfoSpu() {
-      this.isProductLoading = true
       this.addProductSpuFlag2 = true
       this.productSpuFlag2 = false
-      this.isProductLoading = false
     },
     // 显示SPU窗口
     shwoProductSpuInfo() {
@@ -1660,8 +1657,46 @@ export default {
     // 打开添加商品弹出层
     showAddProduct() {
       this.COMMON.startLoading()
+
+      this.$get("/product/basics/add/page/info").then(res => {
+            if (res.status == 200) {
+              
+                // 调用成功 返回了商品类目和商品品牌信息
+                // 设置商品类目
+                this.options=res.data.productCategorys;
+                // 设置商品
+                this.brands=res.data.productBrands
+
+                this.COMMON.stopLoading()
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.msg,
+                type: "error"
+              });
+               this.COMMON.stopLoading()
+            }
+          })
+          .catch(err => {
+           this.$message({
+                showClose: true,
+                message: '系统错误',
+                type: "error"
+              });
+          });
       this.addProductFlag = true
-      this.COMMON.stopLoading()
+
+      // this.$get("http://192.168.124.11:7778",{
+
+      // }).then(res => {
+      //   console.log(res)
+      // }).catch(err => {
+      //   console.log(err)
+      // })
+
+     
+
+
     },
     /** *滑动限制***/
     htmlStop() {
@@ -1684,6 +1719,9 @@ export default {
     },
     onSubmit() {
       console.log('submit!')
+      console.log(this.formInline.goodsState)
+      console.log(this.formInline.goodsType)
+
     },
     showMess(currIndex, obj2) {
       alert(obj2[currIndex].users)
@@ -1697,7 +1735,6 @@ export default {
     },
     // 关闭上传商品详情页面
     closeProductInfo() {
-      this.isProductLoading = true
       // 打开步骤四 关闭图片窗口
       this.isShowFourFlag = true
       this.uploadProductInfoFlag = false
@@ -1705,12 +1742,10 @@ export default {
       this.stepFourContent = '填写宝贝重要信息'
       // 打开上一步下一步
       this.isStepBtn = false
-      this.isProductLoading = false
     },
     // 显示上传商品详情页面
     addProductInfos() {
       // 打开加载
-      this.isProductLoading = true
 
       // 关闭步骤四 打开上传图片详情
       this.isShowFourFlag = false
@@ -1719,11 +1754,9 @@ export default {
       this.stepFourContent = '上传图片的详情'
       // 关闭上一步下一步
       this.isStepBtn = true
-      this.isProductLoading = false
     },
     // 关闭商品图片
     closeProductImages() {
-      this.isProductLoading = true
       // 打开步骤四 关闭图片窗口
       this.isShowFourFlag = true
       this.uploadProductPLists = false
@@ -1731,11 +1764,9 @@ export default {
       this.stepFourContent = '填写宝贝重要信息'
       // 打开上一步下一步
       this.isStepBtn = false
-      this.isProductLoading = false
     },
     // 添加商品图片
     addProductImages() {
-      this.isProductLoading = true
       // 关闭步骤四 打开图片窗口
       this.isShowFourFlag = false
       this.uploadProductPLists = true
@@ -1743,7 +1774,6 @@ export default {
       this.stepFourContent = '上传商品的图片'
       // 关闭上一步下一步
       this.isStepBtn = true
-      this.isProductLoading = false
     },
     // 上传商品图片的钩子函数
     submitUpload() {
@@ -1785,87 +1815,71 @@ export default {
     },
     // 关闭SKUchuangk
     closeSkuWindows() {
-      this.isProductLoading = true
       this.addProductSkuFlag = false
       this.isShowFourFlag = true
       this.isStepBtn = false
       this.stepFourContent = '填写宝贝重要信息'
-      this.isProductLoading = false
     },
     // 打开SKU窗口
     addProductSKU() {
-      this.isProductLoading = true
       this.isStepBtn = true
       // 改变步骤内容
       this.stepFourContent = '填写宝贝的SKU信息'
       // 打开和关闭对应窗口
       this.isShowFourFlag = false
       this.addProductSkuFlag = true
-      this.isProductLoading = false
     },
     // 打开SPU窗口
     addProductSPU() {
-      this.isProductLoading = true
       // 改变步骤内容
       this.isStepBtn = true
       this.stepFourContent = '填写宝贝的SPU信息'
       // 打开和关闭对应窗口
       this.isShowFourFlag = false
       this.addProductSpuFlag = true
-      this.isProductLoading = false
     },
     // 关闭Spu窗口
     closeSpuWindows() {
-      this.isProductLoading = true
       // 显示第四步
       this.isShowFourFlag = true
       this.isStepBtn = false
       // 关闭SPU窗口
       this.addProductSpuFlag = false
       this.stepFourContent = '填写宝贝重要信息'
-      this.isProductLoading = false
     },
     // 删除一行SPU
     removeProducSpuLink(item) {
-      this.isProductLoading = true
       var index = this.addProductSpuForm.domains.indexOf(item)
       if (item.isSystemDef) {
         this.$message({
           message: '不能删除系统定义好的哦',
           type: 'warning'
         })
-        this.isProductLoading = false
         return
       }
       if (index !== -1) {
         this.addProductSpuForm.domains.splice(index, 1)
       }
-      this.isProductLoading = false
     },
     // 删除一行SKU
     removeProducSkuLink(item) {
-      this.isProductLoading = true
       var index = this.addProductSkuForm.domains.indexOf(item)
       if (item.isSystemDef) {
         this.$message({
           message: '不能删除系统定义好的哦',
           type: 'warning'
         })
-        this.isProductLoading = false
         return
       }
       if (index !== -1) {
         this.addProductSkuForm.domains.splice(index, 1)
       }
-      this.isProductLoading = false
     },
     // 新增一行SKU
     addProductSkuLine() {
-      this.isProductLoading = true
       this.addProductSkuForm.domains.push({
-        spuKey: '',
-        spuValue: '',
-        spuOrder: '',
+        productSkuKeyName: '',
+        skuValue: '',
         key: Date.now(),
         isSystemDef: false
       })
@@ -1873,15 +1887,12 @@ export default {
         showClose: true,
         message: '新增成功,请拖动屏幕到底部'
       })
-      this.isProductLoading = false
     },
     // 新增一行SPU
     addProductSpuLine() {
-      this.isProductLoading = true
       this.addProductSpuForm.domains.push({
-        spuKey: '',
-        spuValue: '',
-        spuOrder: '',
+        productSpuName: '',
+        productSpuValue: '',
         key: Date.now(),
         isSystemDef: false
       })
@@ -1889,14 +1900,11 @@ export default {
         showClose: true,
         message: '新增成功,请拖动屏幕到底部'
       })
-      this.isProductLoading = false
     },
     // 添加商品的上一步操作
     last() {
-      this.isProductLoading = true
       if (this.active <= 0) {
         this.$message.error('已经是第一步了')
-        this.isProductLoading = false
         return
       } else if (this.active == 1) {
         // 当前为第二步,返回第一步
@@ -1919,53 +1927,122 @@ export default {
       // 当前步骤数量-1
       this.active = this.active - 1
       this.isAddOrNextFlag = true
-      this.isProductLoading = false
     },
     // 添加商品的下一步操作
     next() {
-      this.isProductLoading = true
       // 判断是否为第一步
       if (this.active == 0) {
         // 需要判断是否勾选一二级类目
         if (this.ProductMuluListIds.length != 2) {
           this.$message.error('请选择该商品的类目(准确到二级类目去)')
-          this.isProductLoading = false
           return
         }
+        // alert('1'+this.ProductMuluListIds[this.ProductMuluListIds.length-1])
+        this.$get('/product/basics/get/sku/info',{
+          categoryId: this.ProductMuluListIds[this.ProductMuluListIds.length-1]
+        }).then(res => {
+          if(res.status == 200){
+            this.addProductSkuForm.domains = res.data
+            // 接口传递的json数据
+            this.goodsArr.productOneCategoryId = this.ProductMuluListIds[this.ProductMuluListIds.length-2]
+            this.goodsArr.productTwoCategoryId = this.ProductMuluListIds[this.ProductMuluListIds.length-1]
+            console.log(this.goodsArr)
+          }
+          
+        }).catch(err => {
+          console.log(err)
+        })
+
+
         this.isShowOneFlag = false
         this.isShowTwoFlag = true
       } else if (this.active == 1) {
         // 第二步
         // 需要判断表单的值是否正确
-        this.$message({
-          message: '记住将表单填写完整',
-          type: 'warning'
-        })
-        // 将第二步骤隐藏
-        this.isShowTwoFlag = false
-        // 打开第三步骤
-        this.isShowThreeFlag = true
+        let goodsArrTwo = []
+        if(this.addProductTwoFrom.goodsName != '' && this.addProductTwoFrom.goodsBrand != '' && this.addProductTwoFrom.marketPrick != '' && this.addProductTwoFrom.shopPrick != ''){
+
+          this.goodsArr.productName = this.addProductTwoFrom.goodsName
+          this.goodsArr.productBrandId = this.addProductTwoFrom.goodsBrand
+          this.goodsArr.productBazaarPrice = this.addProductTwoFrom.marketPrick
+          this.goodsArr.productSystemPrice = this.addProductTwoFrom.shopPrick
+          console.log(this.goodsArr)
+
+          
+          // 将第二步骤隐藏
+          this.isShowTwoFlag = false
+          // 打开第三步骤
+          this.isShowThreeFlag = true
+
+        }else{
+          this.$message({
+            message: '记住将表单填写完整',
+            type: 'warning'
+          })
+          return
+        }
+        
+
       } else if (this.active == 2) {
         // 第三步
         // 需要判断表单的值是否正确
-        this.$message({
-          message: '记住将表单填写完整',
-          type: 'warning'
-        })
 
-        // 将第三步骤隐藏
-        this.isShowThreeFlag = false
-        // 打开第四步骤
-        this.isShowFourFlag = true
+        if(this.addProductTwoFrom.goodsSell != '' && this.addProductTwoFrom.goodsSort != '' && this.addProductTwoFrom.goodsUnit != '' && this.addProductTwoFrom.goodsSketch != '' && this.retreatRadio != ''){
+           this.goodsArr.productPoints = this.addProductTwoFrom.goodsSell
+           this.goodsArr.productOrderRule = this.addProductTwoFrom.goodsSort
+           this.goodsArr.productUnit = this.addProductTwoFrom.goodsUnit
+           this.goodsArr.productSketchContent = this.addProductTwoFrom.goodsSell
+           this.goodsArr.productIfSupport = this.retreatRadio
+           if(this.retreatRadio == 1){
+             this.goodsArr.productSupportDay = this.addProductTwoFrom.goodsDatanum || 7
+           }else {
+              this.goodsArr.productSupportDay = 0
+           }
+           
+          console.log(this.goodsArr)
+          // 将第三步骤隐藏
+          this.isShowThreeFlag = false
+          // 打开第四步骤
+          this.isShowFourFlag = true
+          // 确认提交显示
+          this.isAddOrNextFlag = false
+        }else {
+          this.$message({
+            message: '记住将表单填写完整',
+            type: 'warning'
+          })
+          return
+        }
+
       }
       if (this.active++ >= 3) {
-        this.isAddOrNextFlag = false
-        this.$message({
-          message: '提交前请记住做校验哦',
-          type: 'warning'
-        })
+        
+        if(this.addProductSkuForm.domains[0].productSkuKeyName != '' && this.addProductSkuForm.domains[0].skuValue != ''){
+          // 调用提交接口
+          alert('提交成功')
+
+          this.$post('/product/basics/add/sku',{
+            productJson: JSON.stringify(this.goodsArr),
+            skuJson: JSON.stringify(this.addProductSkuForm.domains),
+            state: 1
+          }).then(res => {
+            console.log(res)
+            res.data.productId
+          }).catch(err => {
+            console.log(err)
+          })
+
+
+        }else {
+          this.$message({
+            message: '必填项SKU未填写或未填写完整',
+            type: 'warning'
+          })
+          return
+        }
       }
-      this.isProductLoading = false
+      
+
     },
     handleChange(value) {
       console.log(value)

@@ -8,11 +8,13 @@ import router from './router'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
-
+// import {request} from './api/request'
+import { get, post } from './api/request'
 import { mockXHR } from '../mock'
 import iView from 'iview'
 
 import common from './utils/common.js' // 引入页面公共的组件方法
+import filters from './filter/filter';
 
 /**
  * ================引入的自己获取其他组件自带的样式文件===============
@@ -41,6 +43,12 @@ Vue.prototype.COMMON = common
 Vue.use(ElementUI, { locale })
 Vue.use(iView)
 Vue.config.productionTip = false
+Vue.prototype.$get = get
+Vue.prototype.$post = post
+
+Object.keys(filters).forEach(key => {  
+  Vue.filter(key, filters[key])  
+}) 
 
 new Vue({
   el: '#app',

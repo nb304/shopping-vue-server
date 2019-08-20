@@ -2,29 +2,29 @@
 <template>
   <div id="OneNews" style="margin:30px ;">
     <!--==================表单提交(开始)========================-->
-    <el-form ref="form" :model="form" label-width="80px">
+    <el-form ref="form" :rules="rules" :model="form" label-width="80px">
       <el-row :gutter="24">
         <el-col :sm="{span: 7}" :xs="{span: 24}">
           <el-form-item label="新闻名称" placeholder="请选择活动区域">
-            <el-input v-model="form.name" placeholder="输入新闻名称"></el-input>
+            <el-input v-model.trim="form.newsName" placeholder="输入新闻名称"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :sm="{span: 7}" :xs="{span: 23}">
           <el-form-item label="新闻来源" placeholder="请选择活动区域">
-            <el-input v-model="form.region" placeholder="输入新闻来源"></el-input>
+            <el-input v-model.trim="form.newsForm" placeholder="输入新闻来源"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :sm="{span: 4}" :xs="{span: 23}">
           <el-form-item>
-            <el-button type="primary" style="width: 100% !important;" @click="deleteEvaluate">查询</el-button>
+            <el-button type="primary" style="width: 100% !important;" @click="checkNews">查询</el-button>
           </el-form-item>
         </el-col>
 
         <el-col :sm="{span: 4}" :xs="{span: 23}">
           <el-form-item>
-            <el-button type="primary" style="width: 100% !important;" @click="newsForm()">添加</el-button>
+            <el-button type="primary" style="width: 100% !important;" @click="addNews()">添加</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -93,36 +93,35 @@
     <!-- ======================= 分页层 (结束) =========================  -->
 
     <!-- ======================= 新增新闻页面弹出层(结束) =========================  -->
-
     <el-dialog title="添加新闻" :visible.sync="newsFormVisible">
       <el-row :gutter="24">
-        <el-form ref="form" :model="form" label-width="80px">
+        <el-form ref="formName" :rules="rules" :model="form" label-width="80px">
           <el-col :span="10">
-            <el-form-item label="新闻名称">
-              <el-input v-model="form.hig" placeholder="请输入新闻名称"></el-input>
+            <el-form-item label="新闻名称" prop="addNewsName">
+              <el-input v-model.trim="form.addNewsName" placeholder="请输入新闻名称"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="新闻来源">
-              <el-input v-model="form.num" placeholder="请输入新闻来源"></el-input>
+            <el-form-item label="新闻来源" prop="addNewsFrom">
+              <el-input v-model.trim="form.addNewsFrom" placeholder="请输入新闻来源"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="10">
-            <el-form-item label="店铺名称">
-              <el-input v-model="form.num" placeholder="请输入店铺名称"></el-input>
+            <el-form-item label="店铺名称" prop="addNewsShop">
+              <el-input v-model.trim="form.addNewsShop" placeholder="请输入店铺名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="商品链接">
-              <el-input v-model="form.num" placeholder="请输入商品链接"></el-input>
+            <el-form-item label="商品链接" prop="addNewsUrl">
+              <el-input v-model.trim="form.addNewsUrl" placeholder="请输入商品链接"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="20">
             <el-form-item label="新闻图片">
-              <!-- <el-input v-model="form.num" placeholder="请输入新闻图片"></el-input> -->
+              <!-- <el-input v-model.trim="form.num" placeholder="请输入新闻图片"></el-input> -->
               <el-upload
                 class="upload-demo"
                 ref="upload"
@@ -146,30 +145,38 @@
           </el-col>
 
           <el-col :span="24">
-            <el-form-item label="活动时间">
-              <el-col :span="8" style="padding:0">
+            <el-col :span="8" style="padding:0">
+              <el-form-item label="活动时间" prop="startDate">
                 <el-date-picker
                   type="date"
                   placeholder="选择开始日期"
-                  v-model="form.date1"
+                  v-model.trim="form.startDate"
                   style="width: 100%;"
                 ></el-date-picker>
-              </el-col>
-              <el-col class="line" :span="2">-</el-col>
-              <el-col :span="8" style="padding: 0;">
+              </el-form-item>
+            </el-col>
+            <el-col class="line" :span="2">-</el-col>
+
+            <el-col :span="8" style="padding: 0;">
+              <el-form-item label="活动时间" prop="endDate">
                 <el-date-picker
                   type="date"
                   placeholder="选择结束日期"
-                  v-model="form.date2"
+                  v-model.trim="form.endDate"
                   style="width: 100%;"
                 ></el-date-picker>
-              </el-col>
-            </el-form-item>
+              </el-form-item>
+            </el-col>
           </el-col>
 
           <el-col :span="24">
-            <el-form-item label="新闻描述">
-              <el-input type="textarea" v-model="form.desc"></el-input>
+            <el-form-item label="新闻描述" prop="addNewsDescribe">
+              <el-input type="textarea" v-model.trim="form.addNewsDescribe"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item>
+              <el-button type="primary" @click="newsFormVisibleSync('formName')">立即创建</el-button>
             </el-form-item>
           </el-col>
         </el-form>
@@ -246,8 +253,67 @@ export default {
       ],
       // 表单元素中绑定的数据参数
       form: {
-        name: "",
-        region: ""
+        newsName: "", // 查询新闻名称
+        newsForm: "", // 查询新闻来源
+        addNewsName: "", // 添加新闻名称
+        addNewsFrom: "", // 添加新闻来源
+        addNewsShop: "", // 添加新闻店铺名
+        addNewsUrl: "", // 添加新闻跳转地址
+        startDate: "", // 添加新闻开始时间
+        endData: "", // 添加新闻结束时间
+        addNewsDescribe: "" // 添加新闻描述
+        // imgfile: this.$refs.upload.submit(),
+      },
+      rules: {
+        newsName: [
+          { required: true, message: "新闻名称不能为空", trigger: "blur" }
+        ],
+        // 表单正则验证
+        addNewsName: [
+          { required: true, message: "新闻名称不能为空", trigger: "blur" },
+          {
+            min: 1,
+            max: 20,
+            message: "新闻名称为20个字符以内",
+            trigger: "blur"
+          }
+        ],
+        addNewsFrom: [
+          { required: true, message: "新闻店铺名不能为空", trigger: "blur" },
+          {
+            min: 1,
+            max: 20,
+            message: "新闻名称为20个字符以内",
+            trigger: "blur"
+          }
+        ],
+        addNewsShop: [
+          { required: true, message: "新闻来源不能为空", trigger: "blur" },
+          {
+            min: 1,
+            max: 10,
+            message: "新闻来源为10个字符以内",
+            trigger: "blur"
+          }
+        ],
+        addNewsUrl: [
+          { required: true, message: "跳转地址不能为空", trigger: "blur" }
+        ],
+        startDate: [
+          { required: true, message: "开始时间不能为空", trigger: "blur" }
+        ],
+        endData: [
+          { required: true, message: "结束时间不能为空", trigger: "blur" }
+        ],
+        addNewsDescribe: [
+          { required: true, message: "新闻描述不能为空", trigger: "blur" },
+          {
+            min: 1,
+            max: 120,
+            message: "新闻名称为120个字符以内",
+            trigger: "blur"
+          }
+        ]
       },
       // 分页数据
       total: 100,
@@ -255,12 +321,29 @@ export default {
     };
   },
   methods: {
-    newsForm() {
+    addNews() {
       this.newsFormVisible = true;
     },
 
-    shoppingSrc(a) {
-      alert(`我跳到了${a}中`);
+    // 添加新闻
+    newsFormVisibleSync(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          alert("新增成功");
+           alert(
+            `${this.form.addNewsName}--${this.form.addNewsFrom}--${this.form.addNewsShop}--${this.form.addNewsUrl}--${this.form.startDate}--${this.form.endData}--${this.form.addNewsDescribe}`
+          );
+          this.newsFormVisible = false;
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+
+    // 查询新闻
+    checkNews(e) {
+      alert(`${this.form.newsName}--${this.form.newsForm}`);
     }
   }
 };
