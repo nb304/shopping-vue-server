@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import axios from 'axios'
 import qs from 'qs'
@@ -13,12 +12,13 @@ Vue.use(qs)
 // // }
 
 // //设置超时时间
-axios.defaults.timeout = 10000;
+axios.defaults.timeout = 100000;
 // // post请求头
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 
 // 请求公共url 
-let deturl = 'http://192.168.124.11:7778'       // 俞
+// let deturl = 'http://192.168.124.11:7778' // 俞  蛋壳公寓
+let deturl = 'http://192.168.0.143:7778' // 俞 公司
 // let deturl = 'http://192.168.124.11:7778'    // 刘
 
 //  get方法，对应get请求
@@ -26,15 +26,15 @@ let deturl = 'http://192.168.124.11:7778'       // 俞
 //  @param {Object} params [请求时携带的参数]
 
 export function get(url, params) {
-  return new Promise((resolve, reject) => {
-    axios.get(`${deturl}${url}`, {
-      params: params
-    }).then(res => {
-      resolve(res.data);
-    }).catch(err => {
-      reject(err.data)
-    })
-  });
+	return new Promise((resolve, reject) => {
+		axios.get(`${deturl}${url}`, {
+			params: params
+		}).then(res => {
+			resolve(res.data);
+		}).catch(err => {
+			reject(err.data)
+		})
+	});
 }
 
 
@@ -42,15 +42,15 @@ export function get(url, params) {
 //  @param {String} url [请求的url地址] 
 //  @param {Object} params [请求时携带的参数] 
 export function post(url, params) {
-  return new Promise((resolve, reject) => {
-    axios.post(`${deturl}${url}`, qs.stringify(params))
-      .then(res => {
-        resolve(res.data);
-      })
-      .catch(err => {
-        reject(err.data)
-      })
-  });
+	return new Promise((resolve, reject) => {
+		axios.post(`${deturl}${url}`, qs.stringify(params))
+			.then(res => {
+				resolve(res.data);
+			})
+			.catch(err => {
+				reject(err.data)
+			})
+	});
 }
 
 
@@ -95,4 +95,3 @@ export function post(url, params) {
 //     return Promise.reject(error.response)
 //   }
 // })
-

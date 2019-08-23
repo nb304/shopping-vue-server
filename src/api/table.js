@@ -13,9 +13,22 @@ import qs from 'qs'
 Vue.use(axios)
 Vue.use(qs)
 
-export function getList1(params) {
-  return axios.post('http://192.168.0.127/ucc/table/list', qs.stringify(params))
+export function productAjaxPost(url , params) {
+  return axios.post(url, qs.stringify(params))
     .then(response => {
+
+      return response.data
+    })
+    .catch(err => {
+      console.log(err)
+      console.log('错误')
+    })
+}
+
+export function productAjaxGet(url , params) {
+  return axios.get(url)
+    .then(response => {
+
       return response.data
     })
     .catch(err => {
