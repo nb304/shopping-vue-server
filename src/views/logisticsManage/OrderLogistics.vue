@@ -170,7 +170,7 @@
               </el-button>
             </template>
           </el-table-column>
-          <el-table-column  prop="created_at" show-overflow-tooltip="true" header-align="center" align="center">
+          <el-table-column prop="created_at" show-overflow-tooltip="true" header-align="center" align="center">
             <template slot="header" slot-scope="scope">
               <span>物流</span>
               <el-tooltip class="item" effect="dark" content="订单物流描述" placement="right">
@@ -209,8 +209,6 @@
     </el-row>
     <!--==================分页组件(结束)========================-->
 
-
-
     <!--===================商品详情描述弹出框(开始)========================-->
     <el-dialog title="商品详情" :visible.sync="productDescVisible" width="30%">
       <el-table
@@ -244,22 +242,22 @@
     <el-dialog title="订单金额" :visible.sync="orderPriceVisible" width="30%">
       <el-row :gutter="24">
         <el-col :sm="{span: 24}" :xs="{span: 24}">
-              <el-table
-                v-loading="listLoading"
-                :data="orderPriceList"
-                element-loading-text="Loading"
-                border
-              >
+          <el-table
+            v-loading="listLoading"
+            :data="orderPriceList"
+            element-loading-text="Loading"
+            border
+          >
             <el-table-column class-name="status-col" label="类型" show-overflow-tooltip="true">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.cast }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="created_at" label="信息" show-overflow-tooltip="true">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.desc }}</span>
-                </template>
-              </el-table-column>
+              <template slot-scope="scope">
+                <span>{{ scope.row.cast }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="created_at" label="信息" show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <span>{{ scope.row.desc }}</span>
+              </template>
+            </el-table-column>
           </el-table>
         </el-col>
         <el-col :sm="{span: 8,offset:16}" :xs="{span: 23}" style="margin-top:20px; text-align: center;">
@@ -284,7 +282,7 @@
         </el-table-column>
         <el-table-column prop="created_at" label="信息" show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <span >
+            <span>
               {{ scope.row.desc }}
             </span>
           </template>
@@ -305,7 +303,7 @@
       <el-form :inline="true" class="demo-form-inline">
         <el-row :gutter="24">
           <el-col :sm="{span: 24}" :xs="{span: 24}">
-            <el-scrollbar  style="height:400px;" >
+            <el-scrollbar style="height:400px;">
               <h4 style="text-align: center;margin-bottom: 15px"><span style="margin-right: 10px">物流编号：1231412312312341234</span> <span>物流名称：圆通</span></h4>
               <!--==========物流组件信息开始=======-->
               <div class="track-rcol">
@@ -592,8 +590,6 @@ export default {
   #orderLogistics .el-date-editor,#orderLogistics .el-select{
     width: 105% !important;
   }
-
-
 
   #orderLogistics .el-table th{
     padding: 2px 0px;

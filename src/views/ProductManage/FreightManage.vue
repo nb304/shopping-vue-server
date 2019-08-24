@@ -159,7 +159,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column  label="操作" header-align="center" align="center">
+          <el-table-column label="操作" header-align="center" align="center">
             <template slot-scope="scope">
 
               <el-button type="text" size="20px" @click.native.prevent="updateHandle(scope.row, list)">修改</el-button>

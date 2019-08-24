@@ -300,7 +300,7 @@
         </el-table-column>
         <el-table-column prop="created_at" label="信息" show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <span >
+            <span>
               {{ scope.row.desc }}
             </span>
           </template>
@@ -660,7 +660,6 @@ export default {
   }
   /*========弹出框样式信息结束============*/
 
-
   /*========当前页面的一些初始样式 输入框和表格等标签样式 结束===========*/
 
   /*==================自定义自适应css样式详情开始 ========================*/
@@ -686,11 +685,7 @@ export default {
       width: 140px !important;
     }
 
-
-
   }
-
-
 
   @media only screen and (min-width: 360px) and (max-width: 500px) {  /*宽================360 -- 500px================*/
     #OrderList .el-form .el-form-item .el-input__inner{
@@ -751,8 +746,6 @@ export default {
   }
 
   /*==================自定义自适应css样式详情结束 ========================*/
-
-
 
   /*=======内部滚动条显示的css样式情况 开始==========*/
   #OrderList .title-menu-min { /*新加入隐藏滚动条效果*/

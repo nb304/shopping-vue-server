@@ -7,29 +7,29 @@
       <el-row :gutter="24">
         <el-col :sm="{span: 6}" :xs="{span: 24}">
           <el-form-item label="店铺名称">
-            <el-input v-model="form.region" placeholder="请输入店铺名称"></el-input>
+            <el-input v-model="form.region" placeholder="请输入店铺名称" />
           </el-form-item>
         </el-col>
 
         <el-col :sm="{span: 6}" :xs="{span: 24}" style="padding:0">
           <el-form-item label="提交审核时间" label-width="130px">
             <el-date-picker
+              v-model="form.date1"
               type="date"
               placeholder="选择提交审核时间"
-              v-model="form.date1"
               style="width: 100%;"
-            ></el-date-picker>
+            />
           </el-form-item>
         </el-col>
 
         <el-col :sm="{span: 6}" :xs="{span: 24}" style="padding: 0;">
           <el-form-item label="确认审核时间" label-width="190px">
             <el-date-picker
+              v-model="form.date2"
               type="date"
               placeholder="选择确认审核时间"
-              v-model="form.date2"
               style="width: 100%;"
-            ></el-date-picker>
+            />
           </el-form-item>
         </el-col>
 
@@ -58,11 +58,11 @@
     <!--==================table表格(开始)========================-->
     <el-table :data="tableData" class="title-menu-min" border style="width: 100%">
       <el-table-column prop="brandNumber" label="编号" width="100" show-overflow-tooltip="true" />
-      <el-table-column prop="newsName" label="店铺名称" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="source" label="用户名称" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="shopName" label="提交审核时间" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="newsDescribe" label="确认审核时间" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="deposit" label="押金(元)" show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="newsName" label="店铺名称" show-overflow-tooltip="true" />
+      <el-table-column prop="source" label="用户名称" show-overflow-tooltip="true" />
+      <el-table-column prop="shopName" label="提交审核时间" show-overflow-tooltip="true" />
+      <el-table-column prop="newsDescribe" label="确认审核时间" show-overflow-tooltip="true" />
+      <el-table-column prop="deposit" label="押金(元)" show-overflow-tooltip="true" />
 
       <el-table-column fixed="right" label="操作" width="150" style="padding: 3px 0;">
         <template slot-scope="scope">
@@ -99,58 +99,58 @@ export default {
       // 表格数据
       tableData: [
         {
-          brandNumber: "001",
-          newsName: "小彭店铺",
-          source: "王小虎",
-          shopName: "2019-10-5",
-          newsDescribe: "2019-10-10",
-          deposit: 122,
+          brandNumber: '001',
+          newsName: '小彭店铺',
+          source: '王小虎',
+          shopName: '2019-10-5',
+          newsDescribe: '2019-10-10',
+          deposit: 122
         },
         {
-           brandNumber: "002",
-          newsName: "小刘子",
-          source: "王小虎",
-          shopName: "2019-10-5",
-          newsDescribe: "2019-10-15",
-          deposit: 122,
+          brandNumber: '002',
+          newsName: '小刘子',
+          source: '王小虎',
+          shopName: '2019-10-5',
+          newsDescribe: '2019-10-15',
+          deposit: 122
         },
         {
-         brandNumber: "003",
-          newsName: "小刘子",
-          source: "王小虎",
-          shopName: "2019-10-5",
-          newsDescribe: "2019-10-15",
-          deposit: 122,
+          brandNumber: '003',
+          newsName: '小刘子',
+          source: '王小虎',
+          shopName: '2019-10-5',
+          newsDescribe: '2019-10-15',
+          deposit: 122
         },
         {
-           brandNumber: "004",
-          newsName: "小刘子",
-          source: "王小虎",
-          shopName: "2019-10-5",
-          newsDescribe: "2019-10-15",
-          deposit: 122,
+          brandNumber: '004',
+          newsName: '小刘子',
+          source: '王小虎',
+          shopName: '2019-10-5',
+          newsDescribe: '2019-10-15',
+          deposit: 122
         }
       ],
       // 表单元素中绑定的数据参数
       form: {
-        name: "",
-        region: ""
+        name: '',
+        region: ''
       },
       // 分页数据
       total: 100,
       currentPage: 2
-    };
+    }
   },
   methods: {
     customerForm() {
-      this.customerFormVisible = true;
+      this.customerFormVisible = true
     },
 
     shoppingSrc(a) {
-      alert(`我跳到了${a}中`);
+      alert(`我跳到了${a}中`)
     }
   }
-};
+}
 </script>
 
 <style>
@@ -211,5 +211,4 @@ export default {
   padding: 0px;
 }
 </style>
-
 

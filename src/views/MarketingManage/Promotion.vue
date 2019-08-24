@@ -6,13 +6,13 @@
       <el-row :gutter="24">
         <el-col :sm="{span: 6}" :xs="{span: 24}">
           <el-form-item label="推广人昵称">
-            <el-input v-model="form.region" placeholder="输入推广人"></el-input>
+            <el-input v-model="form.region" placeholder="输入推广人" />
           </el-form-item>
         </el-col>
 
         <el-col :sm="{span: 6}" :xs="{span: 24}">
           <el-form-item label="被推广人昵称" label-width="140px">
-            <el-input v-model="form.region" placeholder="输入被推广人"></el-input>
+            <el-input v-model="form.region" placeholder="输入被推广人" />
           </el-form-item>
         </el-col>
 
@@ -45,18 +45,18 @@
 
     <el-table :data="list" class="title-menu-min" border style="width: 100%">
       <el-table-column prop="brandNumber" label="编号" width="100" show-overflow-tooltip="true" />
-      <el-table-column prop="promoter" label="推广人" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="promotee" label="被推广人" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="entryTime" label="推广进入时间" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="reward" label="推广人获得奖励" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="promoterTime" label="推广人推广人数" show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="promoter" label="推广人" show-overflow-tooltip="true" />
+      <el-table-column prop="promotee" label="被推广人" show-overflow-tooltip="true" />
+      <el-table-column prop="entryTime" label="推广进入时间" show-overflow-tooltip="true" />
+      <el-table-column prop="reward" label="推广人获得奖励" show-overflow-tooltip="true" />
+      <el-table-column prop="promoterTime" label="推广人推广人数" show-overflow-tooltip="true" />
 
       <el-table-column fixed="right" label="操作" width="150" style="padding: 3px 0;">
         <template slot-scope="scope">
           <el-button
-            @click.native.prevent="addShops(scope.$index, list)"
             type="text"
             size="primary"
+            @click.native.prevent="addShops(scope.$index, list)"
           >查看全部推广人</el-button>
         </template>
       </el-table-column>
@@ -86,7 +86,7 @@
 
           <el-col :sm="{span: 6}" :xs="{span: 24}">
             <el-form-item label="被推广人昵称">
-              <el-input v-model="form.region" placeholder="输入被推广人"></el-input>
+              <el-input v-model="form.region" placeholder="输入被推广人" />
             </el-form-item>
           </el-col>
 
@@ -175,73 +175,73 @@ export default {
       total: 100, // 分页信息
       currentPage: 2, // 当前页数信息
       shopList: [
-        //预览优惠商品列表数据
+        // 预览优惠商品列表数据
         {
-          petName: "王二",
-          entryTime: "2018-09-09",
-          reward: "100元优惠券",
-          promoterTime: "1"
+          petName: '王二',
+          entryTime: '2018-09-09',
+          reward: '100元优惠券',
+          promoterTime: '1'
         },
         {
-          petName: "江刘二",
-          entryTime: "2018-09-09",
-          reward: "100元优惠券",
-          promoterTime: "1"
+          petName: '江刘二',
+          entryTime: '2018-09-09',
+          reward: '100元优惠券',
+          promoterTime: '1'
         },
         {
-          petName: "而立",
-          entryTime: "2018-09-09",
-          reward: "100元优惠券",
-          promoterTime: "1"
+          petName: '而立',
+          entryTime: '2018-09-09',
+          reward: '100元优惠券',
+          promoterTime: '1'
         }
       ],
       list: [
         // 订单列表情况集合
         {
-          promoter: "推广人",
-          promotee: "被推广人",
-          entryTime: "推广进入时间",
-          reward: "推广人获得奖励",
-          promoterTime: "推广人推广人数"
+          promoter: '推广人',
+          promotee: '被推广人',
+          entryTime: '推广进入时间',
+          reward: '推广人获得奖励',
+          promoterTime: '推广人推广人数'
         },
         {
-          promoter: "推广人",
-          promotee: "被推广人",
-          entryTime: "推广进入时间",
-          reward: "推广人获得奖励",
-          promoterTime: "推广人推广人数"
+          promoter: '推广人',
+          promotee: '被推广人',
+          entryTime: '推广进入时间',
+          reward: '推广人获得奖励',
+          promoterTime: '推广人推广人数'
         },
         {
-          promoter: "推广人",
-          promotee: "被推广人",
-          entryTime: "推广进入时间",
-          reward: "推广人获得奖励",
-          promoterTime: "推广人推广人数"
+          promoter: '推广人',
+          promotee: '被推广人',
+          entryTime: '推广进入时间',
+          reward: '推广人获得奖励',
+          promoterTime: '推广人推广人数'
         }
       ]
-    };
+    }
   },
   methods: {
     // 表单提交方法
     onSearch() {
-      alert("搜索");
+      alert('搜索')
     },
     // 预览添加优惠商品
     addShops() {
-      this.addShopsVisible = true;
+      this.addShopsVisible = true
     },
     // 添加优惠商品/店铺
     addAllShops() {
-      this.addAllShopsVisible = true;
+      this.addAllShopsVisible = true
     },
     addSuccess() {
       this.$message({
-        message: "添加成功",
-        type: "success"
-      });
+        message: '添加成功',
+        type: 'success'
+      })
     }
   }
-};
+}
 </script>
 
 <style>

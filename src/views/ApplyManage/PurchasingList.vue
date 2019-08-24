@@ -153,7 +153,6 @@
             </template>
           </el-table-column>
 
-
           <el-table-column prop="created_at" show-overflow-tooltip="true" header-align="center" align="center">
             <template slot="header" slot-scope="scope">
               <span>采购物品</span>

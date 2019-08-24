@@ -9,16 +9,16 @@ import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 // import {request} from './api/request'
 import {
-	get,
-	post
+  get,
+  post
 } from './api/request'
 import {
-	mockXHR
+  mockXHR
 } from '../mock'
 import iView from 'iview'
 
 import common from './utils/common.js' // 引入页面公共的组件方法
-import filters from './filter/filter';
+import filters from './filter/filter'
 
 /**
  * ================引入的自己获取其他组件自带的样式文件===============
@@ -32,7 +32,7 @@ import 'iview/dist/styles/iview.css' // 使用 CSS
 import Checkbox from 'iview/src/components/checkbox' // 在 webpack 中按需使用组件，减少文件体积
 
 if (process.env.NODE_ENV === 'production') {
-	mockXHR()
+  mockXHR()
 }
 
 /**
@@ -45,7 +45,7 @@ Vue.prototype.COMMON = common
  * ================引入使用所需要用的组件===============
  */
 Vue.use(ElementUI, {
-	locale
+  locale
 })
 Vue.use(iView)
 Vue.config.productionTip = false
@@ -53,12 +53,12 @@ Vue.prototype.$get = get
 Vue.prototype.$post = post
 
 Object.keys(filters).forEach(key => {
-	Vue.filter(key, filters[key])
+  Vue.filter(key, filters[key])
 })
 
 new Vue({
-	el: '#app',
-	router,
-	store,
-	render: h => h(App)
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
 })

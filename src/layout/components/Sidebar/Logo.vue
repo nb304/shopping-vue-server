@@ -10,8 +10,8 @@
 </template>
 
 <script>
-  // 被删除的元素
-  /*
+// 被删除的元素
+/*
     props: {
       collapse: {
         type: Boolean,
@@ -19,15 +19,15 @@
       }
     },
   */
-  export default {
-    name: 'SidebarLogo',
-    data() {
-      return {
-        title: 'Vue Admin Template',
-        logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
-      }
+export default {
+  name: 'SidebarLogo',
+  data() {
+    return {
+      title: 'Vue Admin Template',
+      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

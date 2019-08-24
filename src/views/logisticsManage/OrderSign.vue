@@ -222,7 +222,7 @@
           width="60%"
         >
           <el-row :gutter="24">
-            <el-col :lg="{span:12}" :xs="{span: 24}" >
+            <el-col :lg="{span:12}" :xs="{span: 24}">
               <el-scrollbar style="height:500px;">
                 <div class="radio" style="text-align: center;margin-bottom: 15px">
                   排序：
@@ -240,7 +240,7 @@
                     placement="top"
                   >
                     <el-card shadow="hover">
-                      <h4><span style="margin-right: 10px">物流编号：{{ activity.logisticsNumber }}</span><br/><span>物流名称：{{ activity.logisticsName }}</span></h4>
+                      <h4><span style="margin-right: 10px">物流编号：{{ activity.logisticsNumber }}</span><br><span>物流名称：{{ activity.logisticsName }}</span></h4>
                       <el-button
                         type="text"
                         size="20px"
@@ -252,38 +252,38 @@
                   </el-timeline-item>
                 </el-timeline>
               </el-scrollbar>
-          </el-col>
+            </el-col>
 
-          <el-col :lg="{span:12}" :xs="{span: 24}" >
-            <el-scrollbar v-if="this.logisticsList.length>0" style="height:500px;" >
-              <h4 style="text-align: center;margin-bottom: 15px"><span style="margin-right: 10px">物流编号：1231412312312341234</span> <span>物流名称：圆通</span></h4>
-              <div class="track-rcol">
-                <div class="track-list">
-                  <ul>
-                    <div v-for="(item,index) in logisticsList" :key="index">
-                      <li v-if="index===0" class="first">
-                        <div />
-                        <i class="node-icon" />
-                        <span class="txt">{{ item.message }}</span>
-                        <span class="time">{{ item.messageDate }}</span>
-                      </li>
-                      <li v-if="index > 0 && index !== logisticsList.length-1">
-                        <i class="node-icon" />
-                        <span class="txt">{{ item.message }}</span>
-                        <span class="time">{{ item.messageDate }}</span>
-                      </li>
-                      <li v-if="index === logisticsList.length-1" class="finall">
-                        <i class="div-spilander" />
-                        <i class="node-icon" />
-                        <span class="txt">{{ item.message }}</span>
-                        <span class="time">{{ item.messageDate }}ss</span>
-                      </li>
-                    </div>
-                  </ul>
+            <el-col :lg="{span:12}" :xs="{span: 24}">
+              <el-scrollbar v-if="this.logisticsList.length>0" style="height:500px;">
+                <h4 style="text-align: center;margin-bottom: 15px"><span style="margin-right: 10px">物流编号：1231412312312341234</span> <span>物流名称：圆通</span></h4>
+                <div class="track-rcol">
+                  <div class="track-list">
+                    <ul>
+                      <div v-for="(item,index) in logisticsList" :key="index">
+                        <li v-if="index===0" class="first">
+                          <div />
+                          <i class="node-icon" />
+                          <span class="txt">{{ item.message }}</span>
+                          <span class="time">{{ item.messageDate }}</span>
+                        </li>
+                        <li v-if="index > 0 && index !== logisticsList.length-1">
+                          <i class="node-icon" />
+                          <span class="txt">{{ item.message }}</span>
+                          <span class="time">{{ item.messageDate }}</span>
+                        </li>
+                        <li v-if="index === logisticsList.length-1" class="finall">
+                          <i class="div-spilander" />
+                          <i class="node-icon" />
+                          <span class="txt">{{ item.message }}</span>
+                          <span class="time">{{ item.messageDate }}ss</span>
+                        </li>
+                      </div>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            </el-scrollbar>
-        </el-col>
+              </el-scrollbar>
+            </el-col>
 
           </el-row>
           <span slot="footer" class="dialog-footer">

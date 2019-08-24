@@ -162,9 +162,8 @@
             </template>
           </el-table-column>
 
-          <el-table-column  label="操作" header-align="center" align="center" width="230px">
+          <el-table-column label="操作" header-align="center" align="center" width="230px">
             <template slot-scope="scope">
-
 
               <el-button type="text" size="20px" style="margin-right: 14px" @click.native.prevent="checkHandle(scope.row, list)"> 查看</el-button>
               <el-button type="text" size="20px" style="margin-right: 14px" @click.native.prevent="jurisdictionHandle(scope.row, list)">权限</el-button>

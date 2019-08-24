@@ -53,8 +53,14 @@
             </el-divider>
           </el-col>
           <el-col :lg="{span: 24}" :xs="{span: 24}">
-            <el-table v-loading="listLoading" :data="userList" stripe="true" element-loading-text="Loading" style="width: 100% !important;"
-              @row-dblclick="handleSelect">
+            <el-table
+              v-loading="listLoading"
+              :data="userList"
+              stripe="true"
+              element-loading-text="Loading"
+              style="width: 100% !important;"
+              @row-dblclick="handleSelect"
+            >
               <el-table-column label="序号" show-overflow-tooltip="true" width="40px" header-align="center" align="center">
                 <template slot-scope="scope">{{ scope.$index }}</template>
               </el-table-column>
@@ -91,7 +97,6 @@
             </el-table>
           </el-col>
 
-
           <!--=========================修改角色权限及信息对应的弹出框 开始==================================-->
           <el-dialog id="updateUser" title="修改信息" :visible.sync="updateUserLog" width="50%">
             <el-form :model="updateUserForm" :inline="true" class="demo-form-inline" :rules="rules">
@@ -120,8 +125,14 @@
                       </el-col>
 
                       <el-col :lg="{span: 24}" :xs="{span: 24}">
-                        <el-tree ref="tree" :data="jurisdictionList" show-checkbox node-key="id" highlight-current
-                          :props="defaultProps" />
+                        <el-tree
+                          ref="tree"
+                          :data="jurisdictionList"
+                          show-checkbox
+                          node-key="id"
+                          highlight-current
+                          :props="defaultProps"
+                        />
                       </el-col>
                     </el-row>
                   </el-scrollbar>
@@ -145,8 +156,16 @@
     <!--==================分页组件(开始)========================-->
     <el-row :gutter="24">
       <el-col :sm="{span: 4, offset: 18}" :xs="{span: 24}">
-        <el-pagination background layout="prev, pager, next" :current-page="currentPage" :total="total" page-size="3"
-          small="false" style="margin-top: 15px;margin-right: 10px;" @current-change="handleSizeChange" />
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :current-page="currentPage"
+          :total="total"
+          page-size="3"
+          small="false"
+          style="margin-top: 15px;margin-right: 10px;"
+          @current-change="handleSizeChange"
+        />
       </el-col>
     </el-row>
     <!--==================分页组件(结束)========================-->
@@ -155,420 +174,420 @@
 
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        jurisdictionList: [{
-            id: 1,
-            label: '商品管理',
-            children: [{
-                id: 4,
-                label: '商品信息管理'
-              },
-              {
-                id: 5,
-                label: '商品品牌管理'
-              },
-              {
-                id: 5,
-                label: '商品类目管理'
-              },
-              {
-                id: 5,
-                label: '商品运费管理'
-              }
-            ]
-          },
-          {
-            id: 1,
-            label: '商品管理',
-            children: [{
-                id: 4,
-                label: '商品信息管理列表'
-              },
-              {
-                id: 5,
-                label: '商品品牌管理'
-              },
-              {
-                id: 5,
-                label: '商品类目管理'
-              },
-              {
-                id: 5,
-                label: '商品运费管理'
-              }
-            ]
-          },
-          {
-            id: 1,
-            label: '商品管理',
-            children: [{
-                id: 4,
-                label: '商品信息管理'
-              },
-              {
-                id: 5,
-                label: '商品品牌管理'
-              },
-              {
-                id: 5,
-                label: '商品类目管理'
-              },
-              {
-                id: 5,
-                label: '商品运费管理'
-              }
-            ]
-          },
-          {
-            id: 1,
-            label: '商品管理',
-            children: [{
-                id: 4,
-                label: '商品信息管理'
-              },
-              {
-                id: 5,
-                label: '商品品牌管理'
-              },
-              {
-                id: 5,
-                label: '商品类目管理'
-              },
-              {
-                id: 5,
-                label: '商品运费管理'
-              }
-            ]
-          },
-          {
-            id: 1,
-            label: '商品管理',
-            children: [{
-                id: 4,
-                label: '商品信息管理'
-              },
-              {
-                id: 5,
-                label: '商品品牌管理'
-              },
-              {
-                id: 5,
-                label: '商品类目管理'
-              },
-              {
-                id: 5,
-                label: '商品运费管理'
-              }
-            ]
-          },
-          {
-            id: 1,
-            label: '商品管理',
-            children: [{
-                id: 4,
-                label: '商品信息管理列表'
-              },
-              {
-                id: 5,
-                label: '商品品牌管理'
-              },
-              {
-                id: 5,
-                label: '商品类目管理'
-              },
-              {
-                id: 5,
-                label: '商品运费管理'
-              }
-            ]
-          },
-          {
-            id: 1,
-            label: '商品管理',
-            children: [{
-                id: 4,
-                label: '商品信息管理列表'
-              },
-              {
-                id: 5,
-                label: '商品品牌管理'
-              },
-              {
-                id: 5,
-                label: '商品类目管理'
-              },
-              {
-                id: 5,
-                label: '商品运费管理'
-              }
-            ]
-          },
-          {
-            id: 1,
-            label: '商品管理',
-            children: [{
-                id: 4,
-                label: '商品信息管理列表'
-              },
-              {
-                id: 5,
-                label: '商品品牌管理'
-              },
-              {
-                id: 5,
-                label: '商品类目管理'
-              },
-              {
-                id: 5,
-                label: '商品运费管理'
-              }
-            ]
-          },
-          {
-            id: 1,
-            label: '商品管理',
-            children: [{
-                id: 4,
-                label: '商品信息管理列表'
-              },
-              {
-                id: 5,
-                label: '商品品牌管理'
-              },
-              {
-                id: 5,
-                label: '商品类目管理'
-              },
-              {
-                id: 5,
-                label: '商品运费管理'
-              }
-            ]
-          },
-          {
-            id: 1,
-            label: '商品管理',
-            children: [{
-                id: 4,
-                label: '商品信息管理列表'
-              },
-              {
-                id: 5,
-                label: '商品品牌管理'
-              },
-              {
-                id: 5,
-                label: '商品类目管理'
-              },
-              {
-                id: 5,
-                label: '商品运费管理'
-              }
-            ]
-          }
-        ],
-        total: 100, // 分页信息
-        currentPage: 2, // 当前页数信息
-        updateUserLog: false, // 修改店铺人员信息弹出框
-        addUserForm: { // 添加人员信息的表单
-          userPid: '', // 用户id
-          phoneNumber: '', // 电话号码
-          userName: '', // 用户名称
-          userAddress: '', // 用户地址
-          userPassword: '', // 用户密码
-          sex: '男' // 性别
-
+export default {
+  data() {
+    return {
+      jurisdictionList: [{
+        id: 1,
+        label: '商品管理',
+        children: [{
+          id: 4,
+          label: '商品信息管理'
         },
-        updateUserForm: { // 修改人员信息的表单
-          userPid: '', // 用户id
-          phoneNumber: '', // 电话号码
-          userName: '', // 用户名称
-          userAddress: '', // 用户地址
-          userPassword: '', // 用户密码
-          sex: '男' // 性别
+        {
+          id: 5,
+          label: '商品品牌管理'
         },
-        userList: [{
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 0,
-            state: 1
-          },
-          {
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 0,
-            state: 1
-          },
-          {
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 0,
-            state: 0
-          },
-          {
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 1,
-            state: 1
-          },
-          {
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 0,
-            state: 1
-          },
-          {
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 0,
-            state: 1
-          },
-          {
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 0,
-            state: 0
-          },
-          {
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 1,
-            state: 1
-          },
-          {
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 0,
-            state: 1
-          },
-          {
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 0,
-            state: 0
-          },
-          {
-            userId: '15717007490',
-            userName: '刘梓将',
-            phoneNumber: '15717007490',
-            createTime: '2019-9-9',
-            loginTime: '2019-9-9 14:24:44',
-            whetherOnline: 1,
-            state: 1
-          }
-        ],
-        rules: {
-          userPid: [{
-              required: true,
-              message: '请输入活动名称',
-              trigger: 'blur'
-            },
-            {
-              min: 3,
-              max: 5,
-              message: '长度在 3 到 5 个字符',
-              trigger: 'blur'
-            }
-          ],
-          phoneNumber: [{
-              required: true,
-              message: '请输入活动名称',
-              trigger: 'blur'
-            },
-            {
-              min: 3,
-              max: 5,
-              message: '长度在 3 到 5 个字符',
-              trigger: 'blur'
-            }
-          ],
-          userName: [{
-              required: true,
-              message: '请输入活动名称',
-              trigger: 'blur'
-            },
-            {
-              min: 3,
-              max: 5,
-              message: '长度在 3 到 5 个字符',
-              trigger: 'blur'
-            }
-          ],
-          userAddress: [{
-              required: true,
-              message: '请输入活动名称',
-              trigger: 'blur'
-            },
-            {
-              min: 3,
-              max: 5,
-              message: '长度在 3 到 5 个字符',
-              trigger: 'blur'
-            }
-          ],
-          userPassword: [{
-              required: true,
-              message: '请输入活动名称',
-              trigger: 'blur'
-            },
-            {
-              min: 3,
-              max: 5,
-              message: '长度在 3 到 5 个字符',
-              trigger: 'blur'
-            }
-          ]
-
+        {
+          id: 5,
+          label: '商品类目管理'
+        },
+        {
+          id: 5,
+          label: '商品运费管理'
         }
+        ]
+      },
+      {
+        id: 1,
+        label: '商品管理',
+        children: [{
+          id: 4,
+          label: '商品信息管理列表'
+        },
+        {
+          id: 5,
+          label: '商品品牌管理'
+        },
+        {
+          id: 5,
+          label: '商品类目管理'
+        },
+        {
+          id: 5,
+          label: '商品运费管理'
+        }
+        ]
+      },
+      {
+        id: 1,
+        label: '商品管理',
+        children: [{
+          id: 4,
+          label: '商品信息管理'
+        },
+        {
+          id: 5,
+          label: '商品品牌管理'
+        },
+        {
+          id: 5,
+          label: '商品类目管理'
+        },
+        {
+          id: 5,
+          label: '商品运费管理'
+        }
+        ]
+      },
+      {
+        id: 1,
+        label: '商品管理',
+        children: [{
+          id: 4,
+          label: '商品信息管理'
+        },
+        {
+          id: 5,
+          label: '商品品牌管理'
+        },
+        {
+          id: 5,
+          label: '商品类目管理'
+        },
+        {
+          id: 5,
+          label: '商品运费管理'
+        }
+        ]
+      },
+      {
+        id: 1,
+        label: '商品管理',
+        children: [{
+          id: 4,
+          label: '商品信息管理'
+        },
+        {
+          id: 5,
+          label: '商品品牌管理'
+        },
+        {
+          id: 5,
+          label: '商品类目管理'
+        },
+        {
+          id: 5,
+          label: '商品运费管理'
+        }
+        ]
+      },
+      {
+        id: 1,
+        label: '商品管理',
+        children: [{
+          id: 4,
+          label: '商品信息管理列表'
+        },
+        {
+          id: 5,
+          label: '商品品牌管理'
+        },
+        {
+          id: 5,
+          label: '商品类目管理'
+        },
+        {
+          id: 5,
+          label: '商品运费管理'
+        }
+        ]
+      },
+      {
+        id: 1,
+        label: '商品管理',
+        children: [{
+          id: 4,
+          label: '商品信息管理列表'
+        },
+        {
+          id: 5,
+          label: '商品品牌管理'
+        },
+        {
+          id: 5,
+          label: '商品类目管理'
+        },
+        {
+          id: 5,
+          label: '商品运费管理'
+        }
+        ]
+      },
+      {
+        id: 1,
+        label: '商品管理',
+        children: [{
+          id: 4,
+          label: '商品信息管理列表'
+        },
+        {
+          id: 5,
+          label: '商品品牌管理'
+        },
+        {
+          id: 5,
+          label: '商品类目管理'
+        },
+        {
+          id: 5,
+          label: '商品运费管理'
+        }
+        ]
+      },
+      {
+        id: 1,
+        label: '商品管理',
+        children: [{
+          id: 4,
+          label: '商品信息管理列表'
+        },
+        {
+          id: 5,
+          label: '商品品牌管理'
+        },
+        {
+          id: 5,
+          label: '商品类目管理'
+        },
+        {
+          id: 5,
+          label: '商品运费管理'
+        }
+        ]
+      },
+      {
+        id: 1,
+        label: '商品管理',
+        children: [{
+          id: 4,
+          label: '商品信息管理列表'
+        },
+        {
+          id: 5,
+          label: '商品品牌管理'
+        },
+        {
+          id: 5,
+          label: '商品类目管理'
+        },
+        {
+          id: 5,
+          label: '商品运费管理'
+        }
+        ]
       }
-    },
-    mounted() {
-      this.screenWidth = document.body.clientWidth
-      this.screenHeight = document.body.clientHeight
-    },
-    methods: {
-      // 编辑打开对应的店铺人员信息
-      updateStoreUser: function(currData) {
-        // 获取对应的人员信息,及对应的权限信息
+      ],
+      total: 100, // 分页信息
+      currentPage: 2, // 当前页数信息
+      updateUserLog: false, // 修改店铺人员信息弹出框
+      addUserForm: { // 添加人员信息的表单
+        userPid: '', // 用户id
+        phoneNumber: '', // 电话号码
+        userName: '', // 用户名称
+        userAddress: '', // 用户地址
+        userPassword: '', // 用户密码
+        sex: '男' // 性别
 
-        // 获取成功后打开对应的updateUserLog框
-        this.updateUserLog = true
+      },
+      updateUserForm: { // 修改人员信息的表单
+        userPid: '', // 用户id
+        phoneNumber: '', // 电话号码
+        userName: '', // 用户名称
+        userAddress: '', // 用户地址
+        userPassword: '', // 用户密码
+        sex: '男' // 性别
+      },
+      userList: [{
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 0,
+        state: 1
+      },
+      {
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 0,
+        state: 1
+      },
+      {
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 0,
+        state: 0
+      },
+      {
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 1,
+        state: 1
+      },
+      {
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 0,
+        state: 1
+      },
+      {
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 0,
+        state: 1
+      },
+      {
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 0,
+        state: 0
+      },
+      {
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 1,
+        state: 1
+      },
+      {
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 0,
+        state: 1
+      },
+      {
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 0,
+        state: 0
+      },
+      {
+        userId: '15717007490',
+        userName: '刘梓将',
+        phoneNumber: '15717007490',
+        createTime: '2019-9-9',
+        loginTime: '2019-9-9 14:24:44',
+        whetherOnline: 1,
+        state: 1
+      }
+      ],
+      rules: {
+        userPid: [{
+          required: true,
+          message: '请输入活动名称',
+          trigger: 'blur'
+        },
+        {
+          min: 3,
+          max: 5,
+          message: '长度在 3 到 5 个字符',
+          trigger: 'blur'
+        }
+        ],
+        phoneNumber: [{
+          required: true,
+          message: '请输入活动名称',
+          trigger: 'blur'
+        },
+        {
+          min: 3,
+          max: 5,
+          message: '长度在 3 到 5 个字符',
+          trigger: 'blur'
+        }
+        ],
+        userName: [{
+          required: true,
+          message: '请输入活动名称',
+          trigger: 'blur'
+        },
+        {
+          min: 3,
+          max: 5,
+          message: '长度在 3 到 5 个字符',
+          trigger: 'blur'
+        }
+        ],
+        userAddress: [{
+          required: true,
+          message: '请输入活动名称',
+          trigger: 'blur'
+        },
+        {
+          min: 3,
+          max: 5,
+          message: '长度在 3 到 5 个字符',
+          trigger: 'blur'
+        }
+        ],
+        userPassword: [{
+          required: true,
+          message: '请输入活动名称',
+          trigger: 'blur'
+        },
+        {
+          min: 3,
+          max: 5,
+          message: '长度在 3 到 5 个字符',
+          trigger: 'blur'
+        }
+        ]
+
       }
     }
+  },
+  mounted() {
+    this.screenWidth = document.body.clientWidth
+    this.screenHeight = document.body.clientHeight
+  },
+  methods: {
+    // 编辑打开对应的店铺人员信息
+    updateStoreUser: function(currData) {
+      // 获取对应的人员信息,及对应的权限信息
 
+      // 获取成功后打开对应的updateUserLog框
+      this.updateUserLog = true
+    }
   }
+
+}
 </script>
 
 <style>

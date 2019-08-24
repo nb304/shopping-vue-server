@@ -5,7 +5,7 @@
       <el-row :gutter="24">
         <el-col :sm="{span: 6}" :xs="{span: 24}">
           <el-form-item label="优惠券标题">
-            <el-input v-model="form.region" placeholder="输入编号"></el-input>
+            <el-input v-model="form.region" placeholder="输入编号" />
           </el-form-item>
         </el-col>
 
@@ -20,29 +20,29 @@
 
         <el-col :sm="{span: 6}" :xs="{span: 24}">
           <el-form-item label="优惠门槛">
-            <el-input v-model="form.region" placeholder="输入金额"></el-input>
+            <el-input v-model="form.region" placeholder="输入金额" />
           </el-form-item>
         </el-col>
 
         <el-col :sm="{span: 6}" :xs="{span: 24}">
           <el-form-item label="开始时间">
             <el-date-picker
+              v-model="form.date1"
               type="date"
               placeholder="选择开始时间"
-              v-model="form.date1"
               style="width: 100%;"
-            ></el-date-picker>
+            />
           </el-form-item>
         </el-col>
 
         <el-col :sm="{span: 6}" :xs="{span: 24}">
           <el-form-item label="结束时间">
             <el-date-picker
+              v-model="form.date2"
               type="date"
               placeholder="选择结束时间"
-              v-model="form.date2"
               style="width: 100%;"
-            ></el-date-picker>
+            />
           </el-form-item>
         </el-col>
 
@@ -76,13 +76,13 @@
 
     <el-table :data="list" class="title-menu-min" border style="width: 100%">
       <el-table-column prop="brandNumber" label="编号" width="100" show-overflow-tooltip="true" />
-      <el-table-column prop="title" label="优惠券标题" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="type" label="优惠券类型" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="term" label="优惠门槛" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="money" label="优惠金额" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="timeState" label="开始时间" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="tiemEnd" label="结束时间" show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="num" label="发放个数" show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="title" label="优惠券标题" show-overflow-tooltip="true" />
+      <el-table-column prop="type" label="优惠券类型" show-overflow-tooltip="true" />
+      <el-table-column prop="term" label="优惠门槛" show-overflow-tooltip="true" />
+      <el-table-column prop="money" label="优惠金额" show-overflow-tooltip="true" />
+      <el-table-column prop="timeState" label="开始时间" show-overflow-tooltip="true" />
+      <el-table-column prop="tiemEnd" label="结束时间" show-overflow-tooltip="true" />
+      <el-table-column prop="num" label="发放个数" show-overflow-tooltip="true" />
       <el-table-column prop="created_at" show-overflow-tooltip="true">
         <template slot="header" slot-scope="scope">
           <span>优惠范围</span>
@@ -127,53 +127,53 @@
         <el-form ref="form" :model="form" label-width="80px">
           <el-col :span="12">
             <el-form-item label="优惠标题">
-              <el-input v-model="form.tiele" placeholder="优惠标题"></el-input>
+              <el-input v-model="form.tiele" placeholder="优惠标题" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="优惠券类型">
               <el-select v-model="form.region" placeholder="请选择优惠的类型">
-                <el-option label="店铺优惠" value="shanghai"></el-option>
-                <el-option label="商品优惠" value="beijing"></el-option>
+                <el-option label="店铺优惠" value="shanghai" />
+                <el-option label="商品优惠" value="beijing" />
               </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
             <el-form-item label="优惠门槛">
-              <el-input v-model="form.hig" placeholder="满减门槛"></el-input>
+              <el-input v-model="form.hig" placeholder="满减门槛" />
             </el-form-item>
           </el-col>
 
-           <el-col :span="12">
+          <el-col :span="12">
             <el-form-item label="优惠金额">
-              <el-input v-model="form.hig" placeholder="优惠金额"></el-input>
+              <el-input v-model="form.hig" placeholder="优惠金额" />
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
             <el-form-item label="发放个数">
-              <el-input v-model="form.num" placeholder="发放个数"></el-input>
+              <el-input v-model="form.num" placeholder="发放个数" />
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="活动时间">
               <el-col :span="8" style="padding:0">
                 <el-date-picker
+                  v-model="form.date1"
                   type="date"
                   placeholder="选择开始日期"
-                  v-model="form.date1"
                   style="width: 100%;"
-                ></el-date-picker>
+                />
               </el-col>
               <el-col class="line" :span="2">-</el-col>
               <el-col :span="8">
                 <el-date-picker
+                  v-model="form.date2"
                   type="date"
                   placeholder="选择结束日期"
-                  v-model="form.date2"
                   style="width: 100%;"
-                ></el-date-picker>
+                />
               </el-col>
             </el-form-item>
           </el-col>
@@ -337,111 +337,111 @@ export default {
       addShopList: [
         // 添加商品列表数据
         {
-          shopName: "小王店铺",
-          goodsName: "王小虎",
-          goodsLogo: "图片",
-          price: "200"
+          shopName: '小王店铺',
+          goodsName: '王小虎',
+          goodsLogo: '图片',
+          price: '200'
         },
         {
-          shopName: "小王店铺",
-          goodsName: "王小虎",
-          goodsLogo: "图片",
-          price: "200"
+          shopName: '小王店铺',
+          goodsName: '王小虎',
+          goodsLogo: '图片',
+          price: '200'
         },
         {
-          shopName: "小王店铺",
-          goodsName: "王小虎",
-          goodsLogo: "图片",
-          price: "200"
+          shopName: '小王店铺',
+          goodsName: '王小虎',
+          goodsLogo: '图片',
+          price: '200'
         }
       ],
       shopList: [
-        //预览优惠商品列表数据
+        // 预览优惠商品列表数据
         {
-          shopName: "小王店铺",
-          goodsName: "王小虎",
-          goodsLogo: "图片",
-          price: "200"
+          shopName: '小王店铺',
+          goodsName: '王小虎',
+          goodsLogo: '图片',
+          price: '200'
         },
         {
-          shopName: "小王店铺",
-          goodsName: "王小虎",
-          goodsLogo: "图片",
-          price: "200"
+          shopName: '小王店铺',
+          goodsName: '王小虎',
+          goodsLogo: '图片',
+          price: '200'
         },
         {
-          shopName: "小王店铺",
-          goodsName: "王小虎",
-          goodsLogo: "图片",
-          price: "200"
+          shopName: '小王店铺',
+          goodsName: '王小虎',
+          goodsLogo: '图片',
+          price: '200'
         }
       ],
       list: [
         // 订单列表情况集合
         {
-          title: "优惠券标题",
-          type: "优惠券类型",
-          term: "优惠条件",
-          money: "优惠金额",
-          timeState: "开始时间",
-          tiemEnd: "结束时间",
-          num: "发放个数",
-          shops: "优惠范围"
+          title: '优惠券标题',
+          type: '优惠券类型',
+          term: '优惠条件',
+          money: '优惠金额',
+          timeState: '开始时间',
+          tiemEnd: '结束时间',
+          num: '发放个数',
+          shops: '优惠范围'
         },
         {
-          title: "优惠券标题",
-          type: "优惠券类型",
-          term: "优惠条件",
-          money: "优惠金额",
-          timeState: "开始时间",
-          tiemEnd: "结束时间",
-          num: "发放个数",
-          shops: "优惠范围"
+          title: '优惠券标题',
+          type: '优惠券类型',
+          term: '优惠条件',
+          money: '优惠金额',
+          timeState: '开始时间',
+          tiemEnd: '结束时间',
+          num: '发放个数',
+          shops: '优惠范围'
         },
         {
-          title: "优惠券标题",
-          type: "优惠券类型",
-          term: "优惠条件",
-          money: "优惠金额",
-          timeState: "开始时间",
-          tiemEnd: "结束时间",
-          num: "发放个数",
-          shops: "优惠范围"
+          title: '优惠券标题',
+          type: '优惠券类型',
+          term: '优惠条件',
+          money: '优惠金额',
+          timeState: '开始时间',
+          tiemEnd: '结束时间',
+          num: '发放个数',
+          shops: '优惠范围'
         },
         {
-          title: "优惠券标题",
-          type: "优惠券类型",
-          term: "优惠条件",
-          money: "优惠金额",
-          timeState: "开始时间",
-          tiemEnd: "结束时间",
-          num: "发放个数",
-          shops: "优惠范围"
+          title: '优惠券标题',
+          type: '优惠券类型',
+          term: '优惠条件',
+          money: '优惠金额',
+          timeState: '开始时间',
+          tiemEnd: '结束时间',
+          num: '发放个数',
+          shops: '优惠范围'
         }
       ]
-    };
+    }
   },
   methods: {
     // 表单提交方法
     onSearch() {
-      alert("搜索");
+      alert('搜索')
     },
     // 预览添加优惠商品
     addShops() {
-      this.addShopsVisible = true;
+      this.addShopsVisible = true
     },
     // 添加优惠商品/店铺
     addAllShops() {
-      this.addAllShopsVisible = true;
+      this.addAllShopsVisible = true
     },
     addSuccess() {
       this.$message({
-        message: "添加成功",
-        type: "success"
-      });
+        message: '添加成功',
+        type: 'success'
+      })
     }
   }
-};
+}
 </script>
 
 <style>

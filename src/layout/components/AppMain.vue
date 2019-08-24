@@ -3,7 +3,7 @@
     <transition name="fade-transform" mode="out-in">
 
       <!--  MAIN内容  -->
-        <router-view :key="key" />
+      <router-view :key="key" />
     </transition>
   </section>
 </template>
@@ -11,7 +11,7 @@
 <script>
 export default {
   name: 'AppMain',
-	computed: {
+  computed: {
     key() {
       return this.$route.path
     }

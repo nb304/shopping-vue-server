@@ -36,7 +36,7 @@
               :file-list="productapplyForm.uploadFile"
               limit="1"
             >
-              <el-button slot="trigger" size="small" icon="el-icon-picture"  style="width: 100%;" type="primary">选择图片</el-button>
+              <el-button slot="trigger" size="small" icon="el-icon-picture" style="width: 100%;" type="primary">选择图片</el-button>
             </el-upload>
           </el-form-item>
         </el-col>
@@ -122,7 +122,7 @@
               >
                 <el-image :src="scope.row.imgUrl">
                   <div slot="error" class="image-slot">
-                    <i class="el-icon-picture-outline"></i>
+                    <i class="el-icon-picture-outline" />
                   </div>
                 </el-image>
                 <el-button slot="reference" style="border: none;color: #409EFF;">查看图片</el-button>
@@ -130,8 +130,6 @@
 
             </template>
           </el-table-column>
-
-
 
           <el-table-column label="审批结果" show-overflow-tooltip="true" header-align="center" align="center">
             <template slot-scope="scope">
@@ -151,8 +149,6 @@
               <span v-if="scope.row.applyState==0">无</span>
             </template>
           </el-table-column>
-
-
 
           <el-table-column label="操作" width="150" header-align="center" align="center">
             <template slot-scope="scope">
@@ -388,7 +384,6 @@ export default {
 
   @media only screen and (min-width: 360px) and (max-width: 500px) { /*宽================360 -- 500px================*/
 
-
     #productapply .el-divider__text{  /*分割线样式*/
       right:0px !important;
       font-size: 9px !important;
@@ -413,7 +408,6 @@ export default {
     #productapply div.el-dialog{  /*对4个弹出框设置样式 */
       width: 80% !important;
     }
-
 
   }
   /*==================自定义自适应css样式详情  结束 ========================*/

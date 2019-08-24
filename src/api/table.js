@@ -13,10 +13,9 @@ import qs from 'qs'
 Vue.use(axios)
 Vue.use(qs)
 
-export function productAjaxPost(url , params) {
+export function productAjaxPost(url, params) {
   return axios.post(url, qs.stringify(params))
     .then(response => {
-
       return response.data
     })
     .catch(err => {
@@ -25,10 +24,9 @@ export function productAjaxPost(url , params) {
     })
 }
 
-export function productAjaxGet(url , params) {
+export function productAjaxGet(url, params) {
   return axios.get(url)
     .then(response => {
-
       return response.data
     })
     .catch(err => {
