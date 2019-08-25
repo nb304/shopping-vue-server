@@ -1,42 +1,123 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar"/>
 
-    <breadcrumb class="breadcrumb-container" />
+    <breadcrumb class="breadcrumb-container"/>
 
     <div class="right-menu">
 
-      <el-dropdown>
+      <el-dropdown trigger="click">
         <div class="avatar-wrapper">
 
           <!-- ======================= 导航栏消息图标 =========================  -->
           <span class="el-dropdown-link">
             <!-- ======================= 导航栏消息图标 =========================  -->
-            <el-badge v-if="isShowMessage" id="messageRed" is-dot class="item" title="提示">
-              <svg-icon icon-class="message" class-name="message-class" />
+            <el-badge trigger="click" v-if="isShowMessage" id="messageRed" is-dot class="item" title="提示">
+              <svg-icon icon-class="message" class-name="message-class"/>
             </el-badge>
-            <el-badge v-else="isShowMessage" title="提示">
-              <svg-icon icon-class="message" class-name="message-class" />
+            <el-badge trigger="click" v-else="isShowMessage" title="提示">
+              <svg-icon icon-class="message" class-name="message-class"/>
             </el-badge>
             <!-- ======================= 导航栏消息图标(结束) =========================  -->
           </span>
           <!-- ======================= 导航栏消息数据实体 =========================  -->
-          <el-dropdown-menu slot="dropdown">
-            <el-tabs type="border-card" style="width:350px;">
-              <el-tab-pane label="全部消息" class="title-menu-min">
-                <el-card v-for="value,key in messageInfos" shadow="hover" class="info">
-                  <span :key="value.mid" style="width:100%; display:block;" @click="messageInfo(value.mid)">
-                    {{ value.message }}
+          <el-dropdown-menu slot="dropdown" style="position: relative;">
+            <div style="position: absolute; top: 20px; right: 20px; z-index: 999999999999999;">
+              <el-link type="warning" style="display: inline;" @click.stop="messageState(2)"
+                       :disabled="wDMessage.length < 1">全部已读
+              </el-link>
+              <el-link type="danger" style="display: inline;" @click.stop="messageState(3)"
+                       :disabled="wDMessage.length <1 && yDMessage.length < 1">全部删除
+              </el-link>
+            </div>
+            <el-tabs type="border-card" style="width:820px !important; max-height: 500px !important;"
+                     class="title-menu-min">
+
+
+              <el-tab-pane label="全部消息">
+
+                <el-badge value="new" style="margin-bottom:  0px !important; width: 97% !important;"
+                          v-for="(value,index) in wDMessage">
+                  <el-card shadow="hover" class="info"
+                           style="margin-bottom: 5px; cursor: pointer;">
+                  <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
+                    {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                    <span style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;" title="删除消息"
+                          @click.stop="delInfo2(index , value)">x</span>
+                  </span>
+
+                  </el-card>
+                </el-badge>
+
+
+                <el-card v-for="(value,index) in yDMessage" shadow="hover" class="info"
+                         style="margin-bottom: 5px; cursor: pointer;">
+                  <span :key="value.messageId" style="width:97%; display:block;" @click="messageInfo(index , value)">
+                     {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                    <span style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;" title="删除消息"
+                          @click.stop="delInfo2(index , value)">x</span>
+                  </span>
+                </el-card>
+
+                <el-card shadow="hover" class="info" v-if="yDMessage.length < 1 && wDMessage.length < 1"
+                         style="margin-bottom: 5px; cursor: pointer;">
+                  <span style="width:100%; display:block;">
+                    没有任何消息~~~~
                   </span>
                 </el-card>
 
               </el-tab-pane>
-              <el-tab-pane label="未读消息" class="title-menu-min">未读消息</el-tab-pane>
-              <el-tab-pane label="已读消息" class="title-menu-min">已读消息</el-tab-pane>
+              <el-tab-pane label="未读消息">
+                <el-card v-for="(value,index) in wDMessage" shadow="hover" class="info"
+                         style="margin-bottom: 5px; cursor: pointer;">
+                  <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
+                     {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                    <span style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;" title="删除消息"
+                          @click.stop="delInfo2(index , value)">x</span>
+                  </span>
+                </el-card>
+                <el-card shadow="hover" class="info" v-if="wDMessage.length < 1"
+                         style="margin-bottom: 5px; cursor: pointer;">
+                  <span style="width:100%; display:block;">
+                    没有任何消息~~~~
+                  </span>
+                </el-card>
+              </el-tab-pane>
+              <el-tab-pane label="已读消息">
+                <el-card v-for="(value,index) in yDMessage" shadow="hover" class="info"
+                         style="margin-bottom: 5px; cursor: pointer;">
+                  <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
+                     {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                    <span style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;" title="删除消息"
+                          @click.stop="delInfo2(index , value)">x</span>
+                  </span>
+                </el-card>
+
+                <el-card shadow="hover" class="info" v-if="yDMessage.length < 1"
+                         style="margin-bottom: 5px; cursor: pointer;">
+                  <span style="width:100%; display:block;">
+                    没有任何消息~~~~
+                  </span>
+                </el-card>
+              </el-tab-pane>
+
             </el-tabs>
 
           </el-dropdown-menu>
           <!-- ======================= 导航栏消息图标(结束) =========================  -->
+
+
+          <el-drawer
+            title="消息内容" @click.stop
+            :visible.sync="drawer"
+            direction="rtl"
+            :before-close="handleClose">
+            <p style="text-align: center; color: #99a9bf;">{{currentMessageFrom.value.createTimeStr}}</p>
+            <br>
+            <span style="font-size: 14px; letter-spacing: 1px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{messageContent}}</span>
+            <el-link type="danger" @click="delInfo">删除消息</el-link>
+            <br/>
+          </el-drawer>
 
         </div>
 
@@ -46,7 +127,7 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+          <i class="el-icon-caret-bottom"/>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
@@ -98,13 +179,14 @@
             </div>
             <el-row :gutter="24" style="width: 96%;">
               <!-- ======================= 单独一条消息 =========================  -->
-              <el-col v-for="o in 10" :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}" style="margin: 5px 0px !important; cursor: pointer;">
+              <el-col v-for="o in 10" :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}"
+                      style="margin: 5px 0px !important; cursor: pointer;">
 
                 <el-badge id="phoneBContent" style="margin-bottom: 0px !important;" :value="3" class="item">
                   <div>
                     <el-col :sm="{span: 5}" :lg="{span:5}" :xs="{span: 5}">
                       <div class="block">
-                        <el-avatar :size="50" :src="avatarUrl" />
+                        <el-avatar :size="50" :src="avatarUrl"/>
                       </div>
                     </el-col>
                     <el-col :sm="{span: 19}" :lg="{span:19}" :xs="{span: 19}">
@@ -115,7 +197,8 @@
                         你好！公号{{ o }}为你服务....
                       </el-col>
                     </el-col>
-                    <el-col style="border-bottom: 1px solid #cccccc;" :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}" />
+                    <el-col style="border-bottom: 1px solid #cccccc;" :sm="{span: 24}" :lg="{span:24}"
+                            :xs="{span: 24}"/>
                   </div>
                 </el-badge>
               </el-col>
@@ -132,18 +215,21 @@
               <span>鹿七七</span>
             </el-divider>
             <!-- ======================= 聊天记录 =========================  -->
-            <el-card class="box-card title-menu-min" style="width: 100%; max-height: 300px; min-height: 300px; background-color: #E4E5E5;">
+            <el-card class="box-card title-menu-min"
+                     style="width: 100%; max-height: 300px; min-height: 300px; background-color: #E4E5E5;">
               <el-row v-for="o in liaojlS" style="margin-bottom: 10px;">
                 <div v-if="o.flag == 'left'">
                   <el-col :sm="{span: 2}" :lg="{span:2}" :xs="{span: 4}">
                     <div class="block">
-                      <el-avatar shape="square" :size="50" :src="avatarUrl" />
+                      <el-avatar shape="square" :size="50" :src="avatarUrl"/>
                     </div>
                   </el-col>
                   <el-col :sm="{span: 18}" :lg="{span:18}" :xs="{span: 18}">
                     <el-card shadow="always" style="margin-left: 10px;" class="leftInfos">
-                      <div :key="o" class="text item send" style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;" v-html="o.content" />
-                      <div :class="o.userClass" />
+                      <div :key="o" class="text item send"
+                           style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;"
+                           v-html="o.content"/>
+                      <div :class="o.userClass"/>
                     </el-card>
                   </el-col>
                 </div>
@@ -151,13 +237,15 @@
                 <div v-if="o.flag == 'right'">
                   <el-col :lg="{span:18,offset: 4}" :xs="{span: 18,offset: 2}">
                     <el-card shadow="always" style="margin-right: 15px;" class="rightInfos">
-                      <div :key="o" class="text item send" style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;" v-html="o.content" />
-                      <div :class="o.userClass" />
+                      <div :key="o" class="text item send"
+                           style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;"
+                           v-html="o.content"/>
+                      <div :class="o.userClass"/>
                     </el-card>
                   </el-col>
                   <el-col :sm="{span: 2}" :lg="{span:2}" :xs="{span: 4}">
                     <div class="block">
-                      <el-avatar shape="square" :size="50" :src="avatarUrl" />
+                      <el-avatar shape="square" :size="50" :src="avatarUrl"/>
                     </div>
                   </el-col>
                 </div>
@@ -169,7 +257,8 @@
 
             <!-- ======================= 富文本编辑器 =========================  -->
             <el-row>
-              <quill-editor ref="text" v-model="content" style="height: 100px;" class="myQuillEditor" :options="editorOption" />
+              <quill-editor ref="text" v-model="content" style="height: 100px;" class="myQuillEditor"
+                            :options="editorOption"/>
             </el-row>
 
             <!-- ======================= 富文本编辑器(结束) =========================  -->
@@ -198,15 +287,17 @@
     >
 
       <transition name="el-zoom-in-center">
-        <div v-if="showInfoListsFlag" class="title-menu-min" style="max-height: 34.375rem !important; min-height: 34.375rem !important;">
+        <div v-if="showInfoListsFlag" class="title-menu-min"
+             style="max-height: 34.375rem !important; min-height: 34.375rem !important;">
           <el-row v-for="o in 20" :gutter="24">
             <el-badge id="phoneBContent" style="margin-bottom: 0px !important;" :value="3" class="item">
               <!-- ======================= 单独一条消息 =========================  -->
-              <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}" style="margin: 5px 0px !important; cursor: pointer;">
+              <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}"
+                      style="margin: 5px 0px !important; cursor: pointer;">
                 <div @click="showChatWindowsFlagMethod">
                   <el-col :sm="{span: 3}" :lg="{span:3}" :xs="{span: 5}">
                     <div class="block">
-                      <el-avatar :size="50" :src="avatarUrl" />
+                      <el-avatar :size="50" :src="avatarUrl"/>
                     </div>
                   </el-col>
                   <el-col :sm="{span: 19}" :lg="{span:19}" :xs="{span: 19}">
@@ -217,7 +308,7 @@
                       你好！公号{{ o }}为你服务2333....
                     </el-col>
                   </el-col>
-                  <el-col style="border-bottom: 1px solid #cccccc;" :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}" />
+                  <el-col style="border-bottom: 1px solid #cccccc;" :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}"/>
                 </div>
               </el-col>
               <!-- ======================= 单独一条消息(结束) =========================  -->
@@ -229,23 +320,27 @@
 
       <!-- ======================= 手机端聊天窗口 =========================  -->
       <transition name="el-zoom-in-center">
-        <div v-if="showChatWindowsFlag" class="title-menu-min" style="max-height: 34.375rem !important; min-height: 34.375rem !important;">
-          <el-page-header content="消息列表" @back="goPhoneInfoLists" />
+        <div v-if="showChatWindowsFlag" class="title-menu-min"
+             style="max-height: 34.375rem !important; min-height: 34.375rem !important;">
+          <el-page-header content="消息列表" @back="goPhoneInfoLists"/>
 
           <!-- ======================= 聊天记录 =========================  -->
-          <el-card class="box-card title-menu-min" style="width: 100%; max-height: 350px; min-height: 350px; background-color: #E4E5E5;">
+          <el-card class="box-card title-menu-min"
+                   style="width: 100%; max-height: 350px; min-height: 350px; background-color: #E4E5E5;">
             <el-row v-for="o in liaojlS" style="margin-bottom: 10px;">
               <!-- ======================= 左边消息 =========================  -->
               <div v-if="o.flag == 'left'">
                 <el-col :sm="{span: 2}" :lg="{span:2}" :xs="{span: 4}">
                   <div class="block">
-                    <el-avatar shape="square" :size="50" :src="avatarUrl" />
+                    <el-avatar shape="square" :size="50" :src="avatarUrl"/>
                   </div>
                 </el-col>
                 <el-col :sm="{span: 18}" :lg="{span:18}" :xs="{span: 18}">
                   <el-card shadow="always" style="margin-left: 10px;" class="leftInfos">
-                    <div :key="o" class="text item send" style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;" v-html="o.content" />
-                    <div :class="o.userClass" />
+                    <div :key="o" class="text item send"
+                         style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;"
+                         v-html="o.content"/>
+                    <div :class="o.userClass"/>
                   </el-card>
                 </el-col>
               </div>
@@ -255,13 +350,15 @@
               <div v-if="o.flag == 'right'">
                 <el-col :lg="{span:18,offset: 4}" :xs="{span: 18,offset: 2}">
                   <el-card shadow="always" style="margin-right: 15px;" class="rightInfos">
-                    <div :key="o" class="text item send" style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;" v-html="o.content" />
-                    <div :class="o.userClass" />
+                    <div :key="o" class="text item send"
+                         style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;"
+                         v-html="o.content"/>
+                    <div :class="o.userClass"/>
                   </el-card>
                 </el-col>
                 <el-col class="phoneRightImage" :sm="{span: 2}" :lg="{span:2}" :xs="{span: 4}">
                   <div class="block">
-                    <el-avatar shape="square" :size="50" :src="avatarUrl" />
+                    <el-avatar shape="square" :size="50" :src="avatarUrl"/>
                   </div>
                 </el-col>
               </div>
@@ -273,7 +370,8 @@
 
           <!-- ======================= 富文本编辑器 =========================  -->
           <el-row>
-            <quill-editor ref="text" v-model="content" style="height: 100px;" class="myQuillEditor" :options="editorOption" />
+            <quill-editor ref="text" v-model="content" style="height: 100px;" class="myQuillEditor"
+                          :options="editorOption"/>
           </el-row>
 
           <el-row style="width: 6.25rem !important;">
@@ -290,150 +388,395 @@
 </template>
 
 <script>
-import {
-  mapGetters
-} from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
-import {
-  quillEditor
-} from 'vue-quill-editor'
-
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-// 工具栏配置
-const toolbarOptions = [
-  ['image', 'video']
-]
-export default {
-
-  components: {
-    Breadcrumb,
-    Hamburger,
+  import {
+    mapGetters
+  } from 'vuex'
+  import Breadcrumb from '@/components/Breadcrumb'
+  import Hamburger from '@/components/Hamburger'
+  import {
     quillEditor
-  },
-  computed: {
-    ...mapGetters([
-      'sidebar',
-      'avatar'
-    ])
-  },
-  created() {
-    setInterval(() => {
-      this.Home2()
-    }, 1000)
-  },
-  mounted() {
-    this.screenWidth = document.body.clientWidth
-    this.screenHeight = document.body.clientHeight
-    if (this.screenWidth <= 1000) {
-      this.isInfoPhoneFlag = true
-      this.infoTopHtml = '1vh'
-    } else {
-      this.isInfoPhoneFlag = false
-      this.infoTopHtml = '10vh'
-    }
-    window.onresize = () => {
-      return (() => {
-        this.screenWidth = document.body.clientWidth
-        this.screenHeight = document.body.clientHeight
-        // 判断宽度是否小于500 小于500 全部全屏显示
-        if (this.screenWidth <= 1000) {
-          this.isInfoPhoneFlag = true
-          this.infoTopHtml = '1vh'
+  } from 'vue-quill-editor'
+
+  import 'quill/dist/quill.core.css'
+  import 'quill/dist/quill.snow.css'
+  import 'quill/dist/quill.bubble.css'
+  import {
+    productAjaxPost,
+    productAjaxGet
+  } from '@/api/table.js'
+
+  var systemUrl = 'http://192.168.124.5:7778'
+  // 工具栏配置
+  const toolbarOptions = [
+    ['image', 'video']
+  ]
+  export default {
+    data() {
+      return {
+        currentMessageFrom: {
+          id: '',
+          value: '',
+          index: 0
+        },
+        // 消息内容
+        messageContent: '',
+        // 是否打开消息窗口
+        drawer: false,
+        // 已读消息和未读消息
+        yDMessage: [],
+        wDMessage: [],
+        // 手机端聊天Title
+        phoneTitle: '消息列表',
+        // 手机聊天消息列表
+        showInfoListsFlag: true,
+        // 手机聊天窗口
+        showChatWindowsFlag: false,
+        screenWidth: '',
+        screenHeight: '',
+        infoTopHtml: '',
+        isInfoPhoneFlag: false,
+        liaojlS: [],
+        content: '',
+        editorOption: {
+          modules: {
+            toolbar: toolbarOptions
+          }
+        },
+        avatarUrl: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80',
+        myInfosFLag: false,
+        isShowMessage: false
+
+      }
+    },
+    components: {
+      Breadcrumb,
+      Hamburger,
+      quillEditor
+    },
+    computed: {
+      ...mapGetters([
+        'sidebar',
+        'avatar'
+      ])
+    },
+    created() {
+      var url = systemUrl + "/user/message/get/state"
+      setInterval(() => {
+        productAjaxGet(url).then(data => {
+
+          if (data.status == 200) {
+            if (data.data == "yes") {
+              this.isShowMessage = true;
+            } else {
+              this.isShowMessage = false;
+            }
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+          }
+        })
+      }, 2000)
+    },
+    mounted() {
+
+      // 发送AJAX查询后台数据
+      var url = systemUrl + "/shop/index"
+
+      productAjaxGet(url).then(data => {
+        if (data.status == 200) {
+          if (data.data != null) {
+            this.yDMessage = data.data.yDMessage
+            this.wDMessage = data.data.wDMessage
+          }
+
+          this.COMMON.stopLoading()
         } else {
-          this.isInfoPhoneFlag = false
-          this.infoTopHtml = '10vh'
+          this.$message({
+            showClose: true,
+            message: data.msg + '--请重新刷新页面',
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
         }
-      })()
-    }
-  },
-  methods: {
-    openMyInfos() {
-      this.COMMON.startLoading()
-      this.myInfosFLag = true
-      this.COMMON.stopLoading()
-    },
-    submit() {
-      var newPojo = {
-        content: 'LEFTINFO:' + this.$refs.text.value,
-        userClass: 'leftArrow',
-        flag: 'left'
+      })
+
+      this.screenWidth = document.body.clientWidth
+      this.screenHeight = document.body.clientHeight
+      if (this.screenWidth <= 1000) {
+        this.isInfoPhoneFlag = true
+        this.infoTopHtml = '1vh'
+      } else {
+        this.isInfoPhoneFlag = false
+        this.infoTopHtml = '10vh'
       }
-      var newPojo2 = {
-        content: 'RIGHTINFO:' + this.$refs.text.value,
-        userClass: 'rightArrow',
-        flag: 'right'
+      window.onresize = () => {
+        return (() => {
+          this.screenWidth = document.body.clientWidth
+          this.screenHeight = document.body.clientHeight
+          // 判断宽度是否小于500 小于500 全部全屏显示
+          if (this.screenWidth <= 1000) {
+            this.isInfoPhoneFlag = true
+            this.infoTopHtml = '1vh'
+          } else {
+            this.isInfoPhoneFlag = false
+            this.infoTopHtml = '10vh'
+          }
+        })()
       }
-      this.liaojlS.push(newPojo)
-      this.liaojlS.push(newPojo2)
-      this.content = ''
-      console.log(this.$refs.text.value)
     },
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
-    },
-    async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-    },
-    async Home() {
-      console.log('123')
-    },
-    Home2() {
-      this.isShowMessage = !this.isShowMessage
-    },
-    // 手机端返回消息列表
-    goPhoneInfoLists() {
-      this.phoneTitle = '消息列表'
-      this.showInfoListsFlag = true
-      this.showChatWindowsFlag = false
-    },
-    // 手机端显示发送消息窗口
-    showChatWindowsFlagMethod() {
-      this.phoneTitle = '鹿七七'
-      this.showInfoListsFlag = false
-      this.showChatWindowsFlag = true
-    },
-    messageInfo(id) {
-      alert('消息实体' + id)
-    }
-  },
-  data() {
-    return {
-      // 手机端聊天Title
-      phoneTitle: '消息列表',
-      // 手机聊天消息列表
-      showInfoListsFlag: true,
-      // 手机聊天窗口
-      showChatWindowsFlag: false,
-      screenWidth: '',
-      screenHeight: '',
-      infoTopHtml: '',
-      isInfoPhoneFlag: false,
-      liaojlS: [],
-      content: '',
-      editorOption: {
-        modules: {
-          toolbar: toolbarOptions
+    methods: {
+
+      // 删除全部或者全部已读
+      messageState(state) {
+        if (state == 2) {
+
+          var url = systemUrl + "/user/message/clear/or/read"
+          var para = {"state": 2}
+          productAjaxPost(url, para).then(data => {
+            if (data.status == 200) {
+              // 修改成功  判断状态 修改状态
+              this.wDMessage.forEach(data => {
+                data.state = 2;
+                this.yDMessage.push(data)
+              });
+
+              this.wDMessage = []
+              this.COMMON.stopLoading()
+            } else if (data.status == 500) {
+              this.$message({
+                showClose: true,
+                message: data.msg + '--修改失败,请重新刷新页面',
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+
+              this.COMMON.stopLoading()
+            } else {
+              this.$message({
+                showClose: true,
+                message: data.msg,
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+
+              this.COMMON.stopLoading()
+            }
+          })
+
+        } else {
+          this.$confirm('你确定要删除全部信息吗?', '确认框', {
+            confirmButtonText: '确定删除',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+
+            var url = systemUrl + "/user/message/clear/or/read"
+            var para = {"state": 3}
+            productAjaxPost(url, para).then(data => {
+              if (data.status == 200) {
+                // 修改成功  判断状态 修改状态
+                this.wDMessage = [];
+                this.yDMessage = [];
+
+                this.$message({
+                  showClose: true,
+                  message: '删除成功',
+                  type: 'success'
+                });
+                this.COMMON.stopLoading()
+              } else if (data.status == 500) {
+                this.$message({
+                  showClose: true,
+                  message: data.msg + '--修改失败,请重新刷新页面',
+                  type: 'error',
+                  duration: 3000,
+                  customClass: 'zzIndex'
+                })
+
+                this.COMMON.stopLoading()
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: data.msg,
+                  type: 'error',
+                  duration: 3000,
+                  customClass: 'zzIndex'
+                })
+
+                this.COMMON.stopLoading()
+              }
+            })
+          }).catch(() => {
+
+          })
         }
       },
-      avatarUrl: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80',
-      myInfosFLag: false,
-      isShowMessage: true,
-      messageInfos: [{
-        'mid': 1,
-        'message': '信息1'
+      // 删除信息2
+      delInfo2(index, value) {
+        console.log(index);
+        console.log(value);
+
+        // 发送AJAX 将消息变成已读信息
+        var url = systemUrl + "/user/message/edit/state"
+        var para = {"messageId": value.messageId, "messageState": 3}
+        productAjaxPost(url, para).then(data => {
+          if (data.status == 200) {
+            // 修改成功  判断状态 修改状态w
+            // 获取原来的信息状态
+            if (value.state == 1) {
+              this.wDMessage.splice(index, 1);
+            } else if (value.state == 2) {
+              this.yDMessage.splice(index, 1);
+            }
+            this.COMMON.stopLoading()
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--删除失败,请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
       },
-      {
-        'mid': 2,
-        'message': '信息2'
+      // 删除信息
+      delInfo() {
+        this.$confirm('你确定要删除信息吗?', '确认框', {
+          confirmButtonText: '确定删除',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.editMessageInfoState(this.currentMessageFrom.index, this.currentMessageFrom.value, 3);
+          this.drawer = false
+        }).catch(() => {
+
+        })
+      },
+      openMyInfos() {
+        this.COMMON.startLoading()
+        this.myInfosFLag = true
+        this.COMMON.stopLoading()
+      },
+      submit() {
+        var newPojo = {
+          content: 'LEFTINFO:' + this.$refs.text.value,
+          userClass: 'leftArrow',
+          flag: 'left'
+        }
+        var newPojo2 = {
+          content: 'RIGHTINFO:' + this.$refs.text.value,
+          userClass: 'rightArrow',
+          flag: 'right'
+        }
+        this.liaojlS.push(newPojo)
+        this.liaojlS.push(newPojo2)
+        this.content = ''
+        console.log(this.$refs.text.value)
+      },
+      toggleSideBar() {
+        this.$store.dispatch('app/toggleSideBar')
+      },
+      async logout() {
+        await this.$store.dispatch('user/logout')
+        this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      },
+      async Home() {
+        console.log('123')
+      },
+      Home2() {
+        this.isShowMessage = !this.isShowMessage
+      },
+      // 手机端返回消息列表
+      goPhoneInfoLists() {
+        this.phoneTitle = '消息列表'
+        this.showInfoListsFlag = true
+        this.showChatWindowsFlag = false
+      },
+      // 手机端显示发送消息窗口
+      showChatWindowsFlagMethod() {
+        this.phoneTitle = '鹿七七'
+        this.showInfoListsFlag = false
+        this.showChatWindowsFlag = true
+      },
+      messageInfo(index, obj) {
+        this.currentMessageFrom.value = obj;
+        this.drawer = true
+        this.messageContent = obj.messageContent
+        this.currentMessageFrom.index = index;
+        if (obj.state == 1) {
+          this.editMessageInfoState(index, obj, 2);
+        }
+      },
+      // 修改信息的状态
+      editMessageInfoState(index, obj, state) {
+        // 发送AJAX 将消息变成已读信息
+        var url = systemUrl + "/user/message/edit/state"
+        var para = {"messageId": obj.messageId, "messageState": state}
+        productAjaxPost(url, para).then(data => {
+          if (data.status == 200) {
+            // 修改成功  判断状态 修改状态
+            if (state == 2) {
+              obj.state = 2;
+              this.wDMessage.splice(index, 1);
+              this.yDMessage.push(obj);
+            } else if (state == 3) {
+              // 获取原来的信息状态
+              if (obj.state == 1) {
+                this.yDMessage.splice(this.yDMessage.length - 2, 1);
+              } else if (obj.state == 2) {
+                console.log("index" + index)
+                this.yDMessage.splice(index, 1);
+              }
+            }
+            this.COMMON.stopLoading()
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--修改失败,请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
       }
-      ]
     }
   }
-}
 </script>
 
 <style lang="scss">
