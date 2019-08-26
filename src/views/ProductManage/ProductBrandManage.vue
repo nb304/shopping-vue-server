@@ -472,7 +472,7 @@ export default {
       // 打开Loading
       this.currentFunctionBrandInfo = item
       this.currentFunctionIndex = index
-      this.actionUrl = 'http://192.168.0.143:7778/brand/upload/logo/' + item.brandId
+      this.actionUrl = 'http://192.168.124.5:7778/brand/upload/logo/' + item.brandId
       this.productBrandDiaLogFlags.showProductBrandLogoFlag = true
     },
     // 修改品牌信息

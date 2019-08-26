@@ -15,10 +15,10 @@ import qs from 'qs'
 Vue.use(axios)
 Vue.use(qs)
 
-// var systemUrl = 'http://192.168.124.5:7778'
-var systemUrl = 'http://192.168.0.143:7778'
+var systemUrl = 'http://192.168.124.5:7778'
+// var systemUrl = 'http://192.168.0.143:7778'
 
-export function productAjaxPost(url, params) {
+export function productAjaxPost(url , params) {
   return axios.post(systemUrl + url, qs.stringify(params))
     .then(response => {
       return response.data
