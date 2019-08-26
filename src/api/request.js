@@ -17,8 +17,8 @@ axios.defaults.timeout = 100000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 
 // 请求公共url
-const deturl = 'http://192.168.124.5:7778' // 俞  蛋壳公寓
-// let deturl = 'http://192.168.0.143:7778' // 俞 公司
+//const deturl = 'http://192.168.124.5:7778' // 俞  蛋壳公寓
+const deturl = 'http://192.168.0.143:7778' // 俞 公司
 // let deturl = 'http://192.168.124.11:7778'    // 刘
 
 //  get方法，对应get请求

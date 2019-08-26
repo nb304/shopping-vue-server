@@ -7,14 +7,19 @@ export function getList(params) {
     params
   }))
 }
+
 import axios from 'axios'
 import Vue from 'vue'
 import qs from 'qs'
+
 Vue.use(axios)
 Vue.use(qs)
 
+// var systemUrl = 'http://192.168.124.5:7778'
+var systemUrl = 'http://192.168.0.143:7778'
+
 export function productAjaxPost(url, params) {
-  return axios.post(url, qs.stringify(params))
+  return axios.post(systemUrl + url, qs.stringify(params))
     .then(response => {
       return response.data
     })
@@ -25,7 +30,7 @@ export function productAjaxPost(url, params) {
 }
 
 export function productAjaxGet(url, params) {
-  return axios.get(url)
+  return axios.get(systemUrl + url)
     .then(response => {
       return response.data
     })

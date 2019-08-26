@@ -8,14 +8,14 @@
         <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">
           <el-form-item label="商品状态" style="width: 100% !important;">
             <el-select v-model="productPage.state" placeholder="选择商品状态" style="width: 100% !important;">
-              <el-option v-for="state in productState" :key="state.value" :label="state.key" :value="state.value"/>
+              <el-option v-for="state in productState" :key="state.value" :label="state.key" :value="state.value" />
             </el-select>
           </el-form-item>
         </el-col>
 
         <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">
           <el-form-item label="搜索商品" style="width: 100%;">
-            <el-input v-model="productPage.productName" placeholder="商品的名称"><i slot="prefix" class="el-icon-edit"/>
+            <el-input v-model="productPage.productName" placeholder="商品的名称"><i slot="prefix" class="el-icon-edit" />
             </el-input>
           </el-form-item>
         </el-col>
@@ -73,15 +73,15 @@
       <el-col :sm="{span: 24}" :xs="{span: 24}">
 
         <el-table v-loading="listLoading" class="title-menu-min" :data="prodcutData" border style="width: 100%">
-          <el-table-column prop="productNumber" label="编号" width="150" show-overflow-tooltip="true"/>
-          <el-table-column prop="productName" label="商品名称" width="220" show-overflow-tooltip="true"/>
-          <el-table-column label="商品品牌" prop="brandName" width="120" show-overflow-tooltip="true"/>
+          <el-table-column prop="productNumber" label="编号" width="150" show-overflow-tooltip="true" />
+          <el-table-column prop="productName" label="商品名称" width="220" show-overflow-tooltip="true" />
+          <el-table-column label="商品品牌" prop="brandName" width="120" show-overflow-tooltip="true" />
           <el-table-column prop="city" label="商品类目" width="90">
             <el-button slot-scope="scope" type="text" size="small" @click="showProductLeimu(scope.row.categoryName)">
               查看详情
             </el-button>
           </el-table-column>
-          <el-table-column prop="totalKc" label="商品总库存" width="150"/>
+          <el-table-column prop="totalKc" label="商品总库存" width="150" />
           <el-table-column label="商品参数" width="100">
             <el-button slot-scope="scope" type="text" size="small" @click="shwoProductSpuInfo(scope.row.productId)">
               查看详情
@@ -117,8 +117,8 @@
             </el-link>
             <el-link v-else slot-scope="scope" type="danger" :underline="false">未知状态</el-link>
           </el-table-column>
-          <el-table-column prop="productCreateUsername" label="创建人" width="150" show-overflow-tooltip="true"/>
-          <el-table-column prop="productUpdateUsername" label="操作人" width="150" show-overflow-tooltip="true"/>
+          <el-table-column prop="productCreateUsername" label="创建人" width="150" show-overflow-tooltip="true" />
+          <el-table-column prop="productUpdateUsername" label="操作人" width="150" show-overflow-tooltip="true" />
           <el-table-column label="所属店铺" width="200" show-overflow-tooltip="true">
             <el-button slot-scope="scope" type="text" size="small">{{ scope.row.belongStoreName }}</el-button>
           </el-table-column>
@@ -126,10 +126,14 @@
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="showProductInfo(scope.row.productCreateUserid)">查看</el-button>
               <el-button type="text" size="small" @click="editProduct(scope.$index,scope.row.productId)">编辑</el-button>
-              <el-button type="text" v-if="scope.row.productState != 3" size="small"
-                         @click="delProduct(scope.$index,scope.row)">删除
+              <el-button
+                v-if="scope.row.productState != 3"
+                type="text"
+                size="small"
+                @click="delProduct(scope.$index,scope.row)"
+              >删除
               </el-button>
-              <el-button type="text" v-else size="small" @click="recoverProduct(scope.$index,scope.row)">恢复</el-button>
+              <el-button v-else type="text" size="small" @click="recoverProduct(scope.$index,scope.row)">恢复</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -213,7 +217,7 @@
           <el-row :gutter="24">
             <el-col :sm="{span: 11,offset: 1}" :xs="{span: 24}">
               <el-form-item label="商品名称" style="width:100%;">
-                <el-input v-model="addProductTwoFrom.goodsName" maxlength="50" placeholder="请输入商品名称"/>
+                <el-input v-model="addProductTwoFrom.goodsName" maxlength="50" placeholder="请输入商品名称" />
               </el-form-item>
             </el-col>
 
@@ -405,24 +409,24 @@
             <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
               <el-col :sm="{span: 8}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.productSpuName" class="SpuInput" maxlength="10" placeholder="请输入Key"/>
+                  <el-input v-model="o.productSpuName" class="SpuInput" maxlength="10" placeholder="请输入Key" />
                 </el-form-item>
               </el-col>
 
               <el-col :sm="{span: 8}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.productSpuValue" class="SpuInput" maxlength="10" placeholder="请输入值"/>
+                  <el-input v-model="o.productSpuValue" class="SpuInput" maxlength="10" placeholder="请输入值" />
                 </el-form-item>
               </el-col>
 
               <el-col :sm="{span: 4}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input :value="index" class="SpuInput2" disabled placeholder="排序"/>
+                  <el-input :value="index" class="SpuInput2" disabled placeholder="排序" />
                 </el-form-item>
               </el-col>
 
               <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSpuLink(o)"/>
+                <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSpuLink(o)" />
               </el-col>
             </el-card>
           </el-row>
@@ -499,14 +503,14 @@
 
               <el-col :sm="{span: 8}" :xs="{span: 12}">
                 <el-form-item>
-                  <el-input v-model="o.skuValue" class="SpuInput" maxlength="10" placeholder="SKU值"/>
+                  <el-input v-model="o.skuValue" class="SpuInput" maxlength="10" placeholder="SKU值" />
                 </el-form-item>
               </el-col>
 
               <!-- +1 -->
 
               <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSkuLink(o)"/>
+                <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSkuLink(o)" />
               </el-col>
             </el-card>
           </el-row>
@@ -596,10 +600,10 @@
 
       <!-- ======================= 添加商品进度=========================  -->
       <el-steps :active="active" finish-status="success" align-center style="margin-top:30px;">
-        <el-step title="步骤1" description="选择商品类目" show-overflow-tooltip="true"/>
-        <el-step title="步骤2" description="添加宝贝基本信息" show-overflow-tooltip="true"/>
-        <el-step title="步骤3" description="添加宝贝详细信息"/>
-        <el-step title="步骤4" :description="stepFourContent"/>
+        <el-step title="步骤1" description="选择商品类目" show-overflow-tooltip="true" />
+        <el-step title="步骤2" description="添加宝贝基本信息" show-overflow-tooltip="true" />
+        <el-step title="步骤3" description="添加宝贝详细信息" />
+        <el-step title="步骤4" :description="stepFourContent" />
       </el-steps>
 
       <el-row class="spusRowClass" :gutter="24">
@@ -668,7 +672,7 @@
             <el-col :sm="{span: 23}" :xs="{span: 23}" class="productLeiMuInfoClass">
 
               <el-form-item label="商品类目" style="width:100%;">
-                <el-input v-model="productLeiMuValue" :disabled="true"/>
+                <el-input v-model="productLeiMuValue" :disabled="true" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -700,7 +704,7 @@
             @selection-change="handleSelectionChange"
           >
 
-            <el-table-column type="selection" width="55"/>
+            <el-table-column type="selection" width="55" />
             <el-table-column label="SPU名称" width="160" show-overflow-tooltip>
               <template slot-scope="scope">{{ scope.row.productSpuName }}</template>
             </el-table-column>
@@ -817,7 +821,7 @@
               </el-col>
 
               <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSpuLink(o)"/>
+                <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSpuLink(o)" />
               </el-col>
             </el-card>
           </el-row>
@@ -914,7 +918,7 @@
                   circle
                   @click.pprevent="removeProducSpu(currentEditSpuInfo)"
                 />
-                <el-button v-else type="danger" icon="el-icon-delete" circle disabled="disabled"/>
+                <el-button v-else type="danger" icon="el-icon-delete" circle disabled="disabled" />
               </el-col>
             </el-card>
           </el-row>
@@ -971,7 +975,7 @@
                     fit="fill"
                   >
                     <div slot="error" class="image-slot">
-                      <i class="el-icon-picture-outline"/>
+                      <i class="el-icon-picture-outline" />
                     </div>
                   </el-image>
                 </el-carousel-item>
@@ -1115,9 +1119,9 @@
                     style="max-height: 220px;"
                   >
                     <el-table :data="tableData" border style="width: 100%">
-                      <el-table-column prop="date" label="SKU名称" min-width="150"/>
-                      <el-table-column prop="province" label="排序" width="120"/>
-                      <el-table-column prop="name" label="SKU值" fixed="right" width="120"/>
+                      <el-table-column prop="date" label="SKU名称" min-width="150" />
+                      <el-table-column prop="province" label="排序" width="120" />
+                      <el-table-column prop="name" label="SKU值" fixed="right" width="120" />
                     </el-table>
                   </el-tab-pane>
                 </el-tabs>
@@ -1218,7 +1222,7 @@
 
       <div style="max-height: 550px;" class="title-menu-min">
         <el-table :data="SKUInfoForm" border style="width: 100%">
-          <el-table-column fixed show-overflow-tooltip="true" prop="productSkuValueIds" label="商品SKU值" min-width="200"/>
+          <el-table-column fixed show-overflow-tooltip="true" prop="productSkuValueIds" label="商品SKU值" min-width="200" />
           <el-table-column label="库存数量" width="120">
             <el-input
               v-model="scope.row.productSkuKc"
@@ -1471,7 +1475,7 @@
           </el-table-column>
           <el-table-column prop="imageOrder" label="显示顺序" width="120">
 
-            <el-input v-model="scope.row.order" slot-scope="scope" maxlength="1"/>
+            <el-input v-model="scope.row.order" slot-scope="scope" maxlength="1" />
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="120">
             <template slot-scope="scope">
@@ -1520,555 +1524,997 @@
 </template>
 
 <script>
-  import elDragDialog from '@/el-drag-dialog'
-  import {
-    productAjaxPost,
-    productAjaxGet
-  } from '@/api/table.js'
+import elDragDialog from '@/el-drag-dialog'
+import {
+  productAjaxPost,
+  productAjaxGet
+} from '@/api/table.js'
 
-  var systemUrl = 'http://192.168.124.5:7778'
+var systemUrl = ''
 
-  export default {
-    directives: {
-      elDragDialog
-    },
-    data() {
-      return {
-        fileData: new FormData(),
-        // 删除的图片信息
-        delProductImages: [],
-        // 商品图片信息
-        productImages: [],
-        // 商品品牌信息
-        brands: [],
-        // 修改商品的表但
-        editProductForm: {},
-        isEditFlag: false,
-        // 分页小型的flag
-        pageFlag: false,
-        // 当前操作的商品id
-        currentFunctionProductId: 0,
-        currentFunctionProductIndex: 0,
-        // SPU的表单
-        addProductSpuForm: [{
-          productSpuName: '',
-          productSpuValue: '',
-          productSpuOrder: 1,
-          key: Date.now(),
-          productSpuState: 1
-        }],
-        // 需要主要的商品SPUId
-        cancelSpuIds: [],
-        // 商品SPU的数据
-        productSpuInfo: [],
-        // 商品分页的表单数据
-        productPage: {
-          productName: '', // 查询的商品名称
-          state: 0, // 查询全部
-          totalSize: 300, // 总条数
-          currentSize: 10, // 显示的页数
-          currentPage: 1 // 当前显示的页数
+export default {
+  directives: {
+    elDragDialog
+  },
+  data() {
+    return {
+      fileData: new FormData(),
+      // 删除的图片信息
+      delProductImages: [],
+      // 商品图片信息
+      productImages: [],
+      // 商品品牌信息
+      brands: [],
+      // 修改商品的表但
+      editProductForm: {},
+      isEditFlag: false,
+      // 分页小型的flag
+      pageFlag: false,
+      // 当前操作的商品id
+      currentFunctionProductId: 0,
+      currentFunctionProductIndex: 0,
+      // SPU的表单
+      addProductSpuForm: [{
+        productSpuName: '',
+        productSpuValue: '',
+        productSpuOrder: 1,
+        key: Date.now(),
+        productSpuState: 1
+      }],
+      // 需要主要的商品SPUId
+      cancelSpuIds: [],
+      // 商品SPU的数据
+      productSpuInfo: [],
+      // 商品分页的表单数据
+      productPage: {
+        productName: '', // 查询的商品名称
+        state: 0, // 查询全部
+        totalSize: 300, // 总条数
+        currentSize: 10, // 显示的页数
+        currentPage: 1 // 当前显示的页数
+      },
+      // 商品数据
+      prodcutData: [],
+      // 当前编辑的SPU信息
+      currentEditSpuInfo: {
+        productSpuId: 0,
+        productSpuName: '',
+        productSpuValue: '',
+        productSpuOrder: ''
+      },
+      currentEditSpuIndex: 0,
+      // 商品状态类型
+      productState: [],
+      // 商品的SKU信息
+      SKUInfoForm: [],
+      // /////////////////////////////////////////////////////////////////////////////
+      goodsArr: {},
+      retreatRadio: '1',
+      // 商品图片列表
+      priceRuleShC: [{
+        required: true,
+        message: '请输入',
+        trigger: 'blur'
+      }, {
+        validator(rule, value, callback) {
+          var reg = /(^[\d]|^[1-9][\d]*)($|[\.][\d]{0,2}$)/
+          if (reg.test(value)) {
+            callback()
+          } else {
+            callback(new Error('请输入正确的价格'))
+          }
         },
-        // 商品数据
-        prodcutData: [],
-        // 当前编辑的SPU信息
-        currentEditSpuInfo: {
-          productSpuId: 0,
-          productSpuName: '',
-          productSpuValue: '',
-          productSpuOrder: ''
-        },
-        currentEditSpuIndex: 0,
-        // 商品状态类型
-        productState: [],
-        // 商品的SKU信息
-        SKUInfoForm: [],
-        // /////////////////////////////////////////////////////////////////////////////
-        goodsArr: {},
-        retreatRadio: '1',
-        // 商品图片列表
-        priceRuleShC: [{
-          required: true,
-          message: '请输入',
-          trigger: 'blur'
-        }, {
-          validator(rule, value, callback) {
-            var reg = /(^[\d]|^[1-9][\d]*)($|[\.][\d]{0,2}$)/
-            if (reg.test(value)) {
-              callback()
-            } else {
-              callback(new Error('请输入正确的价格'))
-            }
-          },
-          trigger: 'blur'
-        }],
-        // 修改商品图片窗口的flag
-        editProductImage: false,
-        // 修改商品窗口的flag
-        editProductInfoFlag: false,
-        // 商品SKU信息的加载层
-        isProductSKULoading: false,
-        // 商品SKU信息操作flag
-        productInfoSkuInfos: false,
-        // 商品详细信息距离网页头顶的距离
-        productTopHtml: '10vh',
-        // 商品评论信息flag
-        productInfoFlag3: false,
-        // 商品信息flag
-        productInfoFlag2: true,
-        // 商品信息的默认选中
-        productActiveName: 'first',
-        // 商品详细信息窗口加载层
-        isProductInfoLoading: false,
-        // 商品详细信息窗口Flag
-        productInfoFlag: false,
-        // 修改SPU窗口
-        addProductSpuFlag3: false,
-        // 商品SPU信息的新增SPU窗口
-        addProductSpuFlag2: false,
-        // loading是否全屏显示
-        isLoadingFull: false,
-        // 浏览器大小
-        screenWidth: '',
-        screenHeight: '',
-        // 查询商品SPU信息
-        productSpuFlag: false,
-        // 商品类目值
-        productLeiMuValue: '衣服/牛仔裤',
-        // 是否显示商品类目页面Flag
-        productLeiMuInfoFlag: false,
-        // 是否显示商品详情页面Flag
-        uploadProductInfoFlag: false,
-        // 添加商品图片显示的集合
-        fileList: [],
-        // 是否打开上传商品图片flag
-        uploadProductPLists: false,
-        // 是否开启进步条禁用按钮
-        isStepBtn: false,
-        // Sku键值对表单
-        addProductSkuForm: {
-          domains: [{
-            isSystemDef: true
-          }]
-        },
-        // 添加商品的SkuFlag
-        addProductSkuFlag: false,
-        // 是否开启"加载"
-        // 第四步的内容
-        stepFourContent: '填写宝贝重要信息',
-        // 添加商品SPUFlag
-        addProductSpuFlag: false,
-        // 商品类目选中数据
-        ProductMuluListIds: [],
-        // 商品类目实体数据
-        options: [{
-          value: 'zhinan',
-          label: '指南',
-          children: [{
-            value: 'shejiyuanze',
-            label: '设计原则'
-          }, {
-            value: 'daohang',
-            label: '导航'
-          }]
-        }, {
-          value: 'zujian',
-          label: '组件',
-          children: [{
-            value: 'basic',
-            label: 'Basic'
-          }, {
-            value: 'form',
-            label: 'Form'
-          }, {
-            value: 'data',
-            label: 'Data'
-          }, {
-            value: 'notice',
-            label: 'Notice'
-          }, {
-            value: 'navigation',
-            label: 'Navigation'
-          }, {
-            value: 'others',
-            label: 'Others'
-          }]
-        }, {
-          value: 'ziyuan',
-          label: '资源',
-          children: [{
-            value: 'axure',
-            label: 'Axure Components'
-          }, {
-            value: 'sketch',
-            label: 'Sketch Templates'
-          }, {
-            value: 'jiaohu',
-            label: '组件交互文档'
-          }]
-        }],
-        // 第二步用到的表单
-        addProductTwoFrom: {
-          // 步骤2
-          goodsName: '',
-          goodsBrand: '',
-          marketPrick: '',
-          shopPrick: '',
-          // 步骤3
-          goodsSell: '',
-          goodsSort: '',
-          goodsUnit: '',
-          goodsSketch: '',
-          goodsDesc: '',
-          goodsDatanum: '',
-
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
-        // 商品监听对象的集合
-        ProductEventLists: [{
-          // 商品类目窗口的监听对象
-          ProductLeiMuEvent: ''
-        }],
-        // 是否显示第四步flag
-        isShowFourFlag: false,
-        // 是否显示第三步flag
-        isShowThreeFlag: false,
-        // 是否显示第二步flag
-        isShowTwoFlag: false,
-        // 是否显示第一步flag
-        isShowOneFlag: true,
-        // 商品二级类目的id
-        productTwoTypeId: '',
-        // 商品一级类目的id
-        productOneTypeId: '',
-        // 添加商品时,显示添加还是下一步的flag
-        // true显示下一步 false显示添加
-        isAddOrNextFlag: true,
-        // 添加商品步骤数
-        active: 0,
-        value1: '',
-        value2: '',
-        listLoading: true,
-        formInline: {
-          goodsType: '',
-          region: '',
-          goodsState: ''
-        },
-        total: 100,
-        currentPage: 2,
-        dialogFormVisible: false,
-        // 是否显示添加商品的窗口
-        addProductFlag: false,
-        // 添加商品的标题
-        addProductTitle: '添加商品',
-        tableData: [{
-          date: '2016-05-021',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-021',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-021',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-021',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-021',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-042',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1517 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-013',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-034',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-034',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-034',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-034',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-034',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-034',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-034',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-034',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-034',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333
+        trigger: 'blur'
+      }],
+      // 修改商品图片窗口的flag
+      editProductImage: false,
+      // 修改商品窗口的flag
+      editProductInfoFlag: false,
+      // 商品SKU信息的加载层
+      isProductSKULoading: false,
+      // 商品SKU信息操作flag
+      productInfoSkuInfos: false,
+      // 商品详细信息距离网页头顶的距离
+      productTopHtml: '10vh',
+      // 商品评论信息flag
+      productInfoFlag3: false,
+      // 商品信息flag
+      productInfoFlag2: true,
+      // 商品信息的默认选中
+      productActiveName: 'first',
+      // 商品详细信息窗口加载层
+      isProductInfoLoading: false,
+      // 商品详细信息窗口Flag
+      productInfoFlag: false,
+      // 修改SPU窗口
+      addProductSpuFlag3: false,
+      // 商品SPU信息的新增SPU窗口
+      addProductSpuFlag2: false,
+      // loading是否全屏显示
+      isLoadingFull: false,
+      // 浏览器大小
+      screenWidth: '',
+      screenHeight: '',
+      // 查询商品SPU信息
+      productSpuFlag: false,
+      // 商品类目值
+      productLeiMuValue: '衣服/牛仔裤',
+      // 是否显示商品类目页面Flag
+      productLeiMuInfoFlag: false,
+      // 是否显示商品详情页面Flag
+      uploadProductInfoFlag: false,
+      // 添加商品图片显示的集合
+      fileList: [],
+      // 是否打开上传商品图片flag
+      uploadProductPLists: false,
+      // 是否开启进步条禁用按钮
+      isStepBtn: false,
+      // Sku键值对表单
+      addProductSkuForm: {
+        domains: [{
+          isSystemDef: true
         }]
+      },
+      // 添加商品的SkuFlag
+      addProductSkuFlag: false,
+      // 是否开启"加载"
+      // 第四步的内容
+      stepFourContent: '填写宝贝重要信息',
+      // 添加商品SPUFlag
+      addProductSpuFlag: false,
+      // 商品类目选中数据
+      ProductMuluListIds: [],
+      // 商品类目实体数据
+      options: [{
+        value: 'zhinan',
+        label: '指南',
+        children: [{
+          value: 'shejiyuanze',
+          label: '设计原则'
+        }, {
+          value: 'daohang',
+          label: '导航'
+        }]
+      }, {
+        value: 'zujian',
+        label: '组件',
+        children: [{
+          value: 'basic',
+          label: 'Basic'
+        }, {
+          value: 'form',
+          label: 'Form'
+        }, {
+          value: 'data',
+          label: 'Data'
+        }, {
+          value: 'notice',
+          label: 'Notice'
+        }, {
+          value: 'navigation',
+          label: 'Navigation'
+        }, {
+          value: 'others',
+          label: 'Others'
+        }]
+      }, {
+        value: 'ziyuan',
+        label: '资源',
+        children: [{
+          value: 'axure',
+          label: 'Axure Components'
+        }, {
+          value: 'sketch',
+          label: 'Sketch Templates'
+        }, {
+          value: 'jiaohu',
+          label: '组件交互文档'
+        }]
+      }],
+      // 第二步用到的表单
+      addProductTwoFrom: {
+        // 步骤2
+        goodsName: '',
+        goodsBrand: '',
+        marketPrick: '',
+        shopPrick: '',
+        // 步骤3
+        goodsSell: '',
+        goodsSort: '',
+        goodsUnit: '',
+        goodsSketch: '',
+        goodsDesc: '',
+        goodsDatanum: '',
+
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      },
+      // 商品监听对象的集合
+      ProductEventLists: [{
+        // 商品类目窗口的监听对象
+        ProductLeiMuEvent: ''
+      }],
+      // 是否显示第四步flag
+      isShowFourFlag: false,
+      // 是否显示第三步flag
+      isShowThreeFlag: false,
+      // 是否显示第二步flag
+      isShowTwoFlag: false,
+      // 是否显示第一步flag
+      isShowOneFlag: true,
+      // 商品二级类目的id
+      productTwoTypeId: '',
+      // 商品一级类目的id
+      productOneTypeId: '',
+      // 添加商品时,显示添加还是下一步的flag
+      // true显示下一步 false显示添加
+      isAddOrNextFlag: true,
+      // 添加商品步骤数
+      active: 0,
+      value1: '',
+      value2: '',
+      listLoading: true,
+      formInline: {
+        goodsType: '',
+        region: '',
+        goodsState: ''
+      },
+      total: 100,
+      currentPage: 2,
+      dialogFormVisible: false,
+      // 是否显示添加商品的窗口
+      addProductFlag: false,
+      // 添加商品的标题
+      addProductTitle: '添加商品',
+      tableData: [{
+        date: '2016-05-021',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-021',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-021',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-021',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-021',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-042',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1517 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-013',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1519 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-034',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-034',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-034',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-034',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-034',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-034',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-034',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-034',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333
+      }, {
+        date: '2016-05-034',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333
+      }]
+    }
+  },
+  created() {
+    // 发送Ajax请求 查询商品数据
+    this.getProductInfo()
+  },
+  mounted() {
+    this.screenWidth = document.body.clientWidth
+    this.screenHeight = document.body.clientHeight
+    if (this.screenWidth <= 500) {
+      this.isLoadingFull = true
+      this.productTopHtml = '1vh'
+      this.pageFlag = true
+    } else {
+      this.isLoadingFull = false
+    }
+    window.onresize = () => {
+      return (() => {
+        this.screenWidth = document.body.clientWidth
+        this.screenHeight = document.body.clientHeight
+        // 判断宽度是否小于500 小于500 全部全屏显示
+        if (this.screenWidth <= 500) {
+          this.isLoadingFull = true
+          this.productTopHtml = '1vh'
+          this.pageFlag = true
+        } else {
+          this.isLoadingFull = false
+          this.productTopHtml = '10vh'
+          this.pageFlag = false
+        }
+      })()
+    }
+  },
+  methods: {
+    // 恢复商品信息
+    recoverProduct(index, obj) {
+      // 判断该商品是否已经删除
+      if (obj.productState != 3) {
+        this.$message({
+          showClose: true,
+          message: '该商品状态不是删除',
+          type: 'warning',
+          customClass: 'zzIndex'
+        })
+        return
       }
+
+      this.$confirm('您确定要恢复该商品的信息吗?', '确认框', {
+        confirmButtonText: '确定恢复',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 发送AJAX修改数据
+        var url = systemUrl + '/product/basics/del'
+        var param = { 'productId': obj.productId, 'state': 1 }
+        productAjaxPost(url, param).then(data => {
+          console.log(data)
+          if (data.status == 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg,
+              duration: 0,
+              customClass: 'zzIndex',
+              showClose: true
+            })
+            this.prodcutData[index].productState = 1
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      }).catch(() => {
+
+      })
     },
-    created() {
-      // 发送Ajax请求 查询商品数据
+    // 删除商品
+    delProduct(index, obj) {
+      // 判断该商品是否已经删除
+      if (obj.productState == 3) {
+        this.$message({
+          showClose: true,
+          message: '该商品状态为删除',
+          type: 'warning',
+          customClass: 'zzIndex'
+        })
+        return
+      }
+      this.$confirm('您确定删除该商品的信息吗?', '确认框', {
+        confirmButtonText: '确定删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 发送AJAX修改数据
+        var url = systemUrl + '/product/basics/del'
+        var param = { 'productId': obj.productId, 'state': 3 }
+        productAjaxPost(url, param).then(data => {
+          console.log(data)
+          if (data.status == 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg,
+              duration: 0,
+              customClass: 'zzIndex',
+              showClose: true
+            })
+            this.prodcutData[index].productState = 3
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      }).catch(() => {
+
+      })
+    },
+    // 将编辑中的商品变成上架
+    editZhongGoToShangJia(index, obj) {
+      this.$confirm('您确定提交该商品的信息吗?', '确认框', {
+        confirmButtonText: '确定提交',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+
+      }).catch(() => {
+
+      })
+      console.log(index)
+      console.log(obj)
+    },
+    // 修改商品信息
+    editProductFun() {
+      this.$confirm('您确定要修改商品的信息吗?', '确认框', {
+        confirmButtonText: '确定修改',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var url = systemUrl + '/product/basics/edit/info'
+        productAjaxPost(url, this.editProductForm).then(data => {
+          console.log(data)
+          if (data.status == 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg,
+              duration: 0,
+              customClass: 'zzIndex',
+              showClose: true
+            })
+            this.isEditFlag = false
+            console.log(this.prodcutData[this.currentFunctionProductIndex].productState)
+            this.prodcutData[this.currentFunctionProductIndex].productState = 5
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      }).catch(() => {
+
+      })
+    },
+    // 上传商品图片的钩子函数
+    submitUpload() {
+      this.$refs.upload.submit()
+      var url = systemUrl + '/test/testGetNumber'
+      productAjaxPost(url, this.fileData).then(data => {
+        console.log(data)
+        if (data.status == 200) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!',
+            duration: 1000,
+            customClass: 'zzIndex'
+          })
+          this.productSpuInfo[this.currentEditSpuIndex].productSpuState = 2
+          this.COMMON.stopLoading()
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg + '--请重新刷新页面',
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        }
+      })
+    },
+    // 覆盖默认的上传行为，可以自定义上传的实现
+    uploadFile(file) {
+      console.log(file.file)
+      this.fileData.append('files', file.file) // 服务器最终接收到的是files[]数组
+      console.log(this.fileData)
+      console.log(this.fileData.files)
+    },
+    // 关闭商品图片窗口
+    closeEditPoructImage() {
+      console.log(123)
+      this.delProductImages = []
+      this.editProductImage = false
+    },
+    // 删除商品图片
+    deleteImage(index, obj) {
+      // 判断是否为最后一张图片
+      if (this.productImages.length <= 1) {
+        this.$message({
+          showClose: true,
+          message: '至少保留1张图片',
+          type: 'warning',
+          duration: 3000,
+          customClass: 'zzIndex'
+        })
+        return
+      }
+
+      this.$confirm('您确定要删除商品的图片吗?', '确认框', {
+        confirmButtonText: '确定删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.productImages.splice(index, 1)
+        this.delProductImages.push(obj)
+        this.$message({
+          showClose: true,
+          message: '单击确认保存后图片就会被正在的删除。',
+          type: 'success'
+        })
+      }).catch(() => {
+
+      })
+    },
+    // 查看商品图片
+    lookImage(url) {
+      window.open(url)
+    },
+    // 修改商品的SKU库存信息
+    editProductSkuKc() {
+      this.$confirm('您确定要修改商品SKU库存价格的信息吗?', '确认框', {
+        confirmButtonText: '确定修改',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.COMMON.startLoading()
+        // 发送Ajax删除商品的SPU
+        var url = systemUrl + '/product/sku/edit'
+        var para = {
+          'productSkuKcJson': JSON.stringify(this.SKUInfoForm)
+        }
+        productAjaxPost(url, para).then(data => {
+          if (data.status == 200) {
+            this.$message({
+              type: 'success',
+              message: '修改成功!请等待系统确认。',
+              duration: 1000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--修改失败,请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      }).catch(() => {
+
+      })
+    },
+    // 添加商品SPU的信息
+    addProductSpuInfo() {
+      this.$confirm('您确定要添加商品参数吗?', '确认框', {
+        confirmButtonText: '确定添加',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.COMMON.startLoading()
+        // 发送Ajax删除商品的SPU
+        var url = systemUrl + '/product/spu/add'
+        var para = {
+          'productSpuJson': JSON.stringify(this.addProductSpuForm),
+          'productId': this.currentFunctionProductId
+        }
+        productAjaxPost(url, para).then(data => {
+          if (data.status == 200) {
+            this.$message({
+              type: 'success',
+              message: '添加成功!',
+              duration: 1000,
+              customClass: 'zzIndex'
+            })
+
+            // 动态添加信息
+            this.addProductSpuForm.forEach(data => {
+              this.productSpuInfo.push(data)
+            })
+            this.addProductSpuForm = []
+            this.COMMON.stopLoading()
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--修改失败,请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      }).catch(() => {
+
+      })
+    },
+    // 修改商品参数的信息
+    editSpuInfo() {
+      // 校验参数是否正确
+      this.$confirm('您确定要修改当前的参数信息吗?', '确认框', {
+        confirmButtonText: '确定修改',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.COMMON.startLoading()
+        // 发送Ajax删除商品的SPU
+        var url = systemUrl + '/product/spu/edit'
+
+        productAjaxPost(url, this.currentEditSpuInfo).then(data => {
+          console.log(data)
+          if (data.status == 200) {
+            this.$message({
+              type: 'success',
+              message: '修改成功!',
+              duration: 1000,
+              customClass: 'zzIndex'
+            })
+            this.COMMON.stopLoading()
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--修改失败,请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      }).catch(() => {
+
+      })
+    },
+    // 批量注销商品的SPU信息
+    batchCancelSpu() {
+      this.$confirm('是否注销你勾选的商品参数信息!', '确认框', {
+        confirmButtonText: '确定注销',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.COMMON.startLoading()
+        // 获取勾选的spu信息
+        var spuIds = ''
+        this.cancelSpuIds.forEach(data => {
+          if (spuIds == '' || spuIds == '') {
+            spuIds = data.productSpuId
+          } else {
+            spuIds += ',' + data.productSpuId
+          }
+          // 获取索引
+          this.productSpuInfo.forEach((data1, index) => {
+            if (data.productSpuId == data1.productSpuId) {
+              this.productSpuInfo[index].productSpuState = 3
+            }
+          })
+        })
+        if (spuIds == '') {
+          this.$message({
+            showClose: true,
+            message: '请勾选你要注销的商品参数信息',
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+          this.COMMON.stopLoading()
+          return
+        }
+        // 发送Ajax删除商品的SPU
+        var url = systemUrl + '/product/spu/cancel'
+        var para = {
+          'spuIds': spuIds
+        }
+        productAjaxPost(url, para).then(data => {
+          console.log(data)
+          if (data.status == 200) {
+            this.$message({
+              type: 'success',
+              message: '注销成功!',
+              duration: 1000,
+              customClass: 'zzIndex'
+            })
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--注销失败,请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      }).catch(() => {
+
+      })
+    },
+    // 勾选注销的SPU
+    handleSelectionChange(val) {
+      this.cancelSpuIds = val
+    },
+    // 恢复商品的SPU信息
+    normalSpu(index, obj) {
+      this.$confirm('是否恢复被删除或者注销的商品SPU信息!', '确认框', {
+        confirmButtonText: '确定恢复',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.COMMON.startLoading()
+        // 发送Ajax删除商品的SPU
+        var url = systemUrl + '/product/spu/normal'
+        var para = {
+          'productSpuId': obj.productSpuId
+        }
+        productAjaxPost(url, para).then(data => {
+          console.log(data)
+          if (data.status == 200) {
+            this.$message({
+              type: 'success',
+              message: '恢复成功!',
+              duration: 1000,
+              customClass: 'zzIndex'
+            })
+            this.productSpuInfo[index].productSpuState = 1
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      }).catch(() => {
+
+      })
+    },
+    // 单击搜索查询商品信息
+    queryProductInfo() {
+      this.productPage.currentPage = 1
       this.getProductInfo()
     },
-    mounted() {
-      this.screenWidth = document.body.clientWidth
-      this.screenHeight = document.body.clientHeight
-      if (this.screenWidth <= 500) {
-        this.isLoadingFull = true
-        this.productTopHtml = '1vh'
-        this.pageFlag = true
-      } else {
-        this.isLoadingFull = false
-      }
-      window.onresize = () => {
-        return (() => {
-          this.screenWidth = document.body.clientWidth
-          this.screenHeight = document.body.clientHeight
-          // 判断宽度是否小于500 小于500 全部全屏显示
-          if (this.screenWidth <= 500) {
-            this.isLoadingFull = true
-            this.productTopHtml = '1vh'
-            this.pageFlag = true
-          } else {
-            this.isLoadingFull = false
-            this.productTopHtml = '10vh'
-            this.pageFlag = false
-          }
-        })()
-      }
+    // 请求商品的数据信息
+    getProductInfo() {
+      // 发送Ajax请求数据
+      this.COMMON.startLoading()
+      var url = systemUrl + '/product/index'
+      productAjaxPost(url, this.productPage).then(data => {
+        console.log(data)
+        if (data.status == 200) {
+          this.$message({
+            showClose: true,
+            message: '查询成功',
+            type: 'success',
+            duration: 1000,
+            customClass: 'zzIndex'
+          })
+          this.listLoading = false
+          this.COMMON.stopLoading()
+          // 将数据对应到集合中去
+          this.productPage.totalSize = data.data.totalSize
+          this.productPage.currentPage = data.data.currentPage
+          // 填写商品数据
+          this.prodcutData = data.data.productDatas
+          // 商品状态
+          this.productState = data.data.states
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg + '--请重新刷新页面',
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.listLoading = false
+          this.COMMON.stopLoading()
+        }
+      })
     },
-    methods: {
-      // 恢复商品信息
-      recoverProduct(index, obj) {
-        // 判断该商品是否已经删除
-        if (obj.productState != 3) {
+
+    // 显示SPU窗口
+    shwoProductSpuInfo(id) {
+      this.COMMON.startLoading()
+      // 发送Ajax获取数据
+      var url = systemUrl + '/product/spu/get/' + id
+      productAjaxGet(url).then(data => {
+        if (data.status == 200) {
+          this.$message.success({
+            showClose: true,
+            message: '查询成功',
+            customClass: 'zzIndex',
+            duration: 1000
+          })
+          this.productSpuInfo = data.data
+          this.productSpuFlag = true
+          this.productSpuFlag2 = true
+          this.COMMON.stopLoading()
+          this.currentFunctionProductId = id
+        } else {
           this.$message({
             showClose: true,
-            message: '该商品状态不是删除',
-            type: 'warning',
-            customClass: 'zzIndex'
+            message: data.msg + '--请重新刷新页面',
+            customClass: 'zzIndex',
+            type: 'error',
+            duration: 3000
           })
-          return
+
+          this.productSpuFlag = true
+          this.productSpuFlag2 = true
+          this.COMMON.stopLoading()
         }
-
-
-        this.$confirm('您确定要恢复该商品的信息吗?', '确认框', {
-          confirmButtonText: '确定恢复',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          // 发送AJAX修改数据
-          var url = systemUrl + '/product/basics/del'
-          var param = {'productId': obj.productId, 'state': 1}
-          productAjaxPost(url, param).then(data => {
-            console.log(data)
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: data.msg,
-                duration: 0,
-                customClass: 'zzIndex',
-                showClose: true
-              })
-              this.prodcutData[index].productState = 1
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg + '--请重新刷新页面',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        }).catch(() => {
-
-        })
-      },
-      // 删除商品
-      delProduct(index, obj) {
-        // 判断该商品是否已经删除
-        if (obj.productState == 3) {
-          this.$message({
-            showClose: true,
-            message: '该商品状态为删除',
-            type: 'warning',
-            customClass: 'zzIndex'
-          })
-          return
+      })
+    },
+    // 切换商品的条数
+    productCurrentSize(val) {
+      this.productPage.currentSize = val
+      this.getProductInfo()
+    },
+    // 切换商品页数
+    productCurrentPage(val) {
+      // 替换当前页数
+      this.productPage.currentPage = val
+      this.getProductInfo()
+    },
+    // 显示修改SPU窗口
+    addProductInfoSpu2(index, obj) {
+      this.COMMON.startLoading()
+      this.currentEditSpuIndex = index
+      this.currentEditSpuInfo = obj
+      this.addProductSpuFlag3 = true
+      this.productSpuFlag2 = false
+      this.COMMON.stopLoading()
+    },
+    // 删除商品SPU的方法
+    removeProducSpu(obj) {
+      this.$confirm('是否真的需要删除商品的SPU参数,删除后可在商品SPU信息中恢复!', '确认框', {
+        confirmButtonText: '确定删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.COMMON.startLoading()
+        this.currentEditSpuInfo.productSpuState = 2
+        // 发送Ajax删除商品的SPU
+        var url = systemUrl + '/product/spu/del'
+        var para = {
+          'productSpuId': obj.productSpuId
         }
-        this.$confirm('您确定删除该商品的信息吗?', '确认框', {
-          confirmButtonText: '确定删除',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          // 发送AJAX修改数据
-          var url = systemUrl + '/product/basics/del'
-          var param = {'productId': obj.productId, 'state': 3}
-          productAjaxPost(url, param).then(data => {
-            console.log(data)
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: data.msg,
-                duration: 0,
-                customClass: 'zzIndex',
-                showClose: true
-              })
-              this.prodcutData[index].productState = 3
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg + '--请重新刷新页面',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        }).catch(() => {
-
-        })
-      },
-      // 将编辑中的商品变成上架
-      editZhongGoToShangJia(index, obj) {
-        this.$confirm('您确定提交该商品的信息吗?', '确认框', {
-          confirmButtonText: '确定提交',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-
-        }).catch(() => {
-
-        })
-        console.log(index)
-        console.log(obj)
-      },
-      // 修改商品信息
-      editProductFun() {
-        this.$confirm('您确定要修改商品的信息吗?', '确认框', {
-          confirmButtonText: '确定修改',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          var url = systemUrl + '/product/basics/edit/info'
-          productAjaxPost(url, this.editProductForm).then(data => {
-            console.log(data)
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: data.msg,
-                duration: 0,
-                customClass: 'zzIndex',
-                showClose: true
-              })
-              this.isEditFlag = false
-              console.log(this.prodcutData[this.currentFunctionProductIndex].productState)
-              this.prodcutData[this.currentFunctionProductIndex].productState = 5
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg + '--请重新刷新页面',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        }).catch(() => {
-
-        })
-      },
-      // 上传商品图片的钩子函数
-      submitUpload() {
-        this.$refs.upload.submit()
-        var url = systemUrl + '/test/testGetNumber'
-        productAjaxPost(url, this.fileData).then(data => {
+        productAjaxPost(url, para).then(data => {
           console.log(data)
           if (data.status == 200) {
             this.$message({
@@ -2091,962 +2537,519 @@
             this.COMMON.stopLoading()
           }
         })
-      },
-      // 覆盖默认的上传行为，可以自定义上传的实现
-      uploadFile(file) {
-        console.log(file.file)
-        this.fileData.append('files', file.file) // 服务器最终接收到的是files[]数组
-        console.log(this.fileData)
-        console.log(this.fileData.files)
-      },
-      // 关闭商品图片窗口
-      closeEditPoructImage() {
-        console.log(123)
-        this.delProductImages = []
-        this.editProductImage = false
-      },
-      // 删除商品图片
-      deleteImage(index, obj) {
-        // 判断是否为最后一张图片
-        if (this.productImages.length <= 1) {
+      }).catch(() => {
+
+      })
+    },
+    // 显示商品SKU信息
+    showProductSkuInfo(id) {
+      this.COMMON.startLoading()
+      // 发送请求 传递数据
+      this.currentFunctionProductId = id
+      // 发送Ajax查询信息
+      var url = systemUrl + '/product/sku/get/' + id
+      productAjaxGet(url).then(data => {
+        if (data.status == 200) {
+          this.$message({
+            type: 'success',
+            message: '查询成功!',
+            duration: 1000,
+            customClass: 'zzIndex'
+          })
+          this.SKUInfoForm = data.data
+          this.productInfoSkuInfos = true
+          this.COMMON.stopLoading()
+        } else {
           this.$message({
             showClose: true,
-            message: '至少保留1张图片',
-            type: 'warning',
+            message: data.msg + '--请重新刷新页面',
+            type: 'error',
             duration: 3000,
             customClass: 'zzIndex'
           })
-          return
+
+          this.COMMON.stopLoading()
         }
-
-        this.$confirm('您确定要删除商品的图片吗?', '确认框', {
-          confirmButtonText: '确定删除',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.productImages.splice(index, 1)
-          this.delProductImages.push(obj)
-          this.$message({
-            showClose: true,
-            message: '单击确认保存后图片就会被正在的删除。',
-            type: 'success'
-          })
-        }).catch(() => {
-
-        })
-      },
-      // 查看商品图片
-      lookImage(url) {
-        window.open(url)
-      },
-      // 修改商品的SKU库存信息
-      editProductSkuKc() {
-        this.$confirm('您确定要修改商品SKU库存价格的信息吗?', '确认框', {
-          confirmButtonText: '确定修改',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.COMMON.startLoading()
-          // 发送Ajax删除商品的SPU
-          var url = systemUrl + '/product/sku/edit'
-          var para = {
-            'productSkuKcJson': JSON.stringify(this.SKUInfoForm)
-          }
-          productAjaxPost(url, para).then(data => {
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: '修改成功!请等待系统确认。',
-                duration: 1000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            } else if (data.status == 500) {
-              this.$message({
-                showClose: true,
-                message: data.msg + '--修改失败,请重新刷新页面',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        }).catch(() => {
-
-        })
-      },
-      // 添加商品SPU的信息
-      addProductSpuInfo() {
-        this.$confirm('您确定要添加商品参数吗?', '确认框', {
-          confirmButtonText: '确定添加',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.COMMON.startLoading()
-          // 发送Ajax删除商品的SPU
-          var url = systemUrl + '/product/spu/add'
-          var para = {
-            'productSpuJson': JSON.stringify(this.addProductSpuForm),
-            'productId': this.currentFunctionProductId
-          }
-          productAjaxPost(url, para).then(data => {
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: '添加成功!',
-                duration: 1000,
-                customClass: 'zzIndex'
-              })
-
-              // 动态添加信息
-              this.addProductSpuForm.forEach(data => {
-                this.productSpuInfo.push(data)
-              })
-              this.addProductSpuForm = []
-              this.COMMON.stopLoading()
-            } else if (data.status == 500) {
-              this.$message({
-                showClose: true,
-                message: data.msg + '--修改失败,请重新刷新页面',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        }).catch(() => {
-
-        })
-      },
-      // 修改商品参数的信息
-      editSpuInfo() {
-        // 校验参数是否正确
-        this.$confirm('您确定要修改当前的参数信息吗?', '确认框', {
-          confirmButtonText: '确定修改',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.COMMON.startLoading()
-          // 发送Ajax删除商品的SPU
-          var url = systemUrl + '/product/spu/edit'
-
-          productAjaxPost(url, this.currentEditSpuInfo).then(data => {
-            console.log(data)
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: '修改成功!',
-                duration: 1000,
-                customClass: 'zzIndex'
-              })
-              this.COMMON.stopLoading()
-            } else if (data.status == 500) {
-              this.$message({
-                showClose: true,
-                message: data.msg + '--修改失败,请重新刷新页面',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        }).catch(() => {
-
-        })
-      },
-      // 批量注销商品的SPU信息
-      batchCancelSpu() {
-        this.$confirm('是否注销你勾选的商品参数信息!', '确认框', {
-          confirmButtonText: '确定注销',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.COMMON.startLoading()
-          // 获取勾选的spu信息
-          var spuIds = ''
-          this.cancelSpuIds.forEach(data => {
-            if (spuIds == '' || spuIds == '') {
-              spuIds = data.productSpuId
-            } else {
-              spuIds += ',' + data.productSpuId
-            }
-            // 获取索引
-            this.productSpuInfo.forEach((data1, index) => {
-              if (data.productSpuId == data1.productSpuId) {
-                this.productSpuInfo[index].productSpuState = 3
-              }
-            })
-          })
-          if (spuIds == '') {
-            this.$message({
-              showClose: true,
-              message: '请勾选你要注销的商品参数信息',
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-            this.COMMON.stopLoading()
-            return
-          }
-          // 发送Ajax删除商品的SPU
-          var url = systemUrl + '/product/spu/cancel'
-          var para = {
-            'spuIds': spuIds
-          }
-          productAjaxPost(url, para).then(data => {
-            console.log(data)
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: '注销成功!',
-                duration: 1000,
-                customClass: 'zzIndex'
-              })
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg + '--注销失败,请重新刷新页面',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        }).catch(() => {
-
-        })
-      },
-      // 勾选注销的SPU
-      handleSelectionChange(val) {
-        this.cancelSpuIds = val
-      },
-      // 恢复商品的SPU信息
-      normalSpu(index, obj) {
-        this.$confirm('是否恢复被删除或者注销的商品SPU信息!', '确认框', {
-          confirmButtonText: '确定恢复',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.COMMON.startLoading()
-          // 发送Ajax删除商品的SPU
-          var url = systemUrl + '/product/spu/normal'
-          var para = {
-            'productSpuId': obj.productSpuId
-          }
-          productAjaxPost(url, para).then(data => {
-            console.log(data)
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: '恢复成功!',
-                duration: 1000,
-                customClass: 'zzIndex'
-              })
-              this.productSpuInfo[index].productSpuState = 1
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg + '--请重新刷新页面',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        }).catch(() => {
-
-        })
-      },
-      // 单击搜索查询商品信息
-      queryProductInfo() {
-        this.productPage.currentPage = 1
-        this.getProductInfo()
-      },
-      // 请求商品的数据信息
-      getProductInfo() {
-        // 发送Ajax请求数据
-        this.COMMON.startLoading()
-        var url = systemUrl + '/product/index'
-        productAjaxPost(url, this.productPage).then(data => {
-          console.log(data)
-          if (data.status == 200) {
-            this.$message({
-              showClose: true,
-              message: '查询成功',
-              type: 'success',
-              duration: 1000,
-              customClass: 'zzIndex'
-            })
-            this.listLoading = false
-            this.COMMON.stopLoading()
-            // 将数据对应到集合中去
-            this.productPage.totalSize = data.data.totalSize
-            this.productPage.currentPage = data.data.currentPage
-            // 填写商品数据
-            this.prodcutData = data.data.productDatas
-            // 商品状态
-            this.productState = data.data.states
-          } else {
-            this.$message({
-              showClose: true,
-              message: data.msg + '--请重新刷新页面',
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-
-            this.listLoading = false
-            this.COMMON.stopLoading()
-          }
-        })
-      },
-
-      // 显示SPU窗口
-      shwoProductSpuInfo(id) {
-        this.COMMON.startLoading()
-        // 发送Ajax获取数据
-        var url = systemUrl + '/product/spu/get/' + id
-        productAjaxGet(url).then(data => {
-          if (data.status == 200) {
-            this.$message.success({
-              showClose: true,
-              message: '查询成功',
-              customClass: 'zzIndex',
-              duration: 1000
-            })
-            this.productSpuInfo = data.data
-            this.productSpuFlag = true
-            this.productSpuFlag2 = true
-            this.COMMON.stopLoading()
-            this.currentFunctionProductId = id
-          } else {
-            this.$message({
-              showClose: true,
-              message: data.msg + '--请重新刷新页面',
-              customClass: 'zzIndex',
-              type: 'error',
-              duration: 3000
-            })
-
-            this.productSpuFlag = true
-            this.productSpuFlag2 = true
-            this.COMMON.stopLoading()
-          }
-        })
-      },
-      // 切换商品的条数
-      productCurrentSize(val) {
-        this.productPage.currentSize = val
-        this.getProductInfo()
-      },
-      // 切换商品页数
-      productCurrentPage(val) {
-        // 替换当前页数
-        this.productPage.currentPage = val
-        this.getProductInfo()
-      },
-      // 显示修改SPU窗口
-      addProductInfoSpu2(index, obj) {
-        this.COMMON.startLoading()
-        this.currentEditSpuIndex = index
-        this.currentEditSpuInfo = obj
-        this.addProductSpuFlag3 = true
-        this.productSpuFlag2 = false
-        this.COMMON.stopLoading()
-      },
-      // 删除商品SPU的方法
-      removeProducSpu(obj) {
-        this.$confirm('是否真的需要删除商品的SPU参数,删除后可在商品SPU信息中恢复!', '确认框', {
-          confirmButtonText: '确定删除',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.COMMON.startLoading()
-          this.currentEditSpuInfo.productSpuState = 2
-          // 发送Ajax删除商品的SPU
-          var url = systemUrl + '/product/spu/del'
-          var para = {
-            'productSpuId': obj.productSpuId
-          }
-          productAjaxPost(url, para).then(data => {
-            console.log(data)
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: '删除成功!',
-                duration: 1000,
-                customClass: 'zzIndex'
-              })
-              this.productSpuInfo[this.currentEditSpuIndex].productSpuState = 2
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg + '--请重新刷新页面',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        }).catch(() => {
-
-        })
-      },
-      // 显示商品SKU信息
-      showProductSkuInfo(id) {
-        this.COMMON.startLoading()
-        // 发送请求 传递数据
-        this.currentFunctionProductId = id
-        // 发送Ajax查询信息
-        var url = systemUrl + '/product/sku/get/' + id
-        productAjaxGet(url).then(data => {
-          if (data.status == 200) {
+      })
+    },
+    // 打开商品编辑窗口
+    editProduct(index, id) {
+      this.COMMON.startLoading()
+      this.currentFunctionProductIndex = index
+      // 发送AJax查询数据
+      var url = systemUrl + '/product/basics/edit/get/' + id
+      productAjaxGet(url).then(data => {
+        if (data.status == 200) {
+          this.isEditFlag = data.data.editFlag
+          this.editProductForm = data.data.productInfo
+          this.brands = data.data.brands
+          if (data.data.editFlag) {
             this.$message({
               type: 'success',
               message: '查询成功!',
               duration: 1000,
               customClass: 'zzIndex'
             })
-            this.SKUInfoForm = data.data
-            this.productInfoSkuInfos = true
-            this.COMMON.stopLoading()
           } else {
             this.$message({
               showClose: true,
-              message: data.msg + '--请重新刷新页面',
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-
-            this.COMMON.stopLoading()
-          }
-        })
-      },
-      // 打开商品编辑窗口
-      editProduct(index, id) {
-        this.COMMON.startLoading()
-        this.currentFunctionProductIndex = index
-        // 发送AJax查询数据
-        var url = systemUrl + '/product/basics/edit/get/' + id
-        productAjaxGet(url).then(data => {
-          if (data.status == 200) {
-            this.isEditFlag = data.data.editFlag
-            this.editProductForm = data.data.productInfo
-            this.brands = data.data.brands
-            if (data.data.editFlag) {
-              this.$message({
-                type: 'success',
-                message: '查询成功!',
-                duration: 1000,
-                customClass: 'zzIndex'
-              })
-            } else {
-              this.$message({
-                showClose: true,
-                message: '该商品信息于:' + data.data.productInfo.lastTimeStr + '-被:' + data.data.productInfo.lastUpdateUserNaem +
+              message: '该商品信息于:' + data.data.productInfo.lastTimeStr + '-被:' + data.data.productInfo.lastUpdateUserNaem +
                   '修改:预计:时间-' + data.data.productInfo.nextTimeStr + '可重新修改',
-                duration: 0,
-                customClass: 'zzIndex'
-              })
-            }
-            this.editProductInfoFlag = true
-            this.COMMON.stopLoading()
-          } else {
-            this.$message({
-              showClose: true,
-              message: data.msg + '--请重新刷新页面',
-              type: 'error',
-              duration: 3000,
+              duration: 0,
               customClass: 'zzIndex'
             })
-            this.COMMON.stopLoading()
           }
+          this.editProductInfoFlag = true
+          this.COMMON.stopLoading()
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg + '--请重新刷新页面',
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+          this.COMMON.stopLoading()
+        }
+      })
+    },
+    editProductImageFun() {
+      this.COMMON.startLoading()
+      // 发送AJax查询数据
+      var url = systemUrl + '/product/basics/edit/get/image/' + this.editProductForm.productId
+      productAjaxGet(url).then(data => {
+        if (data.status == 200) {
+          this.productImages = data.data
+          this.COMMON.stopLoading()
+          this.editProductImage = true
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg + '--请重新刷新页面',
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+          this.COMMON.stopLoading()
+        }
+      })
+    },
+    // ///////////////////////////////////////////////////////////////////////////////////////
+    // 查看评论具体信息，
+    showCommentInfo(id) {
+      this.isProductInfoLoading = true
+      this.$message({
+        type: 'info',
+        message: '评论详细信息:id=' + id
+      })
+      this.productInfoFlag3 = true
+      this.isProductInfoLoading = false
+    },
+    // 显示商品详细信息
+    showProductInfo(id) {
+      console.log(id)
+      this.COMMON.startLoading()
+      this.productInfoFlag = true
+      this.COMMON.stopLoading()
+    },
+    // 关闭修改SPU的窗口
+    closeSpuWindows3() {
+      this.addProductSpuFlag3 = false
+      this.productSpuFlag2 = true
+    },
+    // 关闭商品信息SPU的 新增窗口
+    closeSpuWindows2() {
+      this.addProductSpuFlag2 = false
+      this.productSpuFlag2 = true
+    },
+    // 显示商品SPU信息的SPU添加窗口
+    addProductInfoSpu() {
+      this.addProductSpuFlag2 = true
+      this.productSpuFlag2 = false
+    },
+    // 关闭添加商品弹出层
+    closeAddProduct() {
+      this.htmlMove()
+      this.addProductFlag = false
+    },
+    // 打开添加商品弹出层
+    showAddProduct() {
+      this.COMMON.startLoading()
+
+      this.$get('/product/basics/add/page/info').then(res => {
+        if (res.status == 200) {
+          // 调用成功 返回了商品类目和商品品牌信息
+          // 设置商品类目
+          this.options = res.data.productCategorys
+          // 设置商品
+          this.brands = res.data.productBrands
+
+          this.COMMON.stopLoading()
+        } else {
+          this.$message({
+            showClose: true,
+            message: res.msg,
+            type: 'error'
+          })
+          this.COMMON.stopLoading()
+        }
+      })
+        .catch(err => {
+          this.$message({
+            showClose: true,
+            message: '系统错误',
+            type: 'error'
+          })
         })
-      },
-      editProductImageFun() {
-        this.COMMON.startLoading()
-        // 发送AJax查询数据
-        var url = systemUrl + '/product/basics/edit/get/image/' + this.editProductForm.productId
-        productAjaxGet(url).then(data => {
-          if (data.status == 200) {
-            this.productImages = data.data
-            this.COMMON.stopLoading()
-            this.editProductImage = true
-          } else {
-            this.$message({
-              showClose: true,
-              message: data.msg + '--请重新刷新页面',
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-            this.COMMON.stopLoading()
-          }
+      this.addProductFlag = true
+
+      // this.$get("http://192.168.124.11:7778",{
+
+      // }).then(res => {
+      //   console.log(res)
+      // }).catch(err => {
+      //   console.log(err)
+      // })
+    },
+    /** *滑动限制***/
+    htmlStop() {
+      var mo = function(e) {
+        e.preventDefault()
+      }
+      document.getElementById('productInfoDiv').style.overflow = 'hidden'
+      document.getElementById('productInfoDiv').addEventListener('touchmove', mo, false) // 禁止页面滑动
+
+      this.ProductEventLists.ProductLeiMuEvent = mo
+    },
+    /** *取消滑动限制***/
+    htmlMove() {
+      document.getElementById('productInfoDiv').style.overflow = ''
+      document.getElementById('productInfoDiv').removeEventListener('touchmove', this.ProductEventLists.ProductLeiMuEvent,
+        false)
+    },
+    spuWindow() {
+      this.htmlMove()
+    },
+    onSubmit() {
+      console.log('submit!')
+      console.log(this.formInline.goodsState)
+      console.log(this.formInline.goodsType)
+    },
+    showMess(currIndex, obj2) {
+      alert(obj2[currIndex].users)
+    },
+    // 查询商品类目
+    showProductLeimu(name) {
+      this.COMMON.startLoading()
+      // id为该商品的id
+      this.productLeiMuValue = name
+      this.productLeiMuInfoFlag = true
+      this.COMMON.stopLoading()
+    },
+    // 关闭上传商品详情页面
+    closeProductInfo() {
+      // 打开步骤四 关闭图片窗口
+      this.isShowFourFlag = true
+      this.uploadProductInfoFlag = false
+      // 改变内容
+      this.stepFourContent = '填写宝贝重要信息'
+      // 打开上一步下一步
+      this.isStepBtn = false
+    },
+    // 显示上传商品详情页面
+    addProductInfos() {
+      // 打开加载
+
+      // 关闭步骤四 打开上传图片详情
+      this.isShowFourFlag = false
+      this.uploadProductInfoFlag = true
+      // 改变内容
+      this.stepFourContent = '上传图片的详情'
+      // 关闭上一步下一步
+      this.isStepBtn = true
+    },
+    // 关闭商品图片
+    closeProductImages() {
+      // 打开步骤四 关闭图片窗口
+      this.isShowFourFlag = true
+      this.uploadProductPLists = false
+      // 改变内容
+      this.stepFourContent = '填写宝贝重要信息'
+      // 打开上一步下一步
+      this.isStepBtn = false
+    },
+    // 添加商品图片
+    addProductImages() {
+      // 关闭步骤四 打开图片窗口
+      this.isShowFourFlag = false
+      this.uploadProductPLists = true
+      // 改变内容
+      this.stepFourContent = '上传商品的图片'
+      // 关闭上一步下一步
+      this.isStepBtn = true
+    },
+    exceedFun() {
+      this.$message.error('最多只能上传6个文件')
+    },
+    // 文件上传成功
+    uploadProductImageSuccess(response, file, fileList) {
+      console.log(response)
+      console.log(file)
+      console.log(fileList)
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview(file) {
+      console.log(file)
+    },
+    // 生成商品SKU的价格和库存
+    createProductSku() {
+      // 需要将商品的信息保存 并整理出SKU对应的列表
+      this.$confirm('此操作将保存你之前填写好的商品信息, 是否继续?', '提示', {
+        cancelButtonText: '取消',
+        confirmButtonText: '继续',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '保存成功!'
         })
-      },
-      // ///////////////////////////////////////////////////////////////////////////////////////
-      // 查看评论具体信息，
-      showCommentInfo(id) {
-        this.isProductInfoLoading = true
+      }).catch(() => {
         this.$message({
           type: 'info',
-          message: '评论详细信息:id=' + id
+          message: '已取消保存'
         })
-        this.productInfoFlag3 = true
-        this.isProductInfoLoading = false
-      },
-      // 显示商品详细信息
-      showProductInfo(id) {
-        console.log(id)
-        this.COMMON.startLoading()
-        this.productInfoFlag = true
-        this.COMMON.stopLoading()
-      },
-      // 关闭修改SPU的窗口
-      closeSpuWindows3() {
-        this.addProductSpuFlag3 = false
-        this.productSpuFlag2 = true
-      },
-      // 关闭商品信息SPU的 新增窗口
-      closeSpuWindows2() {
-        this.addProductSpuFlag2 = false
-        this.productSpuFlag2 = true
-      },
-      // 显示商品SPU信息的SPU添加窗口
-      addProductInfoSpu() {
-        this.addProductSpuFlag2 = true
-        this.productSpuFlag2 = false
-      },
-      // 关闭添加商品弹出层
-      closeAddProduct() {
-        this.htmlMove()
-        this.addProductFlag = false
-      },
-      // 打开添加商品弹出层
-      showAddProduct() {
-        this.COMMON.startLoading()
-
-        this.$get('/product/basics/add/page/info').then(res => {
-          if (res.status == 200) {
-            // 调用成功 返回了商品类目和商品品牌信息
-            // 设置商品类目
-            this.options = res.data.productCategorys
-            // 设置商品
-            this.brands = res.data.productBrands
-
-            this.COMMON.stopLoading()
-          } else {
-            this.$message({
-              showClose: true,
-              message: res.msg,
-              type: 'error'
-            })
-            this.COMMON.stopLoading()
-          }
-        })
-          .catch(err => {
-            this.$message({
-              showClose: true,
-              message: '系统错误',
-              type: 'error'
-            })
-          })
-        this.addProductFlag = true
-
-        // this.$get("http://192.168.124.11:7778",{
-
-        // }).then(res => {
-        //   console.log(res)
-        // }).catch(err => {
-        //   console.log(err)
-        // })
-      },
-      /** *滑动限制***/
-      htmlStop() {
-        var mo = function (e) {
-          e.preventDefault()
-        }
-        document.getElementById('productInfoDiv').style.overflow = 'hidden'
-        document.getElementById('productInfoDiv').addEventListener('touchmove', mo, false) // 禁止页面滑动
-
-        this.ProductEventLists.ProductLeiMuEvent = mo
-      },
-      /** *取消滑动限制***/
-      htmlMove() {
-        document.getElementById('productInfoDiv').style.overflow = ''
-        document.getElementById('productInfoDiv').removeEventListener('touchmove', this.ProductEventLists.ProductLeiMuEvent,
-          false)
-      },
-      spuWindow() {
-        this.htmlMove()
-      },
-      onSubmit() {
-        console.log('submit!')
-        console.log(this.formInline.goodsState)
-        console.log(this.formInline.goodsType)
-      },
-      showMess(currIndex, obj2) {
-        alert(obj2[currIndex].users)
-      },
-      // 查询商品类目
-      showProductLeimu(name) {
-        this.COMMON.startLoading()
-        // id为该商品的id
-        this.productLeiMuValue = name
-        this.productLeiMuInfoFlag = true
-        this.COMMON.stopLoading()
-      },
-      // 关闭上传商品详情页面
-      closeProductInfo() {
-        // 打开步骤四 关闭图片窗口
-        this.isShowFourFlag = true
-        this.uploadProductInfoFlag = false
-        // 改变内容
-        this.stepFourContent = '填写宝贝重要信息'
-        // 打开上一步下一步
-        this.isStepBtn = false
-      },
-      // 显示上传商品详情页面
-      addProductInfos() {
-        // 打开加载
-
-        // 关闭步骤四 打开上传图片详情
-        this.isShowFourFlag = false
-        this.uploadProductInfoFlag = true
-        // 改变内容
-        this.stepFourContent = '上传图片的详情'
-        // 关闭上一步下一步
-        this.isStepBtn = true
-      },
-      // 关闭商品图片
-      closeProductImages() {
-        // 打开步骤四 关闭图片窗口
-        this.isShowFourFlag = true
-        this.uploadProductPLists = false
-        // 改变内容
-        this.stepFourContent = '填写宝贝重要信息'
-        // 打开上一步下一步
-        this.isStepBtn = false
-      },
-      // 添加商品图片
-      addProductImages() {
-        // 关闭步骤四 打开图片窗口
-        this.isShowFourFlag = false
-        this.uploadProductPLists = true
-        // 改变内容
-        this.stepFourContent = '上传商品的图片'
-        // 关闭上一步下一步
-        this.isStepBtn = true
-      },
-      exceedFun() {
-        this.$message.error('最多只能上传6个文件')
-      },
-      // 文件上传成功
-      uploadProductImageSuccess(response, file, fileList) {
-        console.log(response)
-        console.log(file)
-        console.log(fileList)
-      },
-      handleRemove(file, fileList) {
-        console.log(file, fileList)
-      },
-      handlePreview(file) {
-        console.log(file)
-      },
-      // 生成商品SKU的价格和库存
-      createProductSku() {
-        // 需要将商品的信息保存 并整理出SKU对应的列表
-        this.$confirm('此操作将保存你之前填写好的商品信息, 是否继续?', '提示', {
-          cancelButtonText: '取消',
-          confirmButtonText: '继续',
+      })
+    },
+    // 关闭SKUchuangk
+    closeSkuWindows() {
+      this.addProductSkuFlag = false
+      this.isShowFourFlag = true
+      this.isStepBtn = false
+      this.stepFourContent = '填写宝贝重要信息'
+    },
+    // 打开SKU窗口
+    addProductSKU() {
+      this.isStepBtn = true
+      // 改变步骤内容
+      this.stepFourContent = '填写宝贝的SKU信息'
+      // 打开和关闭对应窗口
+      this.isShowFourFlag = false
+      this.addProductSkuFlag = true
+    },
+    // 打开SPU窗口
+    addProductSPU() {
+      // 改变步骤内容
+      this.isStepBtn = true
+      this.stepFourContent = '填写宝贝的SPU信息'
+      // 打开和关闭对应窗口
+      this.isShowFourFlag = false
+      this.addProductSpuFlag = true
+    },
+    // 关闭Spu窗口
+    closeSpuWindows() {
+      // 显示第四步
+      this.isShowFourFlag = true
+      this.isStepBtn = false
+      // 关闭SPU窗口
+      this.addProductSpuFlag = false
+      this.stepFourContent = '填写宝贝重要信息'
+    },
+    // 删除一行SPU
+    removeProducSpuLink(item) {
+      var index = this.addProductSpuForm.indexOf(item)
+      if (item.isSystemDef) {
+        this.$message({
+          message: '不能删除系统定义好的哦',
           type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '保存成功!'
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消保存'
-          })
         })
-      },
-      // 关闭SKUchuangk
-      closeSkuWindows() {
-        this.addProductSkuFlag = false
-        this.isShowFourFlag = true
-        this.isStepBtn = false
-        this.stepFourContent = '填写宝贝重要信息'
-      },
-      // 打开SKU窗口
-      addProductSKU() {
-        this.isStepBtn = true
-        // 改变步骤内容
-        this.stepFourContent = '填写宝贝的SKU信息'
-        // 打开和关闭对应窗口
-        this.isShowFourFlag = false
-        this.addProductSkuFlag = true
-      },
-      // 打开SPU窗口
-      addProductSPU() {
-        // 改变步骤内容
-        this.isStepBtn = true
-        this.stepFourContent = '填写宝贝的SPU信息'
-        // 打开和关闭对应窗口
-        this.isShowFourFlag = false
-        this.addProductSpuFlag = true
-      },
-      // 关闭Spu窗口
-      closeSpuWindows() {
-        // 显示第四步
-        this.isShowFourFlag = true
-        this.isStepBtn = false
-        // 关闭SPU窗口
-        this.addProductSpuFlag = false
-        this.stepFourContent = '填写宝贝重要信息'
-      },
-      // 删除一行SPU
-      removeProducSpuLink(item) {
-        var index = this.addProductSpuForm.indexOf(item)
-        if (item.isSystemDef) {
-          this.$message({
-            message: '不能删除系统定义好的哦',
-            type: 'warning'
-          })
-          return
-        }
-        if (index !== -1) {
-          this.addProductSpuForm.splice(index, 1)
-        }
-      },
-      // 删除一行SKU
-      removeProducSkuLink(item) {
-        var index = this.addProductSkuForm.domains.indexOf(item)
-        if (item.isSystemDef) {
-          this.$message({
-            message: '不能删除系统定义好的哦',
-            type: 'warning'
-          })
-          return
-        }
-        if (index !== -1) {
-          this.addProductSkuForm.domains.splice(index, 1)
-        }
-      },
-      // 新增一行SKU
-      addProductSkuLine() {
-        this.addProductSkuForm.domains.push({
-          productSkuKeyName: '',
-          skuValue: '',
-          key: Date.now(),
-          isSystemDef: false
-        })
+        return
+      }
+      if (index !== -1) {
+        this.addProductSpuForm.splice(index, 1)
+      }
+    },
+    // 删除一行SKU
+    removeProducSkuLink(item) {
+      var index = this.addProductSkuForm.domains.indexOf(item)
+      if (item.isSystemDef) {
         this.$message({
-          showClose: true,
-          message: '新增成功,请拖动屏幕到底部'
+          message: '不能删除系统定义好的哦',
+          type: 'warning'
         })
-      },
-      // 新增一行SPU
-      addProductSpuLine() {
-        this.addProductSpuForm.push({
-          productSpuName: '',
-          productSpuValue: '',
-          key: Date.now(),
-          productSpuOrder: this.addProductSpuForm.length + 1,
-          productSpuState: 1
-        })
+        return
+      }
+      if (index !== -1) {
+        this.addProductSkuForm.domains.splice(index, 1)
+      }
+    },
+    // 新增一行SKU
+    addProductSkuLine() {
+      this.addProductSkuForm.domains.push({
+        productSkuKeyName: '',
+        skuValue: '',
+        key: Date.now(),
+        isSystemDef: false
+      })
+      this.$message({
+        showClose: true,
+        message: '新增成功,请拖动屏幕到底部'
+      })
+    },
+    // 新增一行SPU
+    addProductSpuLine() {
+      this.addProductSpuForm.push({
+        productSpuName: '',
+        productSpuValue: '',
+        key: Date.now(),
+        productSpuOrder: this.addProductSpuForm.length + 1,
+        productSpuState: 1
+      })
+      this.$message({
+        showClose: true,
+        message: '新增成功,请拖动屏幕到底部'
+      })
+    },
+    // 添加商品的上一步操作
+    last() {
+      if (this.active <= 0) {
+        this.$message.error('已经是第一步了')
+        return
+      } else if (this.active == 1) {
+        // 当前为第二步,返回第一步
+        this.isShowOneFlag = true
+        this.isShowTwoFlag = false
+        // 给出提示
         this.$message({
-          showClose: true,
-          message: '新增成功,请拖动屏幕到底部'
+          message: '如果对`商品类目`进行修改后,SPU和SKU就会变成初始化的值哦',
+          type: 'warning'
         })
-      },
-      // 添加商品的上一步操作
-      last() {
-        if (this.active <= 0) {
-          this.$message.error('已经是第一步了')
+      } else if (this.active == 2) {
+        // 当前为第三步,返回第二步
+        this.isShowTwoFlag = true
+        this.isShowThreeFlag = false
+      } else if (this.active == 3) {
+        // 当前为第四步，返回第三不
+        this.isShowThreeFlag = true
+        this.isShowFourFlag = false
+      }
+      // 当前步骤数量-1
+      this.active = this.active - 1
+      this.isAddOrNextFlag = true
+    },
+    // 添加商品的下一步操作
+    next() {
+      // 判断是否为第一步
+      if (this.active == 0) {
+        // 需要判断是否勾选一二级类目
+        if (this.ProductMuluListIds.length != 2) {
+          this.$message.error('请选择该商品的类目(准确到二级类目去)')
           return
-        } else if (this.active == 1) {
-          // 当前为第二步,返回第一步
-          this.isShowOneFlag = true
-          this.isShowTwoFlag = false
-          // 给出提示
-          this.$message({
-            message: '如果对`商品类目`进行修改后,SPU和SKU就会变成初始化的值哦',
-            type: 'warning'
-          })
-        } else if (this.active == 2) {
-          // 当前为第三步,返回第二步
-          this.isShowTwoFlag = true
-          this.isShowThreeFlag = false
-        } else if (this.active == 3) {
-          // 当前为第四步，返回第三不
-          this.isShowThreeFlag = true
-          this.isShowFourFlag = false
         }
-        // 当前步骤数量-1
-        this.active = this.active - 1
-        this.isAddOrNextFlag = true
-      },
-      // 添加商品的下一步操作
-      next() {
-        // 判断是否为第一步
-        if (this.active == 0) {
-          // 需要判断是否勾选一二级类目
-          if (this.ProductMuluListIds.length != 2) {
-            this.$message.error('请选择该商品的类目(准确到二级类目去)')
-            return
+        // alert('1'+this.ProductMuluListIds[this.ProductMuluListIds.length-1])
+        this.$get('/product/basics/get/sku/info', {
+          categoryId: this.ProductMuluListIds[this.ProductMuluListIds.length - 1]
+        }).then(res => {
+          if (res.status == 200) {
+            this.addProductSkuForm.domains = res.data
+            // 接口传递的json数据
+            this.goodsArr.productOneCategoryId = this.ProductMuluListIds[this.ProductMuluListIds.length - 2]
+            this.goodsArr.productTwoCategoryId = this.ProductMuluListIds[this.ProductMuluListIds.length - 1]
+            console.log(this.goodsArr)
           }
-          // alert('1'+this.ProductMuluListIds[this.ProductMuluListIds.length-1])
-          this.$get('/product/basics/get/sku/info', {
-            categoryId: this.ProductMuluListIds[this.ProductMuluListIds.length - 1]
+        }).catch(err => {
+          console.log(err)
+        })
+
+        this.isShowOneFlag = false
+        this.isShowTwoFlag = true
+      } else if (this.active == 1) {
+        // 第二步
+        // 需要判断表单的值是否正确
+        const goodsArrTwo = []
+        if (this.addProductTwoFrom.goodsName != '' && this.addProductTwoFrom.goodsBrand != '' && this.addProductTwoFrom.marketPrick !=
+            '' && this.addProductTwoFrom.shopPrick != '') {
+          this.goodsArr.productName = this.addProductTwoFrom.goodsName
+          this.goodsArr.productBrandId = this.addProductTwoFrom.goodsBrand
+          this.goodsArr.productBazaarPrice = this.addProductTwoFrom.marketPrick
+          this.goodsArr.productSystemPrice = this.addProductTwoFrom.shopPrick
+          console.log(this.goodsArr)
+
+          // 将第二步骤隐藏
+          this.isShowTwoFlag = false
+          // 打开第三步骤
+          this.isShowThreeFlag = true
+        } else {
+          this.$message({
+            message: '记住将表单填写完整',
+            type: 'warning'
+          })
+          return
+        }
+      } else if (this.active == 2) {
+        // 第三步
+        // 需要判断表单的值是否正确
+
+        if (this.addProductTwoFrom.goodsSell != '' && this.addProductTwoFrom.goodsSort != '' && this.addProductTwoFrom.goodsUnit !=
+            '' && this.addProductTwoFrom.goodsSketch != '' && this.retreatRadio != '') {
+          this.goodsArr.productPoints = this.addProductTwoFrom.goodsSell
+          this.goodsArr.productOrderRule = this.addProductTwoFrom.goodsSort
+          this.goodsArr.productUnit = this.addProductTwoFrom.goodsUnit
+          this.goodsArr.productSketchContent = this.addProductTwoFrom.goodsSell
+          this.goodsArr.productIfSupport = this.retreatRadio
+          if (this.retreatRadio == 1) {
+            this.goodsArr.productSupportDay = this.addProductTwoFrom.goodsDatanum || 7
+          } else {
+            this.goodsArr.productSupportDay = 0
+          }
+
+          console.log(this.goodsArr)
+          // 将第三步骤隐藏
+          this.isShowThreeFlag = false
+          // 打开第四步骤
+          this.isShowFourFlag = true
+          // 确认提交显示
+          this.isAddOrNextFlag = false
+        } else {
+          this.$message({
+            message: '记住将表单填写完整',
+            type: 'warning'
+          })
+          return
+        }
+      }
+      if (this.active++ >= 3) {
+        if (this.addProductSkuForm.domains[0].productSkuKeyName != '' && this.addProductSkuForm.domains[0].skuValue != '') {
+          // 调用提交接口
+          this.$post('/product/basics/add/sku', {
+            productJson: JSON.stringify(this.goodsArr),
+            skuJson: JSON.stringify(this.addProductSkuForm.domains),
+            state: 1
           }).then(res => {
-            if (res.status == 200) {
-              this.addProductSkuForm.domains = res.data
-              // 接口传递的json数据
-              this.goodsArr.productOneCategoryId = this.ProductMuluListIds[this.ProductMuluListIds.length - 2]
-              this.goodsArr.productTwoCategoryId = this.ProductMuluListIds[this.ProductMuluListIds.length - 1]
-              console.log(this.goodsArr)
-            }
+            console.log(res)
+            this.$message({
+              showClose: true,
+              message: '添加商品信息成功',
+              type: 'success'
+            })
           }).catch(err => {
             console.log(err)
           })
-
-          this.isShowOneFlag = false
-          this.isShowTwoFlag = true
-        } else if (this.active == 1) {
-          // 第二步
-          // 需要判断表单的值是否正确
-          const goodsArrTwo = []
-          if (this.addProductTwoFrom.goodsName != '' && this.addProductTwoFrom.goodsBrand != '' && this.addProductTwoFrom.marketPrick !=
-            '' && this.addProductTwoFrom.shopPrick != '') {
-            this.goodsArr.productName = this.addProductTwoFrom.goodsName
-            this.goodsArr.productBrandId = this.addProductTwoFrom.goodsBrand
-            this.goodsArr.productBazaarPrice = this.addProductTwoFrom.marketPrick
-            this.goodsArr.productSystemPrice = this.addProductTwoFrom.shopPrick
-            console.log(this.goodsArr)
-
-            // 将第二步骤隐藏
-            this.isShowTwoFlag = false
-            // 打开第三步骤
-            this.isShowThreeFlag = true
-          } else {
-            this.$message({
-              message: '记住将表单填写完整',
-              type: 'warning'
-            })
-            return
-          }
-        } else if (this.active == 2) {
-          // 第三步
-          // 需要判断表单的值是否正确
-
-          if (this.addProductTwoFrom.goodsSell != '' && this.addProductTwoFrom.goodsSort != '' && this.addProductTwoFrom.goodsUnit !=
-            '' && this.addProductTwoFrom.goodsSketch != '' && this.retreatRadio != '') {
-            this.goodsArr.productPoints = this.addProductTwoFrom.goodsSell
-            this.goodsArr.productOrderRule = this.addProductTwoFrom.goodsSort
-            this.goodsArr.productUnit = this.addProductTwoFrom.goodsUnit
-            this.goodsArr.productSketchContent = this.addProductTwoFrom.goodsSell
-            this.goodsArr.productIfSupport = this.retreatRadio
-            if (this.retreatRadio == 1) {
-              this.goodsArr.productSupportDay = this.addProductTwoFrom.goodsDatanum || 7
-            } else {
-              this.goodsArr.productSupportDay = 0
-            }
-
-            console.log(this.goodsArr)
-            // 将第三步骤隐藏
-            this.isShowThreeFlag = false
-            // 打开第四步骤
-            this.isShowFourFlag = true
-            // 确认提交显示
-            this.isAddOrNextFlag = false
-          } else {
-            this.$message({
-              message: '记住将表单填写完整',
-              type: 'warning'
-            })
-            return
-          }
+        } else {
+          this.$message({
+            message: '必填项SKU未填写或未填写完整',
+            type: 'warning'
+          })
+          return
         }
-        if (this.active++ >= 3) {
-          if (this.addProductSkuForm.domains[0].productSkuKeyName != '' && this.addProductSkuForm.domains[0].skuValue != '') {
-            // 调用提交接口
-            this.$post('/product/basics/add/sku', {
-              productJson: JSON.stringify(this.goodsArr),
-              skuJson: JSON.stringify(this.addProductSkuForm.domains),
-              state: 1
-            }).then(res => {
-              console.log(res)
-              this.$message({
-                showClose: true,
-                message: '添加商品信息成功',
-                type: 'success'
-              })
-            }).catch(err => {
-              console.log(err)
-            })
-          } else {
-            this.$message({
-              message: '必填项SKU未填写或未填写完整',
-              type: 'warning'
-            })
-            return
-          }
-        }
-      },
-      handleChange(value) {
-        console.log(value)
       }
+    },
+    handleChange(value) {
+      console.log(value)
     }
   }
+}
 </script>
 
 <style>

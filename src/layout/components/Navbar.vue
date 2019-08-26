@@ -405,7 +405,7 @@
     productAjaxGet
   } from '@/api/table.js'
 
-  var systemUrl = 'http://192.168.124.5:7778'
+  var systemUrl = ''
   // 工具栏配置
   const toolbarOptions = [
     ['image', 'video']
@@ -465,7 +465,9 @@
         productAjaxGet(url).then(data => {
 
           if (data.status == 200) {
-            if (data.data == "yes") {
+            if (data.msg == "yes") {
+
+              this.wDMessage = data.data
               this.isShowMessage = true;
             } else {
               this.isShowMessage = false;
