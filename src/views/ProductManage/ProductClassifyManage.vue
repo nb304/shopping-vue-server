@@ -81,8 +81,14 @@
               >
                 编辑
               </el-button>
-              <el-button type="text" size="small">停用</el-button>
-              <el-button v-if="scope.row.categoryIsParent == 2" type="text" size="small" @click="addLeiMuSkuInfo">
+              <el-button type="text" size="small" :disabled="!categoryPage.functionFlag"
+                         v-if="scope.row.categoryState == 1"
+                         @click="editCategoryState(scope.$index , scope.row.categoryId , 2)">停用
+              </el-button>
+              <el-button type="text" size="small" v-else :disabled="!categoryPage.functionFlag"
+                         @click="editCategoryState(scope.$index , scope.row.categoryId , 1)">恢复
+              </el-button>
+              <el-button v-if="scope.row.categoryIsParent == 2" type="text" size="small" @click="addLeiMuSkuInfo(scope.$index , scope.row.categoryId)">
                 管理SKU
               </el-button>
             </template>
@@ -127,37 +133,50 @@
       <div>
         <el-divider content-position="left">系统定制的SKU</el-divider>
         <el-row :gutter="24">
-          <el-col v-for="tag in adminDeinSkuValues" :sm="{span: 6}" :xs="{span: 12}">
+          <el-col v-for="sku in categorySkuInfo.systemSkuInfo" :sm="{span: 6}" :xs="{span: 12}">
             <el-tag
-              :key="tag.skuId"
+              :key="sku.productSkuKeyId"
               show-overflow-tooltip="true"
               style="width:100%;margin-bottom: 10px;"
               closable
               :disable-transitions="false"
-              @close="handleClose(tag)"
+              @close="handleClose(sku)"
             >
               <span class="autocut">
-                {{ tag.skuName }}
+                {{ sku.productSkuKeyName }}
               </span>
             </el-tag>
           </el-col>
 
+          <el-col :sm="{span: 6}" v-if="categorySkuInfo.editSystemFlag">
+            <el-input
+              v-if="inputVisible"
+              ref="saveTagInput"
+              v-model="newSkuName"
+              class="input-new-tag"
+              size="small"
+              @keyup.enter.native="handleInputConfirm"
+              @blur="handleInputConfirm"
+            />
+            <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+          </el-col>
+
         </el-row>
 
-        <el-divider content-position="left">店铺定制的SKU</el-divider>
+        <el-divider v-if="categorySkuInfo.showUserInfoFlag" content-position="left">店铺定制的SKU</el-divider>
 
-        <el-row :gutter="24">
-          <el-col v-for="tag in userDeinSkuValues" :sm="{span: 6}" :xs="{span: 12}">
+        <el-row :gutter="24" v-if="categorySkuInfo.showUserInfoFlag">
+          <el-col v-for="sku in categorySkuInfo.userSkuInfo" :sm="{span: 6}" :xs="{span: 12}">
             <el-tag
-              :key="tag.skuId"
+              :key="sku.productSkuKeyId"
               show-overflow-tooltip="true"
               style="width:100%;margin-bottom: 10px;"
               closable
               :disable-transitions="false"
-              @close="handleClose2(tag)"
+              @close="handleClose(sku)"
             >
               <span class="autocut">
-                {{ tag.skuName }}
+                {{ sku.productSkuKeyName }}
               </span>
             </el-tag>
           </el-col>
@@ -361,9 +380,11 @@
     },
     data() {
       return {
+        // 类目的SKU信息
+        categorySkuInfo:{},
         // 当前编辑的类目索引
         currentFunctionIndex: 0,
-        props: { multiple: true },
+        props: {multiple: true},
         // 适合的季节信息
         siJieDatas: [],
         // 一级类目的信息
@@ -501,6 +522,50 @@
       }
     },
     methods: {
+      // 修改类目的状态
+      editCategoryState(index, obj, state) {
+        var msg = ''
+        if (state == 2) {
+          msg = '停用'
+        } else {
+          msg = '恢复'
+        }
+
+        this.$confirm('您确定要将商品类目' + msg + '吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.COMMON.startLoading()
+          var url = '/product/category/edit/state'
+          var para = {'categoryId': obj, 'state': state}
+          productAjaxPost(url, para).then(data => {
+            if (data.status == 200) {
+              this.categoryDatas[index].categoryState = state
+              this.COMMON.stopLoading()
+            } else if (data.status == 500) {
+              this.$message({
+                showClose: true,
+                message: data.msg,
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+              this.COMMON.stopLoading()
+            } else {
+              this.$message({
+                showClose: true,
+                message: data.msg,
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+
+              this.COMMON.stopLoading()
+            }
+          })
+        })
+      },
       // 修改类目
       editCategory() {
         this.$confirm('您确定要修改该商品类目的信息吗?', '提示', {
@@ -545,12 +610,7 @@
               this.COMMON.stopLoading()
             }
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
+        })
       },
       // 打开编辑类目窗口
       editProductLeiMuDiv(index, obj) {
@@ -662,11 +722,41 @@
           }
         })
       },
-      /* .......................................................*/
       // 打开SKU模板
-      addLeiMuSkuInfo() {
-        this.productLeiMuDiaLogFlags.addProductLeiMuSkuTemplate = true
+      addLeiMuSkuInfo(index , categoryId) {
+        console.log(categoryId)
+        this.COMMON.startLoading()
+        var url = '/product/category/get/category/sku'
+        var para = {'categoryId' : categoryId}
+        productAjaxPost(url, para).then(data => {
+          if (data.status == 200) {
+            this.categorySkuInfo = data.data
+            this.productLeiMuDiaLogFlags.addProductLeiMuSkuTemplate = true
+            this.COMMON.stopLoading()
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
       },
+      /* .......................................................*/
       // 删除用户定义的SKU
       handleClose2(tag) {
         this.$message({
@@ -721,7 +811,7 @@
       loadSubDatas(tree, treeNode, resolve) {
         this.COMMON.startLoading()
         var url = '/product/category/load/data'
-        var para = { 'parentId': tree.categoryId }
+        var para = {'parentId': tree.categoryId}
         productAjaxPost(url, para).then(data => {
           if (data.status == 200) {
             // functionFlag
