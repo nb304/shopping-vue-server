@@ -77,7 +77,15 @@
       <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="showEdit(scope.$index , scope.row)">编辑</el-button>
-          <el-button type="text" size="small">删除</el-button>
+          <el-button
+            v-if="scope.row.brandState == 1"
+            type="text"
+            size="small"
+            @click="editBrandState(scope.$index , scope.row.brandId , 2)"
+          >删除
+          </el-button>
+          <el-button v-else type="text" size="small" @click="editBrandState(scope.$index , scope.row.brandId , 1)">恢复
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -288,7 +296,7 @@ export default {
       actionUrl: '',
       // 当前编辑的商品信息
       currentFunctionIndex: 0,
-      currentBrandName:'',
+      currentBrandName: '',
       currentFunctionBrandInfo: {},
       // 商品数据
       brandDatas: [],
@@ -369,6 +377,64 @@ export default {
     }
   },
   methods: {
+
+    // 修改品牌状态
+    editBrandState(index, id, state) {
+      var msg = ''
+      if (state == 1) {
+        msg = '恢复'
+      } else if (state == 2) {
+        msg = '删除'
+      } else {
+        return
+      }
+      this.$confirm('您确定要' + msg + '该品牌吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var url = systemUrl + '/brand/edit/state'
+        var para = { 'state': state, 'brandId': id }
+        this.COMMON.startLoading()
+        productAjaxPost(url, para).then(data => {
+          if (data.status == 200) {
+            this.$message({
+              showClose: true,
+              message: msg + '成功',
+              type: 'success',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+            this.brandDatas[index].brandState = state
+            this.COMMON.stopLoading()
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--修改失败,请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
     // 编辑商品品牌
     showEdit(index, obj) {
       this.currentFunctionIndex = index
@@ -378,10 +444,10 @@ export default {
     },
     // 添加品牌
     addProductBrand() {
+      this.COMMON.startLoading()
       var url = systemUrl + '/brand/add'
       productAjaxPost(url, this.addProductBrandForm).then(data => {
         if (data.status == 200) {
-          this.COMMON.startLoading()
           this.$message({
             showClose: true,
             message: '添加成功',
@@ -422,10 +488,10 @@ export default {
     },
     // 获取品牌信息
     getBrandInfo() {
+      this.COMMON.startLoading()
       var url = systemUrl + '/brand/index'
       productAjaxPost(url, this.brandPage).then(data => {
         if (data.status == 200) {
-          this.COMMON.startLoading()
           this.brandPage.currentPage = data.data.currentPage
           this.brandPage.currentSize = data.data.currentSize
           this.brandPage.totalSize = data.data.totalSize
@@ -472,7 +538,7 @@ export default {
       // 打开Loading
       this.currentFunctionBrandInfo = item
       this.currentFunctionIndex = index
-      this.actionUrl = 'http://192.168.124.5:7778/brand/upload/logo/' + item.brandId
+      this.actionUrl = 'http://192.168.0.143:7778/brand/upload/logo/' + item.brandId
       this.productBrandDiaLogFlags.showProductBrandLogoFlag = true
     },
     // 修改品牌信息
