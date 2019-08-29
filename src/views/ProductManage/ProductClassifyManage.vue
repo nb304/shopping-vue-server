@@ -24,7 +24,7 @@
               style="width: 215px; margin-left: 70px;"
               @click="addProductLeiMuDiv"
             >
-              <svg-icon icon-class="tianjia" style="width:14px !important; height:14px !important; margin-right:10px;"/>
+              <svg-icon icon-class="tianjia" style="width:14px !important; height:14px !important; margin-right:10px;" />
               添加类目
             </el-button>
           </el-form-item>
@@ -36,7 +36,7 @@
               type="primary"
               icon="el-icon-search"
               style="width: 215px; margin-left: 70px;"
-              @click="getCategoryInfo"
+              @click="searchCategory"
             >搜索
             </el-button>
           </el-form-item>
@@ -68,9 +68,9 @@
           default-expand-all
           :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         >
-          <el-table-column sortable prop="categoryName" label="类目名称" show-overflow-tooltip="true" min-width="150"/>
-          <el-table-column prop="categoryIsName" label="类型" width="100" show-overflow-tooltip="true"/>
-          <el-table-column prop="createTimeStr" label="创建时间" sortable width="230"/>
+          <el-table-column sortable prop="categoryName" label="类目名称" show-overflow-tooltip="true" min-width="150" />
+          <el-table-column prop="categoryIsName" label="类型" width="100" show-overflow-tooltip="true" />
+          <el-table-column prop="createTimeStr" label="创建时间" sortable width="230" />
           <el-table-column fixed="right" label="操作" width="170">
             <template slot-scope="scope">
               <el-button
@@ -81,15 +81,28 @@
               >
                 编辑
               </el-button>
-              <el-button type="text" size="small" :disabled="!categoryPage.functionFlag"
-                         v-if="scope.row.categoryState == 1"
-                         @click="editCategoryState(scope.$index , scope.row.categoryId , 2)">停用
+              <el-button
+                v-if="scope.row.categoryState == 1"
+                type="text"
+                size="small"
+                :disabled="!categoryPage.functionFlag"
+                @click="editCategoryState(scope.$index , scope.row.categoryId , 2)"
+              >停用
               </el-button>
-              <el-button type="text" size="small" v-else :disabled="!categoryPage.functionFlag"
-                         @click="editCategoryState(scope.$index , scope.row.categoryId , 1)">恢复
+              <el-button
+                v-else
+                type="text"
+                size="small"
+                :disabled="!categoryPage.functionFlag"
+                @click="editCategoryState(scope.$index , scope.row.categoryId , 1)"
+              >恢复
               </el-button>
-              <el-button v-if="scope.row.categoryIsParent == 2" type="text" size="small"
-                         @click="addLeiMuSkuInfo(scope.$index , scope.row.categoryId)">
+              <el-button
+                v-if="scope.row.categoryIsParent == 2"
+                type="text"
+                size="small"
+                @click="addLeiMuSkuInfo(scope.$index , scope.row.categoryId)"
+              >
                 管理SKU
               </el-button>
             </template>
@@ -149,7 +162,7 @@
             </el-tag>
           </el-col>
 
-          <el-col :sm="{span: 6}" v-if="categorySkuInfo.editSystemFlag">
+          <el-col v-if="categorySkuInfo.editSystemFlag" :sm="{span: 6}">
             <el-input
               v-if="inputVisible"
               ref="saveTagInput"
@@ -166,7 +179,7 @@
 
         <el-divider v-if="categorySkuInfo.showUserInfoFlag" content-position="left">店铺定制的SKU</el-divider>
 
-        <el-row :gutter="24" v-if="categorySkuInfo.showUserInfoFlag">
+        <el-row v-if="categorySkuInfo.showUserInfoFlag" :gutter="24">
           <el-col v-for="(sku,index) in categorySkuInfo.userSkuInfo" :sm="{span: 6}" :xs="{span: 12}">
             <el-tag
               :key="sku.productSkuKeyId"
@@ -236,7 +249,7 @@
           <el-row :gutter="24">
             <el-col :sm="{span: 24}" :xs="{span: 24}">
               <el-form-item label="类目名称" style="width:100%;">
-                <el-input v-model="categortForm.categoryName" style="width:100%;" placeholder="请输入类目名称"/>
+                <el-input v-model="categortForm.categoryName" style="width:100%;" placeholder="请输入类目名称" />
               </el-form-item>
             </el-col>
 
@@ -259,7 +272,7 @@
                   style="width:100% !important;"
                   placeholder="请选择类目,若不选择则为一级类目"
                 >
-                  <el-option label="不选择(一级类目)" :value="0"/>
+                  <el-option label="不选择(一级类目)" :value="0" />
                   <el-option
                     v-for="(obj , index) in oneCategoryDatas"
                     :label="obj.categoryName"
@@ -313,7 +326,7 @@
           <el-row :gutter="24">
             <el-col :sm="{span: 24}" :xs="{span: 24}">
               <el-form-item label="类目名称" style="width:100%;">
-                <el-input v-model="categortFormEdit.categoryName" placeholder="请输入类目名称"/>
+                <el-input v-model="categortFormEdit.categoryName" placeholder="请输入类目名称" />
               </el-form-item>
             </el-col>
 
@@ -332,7 +345,7 @@
             <el-col :sm="{span: 24}" :xs="{span: 24}">
               <el-form-item label="一级类目" style="width:100%;">
                 <el-select v-model="categortFormEdit.oneCateId" :disabled="true" placeholder="请选择类目,若不选择则为一级类目">
-                  <el-option label="不选择(一级类目)" :value="0"/>
+                  <el-option label="不选择(一级类目)" :value="0" />
                   <el-option
                     v-for="(obj , index) in oneCategoryDatas"
                     :label="obj.categoryName"
@@ -368,361 +381,294 @@
 </template>
 
 <script>
-  import elDragDialog from '@/el-drag-dialog'
-  import {
-    productAjaxPost,
-    productAjaxGet
-  } from '@/api/table.js'
+import elDragDialog from '@/el-drag-dialog'
+import {
+  productAjaxPost,
+  productAjaxGet
+} from '@/api/table.js'
 
-  var systemUrl = ''
+var systemUrl = ''
 
-  export default {
-    directives: {
-      elDragDialog
-    },
-    data() {
-      return {
-        // 类目的SKU信息
-        categorySkuInfo: {},
-        // 当前编辑的类目索引
-        currentFunctionIndex: 0,
-        props: {multiple: true},
-        // 适合的季节信息
-        siJieDatas: [],
-        // 一级类目的信息
-        oneCategoryDatas: [],
-        // 类目数据
-        categoryDatas: [],
-        // 分页小型的flag
-        pageFlag: false,
-        categoryPage: {
-          categoryName: '', // 查询的商品名称
-          totalSize: 0, // 总条数
-          currentSize: 1, // 显示的条数
-          currentPage: 1, // 当前显示的页数
-          functionFlag: true // 是否可以操作类目
-        },
-        // 修改的表但信息
-        categortFormEdit: {
-          categoryName: '',
-          siJis: [],
-          siJie: '',
-          oneCateId: '',
-          categoryId: 0
-        },
-        // 类目的表单
-        categortForm: {
-          categoryName: '',
-          siJis: '',
-          siJie: '',
-          oneCateId: ''
-        },
-        addNewSkuInfo: [],
-        currentFunctionId: 0,
-        /* 、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、*/
-        // 网页的宽高
-        screenWidth: '',
-        screenHeight: '',
-        // 窗口距离网页的高度
-        productTopHtml: '',
-        inputVisible: false,
-        // 新添的SKU值
-        newSkuName: '',
-        inputValue: '',
-        // SKU参数列表
-        // 管理员定义
-        adminDeinSkuValues: [{
-          skuId: '1',
-          skuName: '颜色颜色色色'
-        }, {
-          skuId: '1',
-          skuName: '颜色'
-        }, {
-          skuId: '1',
-          skuName: '颜色'
-        },
-          {
-            skuId: '1',
-            skuName: '内存'
-          },
-          {
-            skuId: '1',
-            skuName: '厂商地'
-          }
-        ],
-        // 用户自己定义
-        userDeinSkuValues: [{
-          skuId: '99',
-          skuName: '颜色'
-        },
-          {
-            skuId: '98',
-            skuName: '内存'
-          },
-          {
-            skuId: '97',
-            skuName: '厂商地'
-          }
-        ],
-        // 添加类目的Form
-        addProductLeiMuForm: {
-          leimuName: '',
-          leimuParentId: '',
-          leimuAdaptSeason: ''
-        },
-        // 类目页面的弹出flag
-        productLeiMuDiaLogFlags: {
-          // 添加类目
-          addProductLeiMu: false,
-          // 修改类目
-          editProductLeiMu: false,
-          // 添加类目的SKU模板
-          addProductLeiMuSkuTemplate: false
-        },
-        // 分页数据
-        total: 100,
-        currentPage: 2,
-        // 网页长宽
-        screenWidth: 0,
-        screenHeight: 0,
-        // 类目搜索表单
-        searchLeiMuForm: {
-          LeiMuName: ''
-        },
-        // 类目加载层集合
-        ProductLeiMuLoadings: {
-          // 类目的Table加载层
-          productLeiMuTableDataLoading: false,
-          // 类目公用的加载成
-          productLeiMuCommonLoading: false
-        }
+export default {
+  directives: {
+    elDragDialog
+  },
+  data() {
+    return {
+      // 类目的SKU信息
+      categorySkuInfo: {},
+      // 当前编辑的类目索引
+      currentFunctionIndex: 0,
+      props: { multiple: true },
+      // 适合的季节信息
+      siJieDatas: [],
+      // 一级类目的信息
+      oneCategoryDatas: [],
+      // 类目数据
+      categoryDatas: [],
+      // 分页小型的flag
+      pageFlag: false,
+      categoryPage: {
+        categoryName: '', // 查询的商品名称
+        totalSize: 0, // 总条数
+        currentSize: 1, // 显示的条数
+        currentPage: 1, // 当前显示的页数
+        functionFlag: true // 是否可以操作类目
+      },
+      // 修改的表但信息
+      categortFormEdit: {
+        categoryName: '',
+        siJis: [],
+        siJie: '',
+        oneCateId: '',
+        categoryId: 0
+      },
+      // 类目的表单
+      categortForm: {
+        categoryName: '',
+        siJis: '',
+        siJie: '',
+        oneCateId: ''
+      },
+      addNewSkuInfo: [],
+      currentFunctionId: 0,
+      /* 、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、*/
+      // 网页的宽高
+      screenWidth: '',
+      screenHeight: '',
+      // 窗口距离网页的高度
+      productTopHtml: '',
+      inputVisible: false,
+      // 新添的SKU值
+      newSkuName: '',
+      inputValue: '',
+      // SKU参数列表
+      // 管理员定义
+      adminDeinSkuValues: [{
+        skuId: '1',
+        skuName: '颜色颜色色色'
+      }, {
+        skuId: '1',
+        skuName: '颜色'
+      }, {
+        skuId: '1',
+        skuName: '颜色'
+      },
+      {
+        skuId: '1',
+        skuName: '内存'
+      },
+      {
+        skuId: '1',
+        skuName: '厂商地'
       }
-    },
-    created() {
-      // 初始化方法 vue组件初始化完成,网页未完成
+      ],
+      // 用户自己定义
+      userDeinSkuValues: [{
+        skuId: '99',
+        skuName: '颜色'
+      },
+      {
+        skuId: '98',
+        skuName: '内存'
+      },
+      {
+        skuId: '97',
+        skuName: '厂商地'
+      }
+      ],
+      // 添加类目的Form
+      addProductLeiMuForm: {
+        leimuName: '',
+        leimuParentId: '',
+        leimuAdaptSeason: ''
+      },
+      // 类目页面的弹出flag
+      productLeiMuDiaLogFlags: {
+        // 添加类目
+        addProductLeiMu: false,
+        // 修改类目
+        editProductLeiMu: false,
+        // 添加类目的SKU模板
+        addProductLeiMuSkuTemplate: false
+      },
+      // 分页数据
+      total: 100,
+      currentPage: 2,
+      // 网页长宽
+      screenWidth: 0,
+      screenHeight: 0,
+      // 类目搜索表单
+      searchLeiMuForm: {
+        LeiMuName: ''
+      },
+      // 类目加载层集合
+      ProductLeiMuLoadings: {
+        // 类目的Table加载层
+        productLeiMuTableDataLoading: false,
+        // 类目公用的加载成
+        productLeiMuCommonLoading: false
+      }
+    }
+  },
+  created() {
+    // 初始化方法 vue组件初始化完成,网页未完成
+    this.getCategoryInfo()
+  },
+  mounted() {
+    this.screenWidth = document.body.clientWidth
+    this.screenHeight = document.body.clientHeight
+    if (this.screenWidth <= 500) {
+      this.productTopHtml = '1vh'
+      this.pageFlag = true
+    } else {
+      this.productTopHtml = '10vh'
+    }
+    window.onresize = () => {
+      return (() => {
+        this.screenWidth = document.body.clientWidth
+        this.screenHeight = document.body.clientHeight
+        // 判断宽度是否小于500 小于500 全部全屏显示
+        if (this.screenWidth <= 500) {
+          this.productTopHtml = '1vh'
+          this.pageFlag = true
+        } else {
+          this.productTopHtml = '10vh'
+        }
+      })()
+    }
+  },
+  methods: {
+    searchCategory() {
+      this.categoryPage.currentPage = 1
       this.getCategoryInfo()
     },
-    mounted() {
-      this.screenWidth = document.body.clientWidth
-      this.screenHeight = document.body.clientHeight
-      if (this.screenWidth <= 500) {
-        this.productTopHtml = '1vh'
-        this.pageFlag = true
-      } else {
-        this.productTopHtml = '10vh'
+    // 确认添加商品类目的SKU
+    yesAddCategorySku() {
+      if (this.addNewSkuInfo.length < 1) {
+        this.$message({
+          showClose: true,
+          message: '您还没有添加新的数据。',
+          type: 'warning'
+        })
+        return
       }
-      window.onresize = () => {
-        return (() => {
-          this.screenWidth = document.body.clientWidth
-          this.screenHeight = document.body.clientHeight
-          // 判断宽度是否小于500 小于500 全部全屏显示
-          if (this.screenWidth <= 500) {
-            this.productTopHtml = '1vh'
-            this.pageFlag = true
-          } else {
-            this.productTopHtml = '10vh'
-          }
-        })()
-      }
-    },
-    methods: {
-      // 确认添加商品类目的SKU
-      yesAddCategorySku() {
-        if (this.addNewSkuInfo.length < 1) {
-          this.$message({
-            showClose: true,
-            message: '您还没有添加新的数据。',
-            type: 'warning'
-          });
-          return;
-        }
 
-        this.$confirm('您确定要添加吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.COMMON.startLoading()
-          var skuNames = ''
-          this.addNewSkuInfo.forEach(data => {
-            if (skuNames == '') {
-              skuNames = data.productSkuKeyName;
-            } else {
-              skuNames += "," + data.productSkuKeyName;
-            }
-          });
-
-          var url = '/product/category/add/category/sku'
-          var para = {'categoryId': this.currentFunctionId, 'skuInfoJson': skuNames}
-          productAjaxPost(url, para).then(data => {
-            if (data.status == 200) {
-              this.$message({
-                showClose: true,
-                message: '添加成功',
-                type: 'success'
-              });
-              this.COMMON.stopLoading()
-            } else if (data.status == 500) {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        })
-      },
-      // 修改类目的状态
-      editCategoryState(index, obj, state) {
-        var msg = ''
-        if (state == 2) {
-          msg = '停用'
-        } else {
-          msg = '恢复'
-        }
-
-        this.$confirm('您确定要将商品类目' + msg + '吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.COMMON.startLoading()
-          var url = '/product/category/edit/state'
-          var para = {'categoryId': obj, 'state': state}
-          productAjaxPost(url, para).then(data => {
-            if (data.status == 200) {
-              this.categoryDatas[index].categoryState = state
-              this.COMMON.stopLoading()
-            } else if (data.status == 500) {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        })
-      },
-      // 修改类目
-      editCategory() {
-        this.$confirm('您确定要修改该商品类目的信息吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.COMMON.startLoading()
-          var siJie = ''
-          this.categortFormEdit.siJis.forEach(data => {
-            if (siJie == '') {
-              siJie += data
-            } else {
-              siJie = siJie + ',' + data
-            }
-          })
-          this.categortFormEdit.siJie = siJie
-          var url = '/product/category/edit'
-          productAjaxPost(url, this.categortFormEdit).then(data => {
-            if (data.status == 200) {
-              this.productLeiMuDiaLogFlags.editProductLeiMu = false
-              this.COMMON.stopLoading()
-              this.categoryDatas[this.currentFunctionIndex].categoryName = this.categortFormEdit.categoryName
-            } else if (data.status == 500) {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        })
-      },
-      // 打开编辑类目窗口
-      editProductLeiMuDiv(index, obj) {
-        this.currentFunctionIndex = index
-        this.categortFormEdit.categoryName = obj.categoryName
-        let split = obj.categorySeasonId.split(',')
-        split.forEach(data => {
-          this.categortFormEdit.siJis.push(data)
-        })
-        this.categortFormEdit.categoryId = obj.categoryId
-        this.categortFormEdit.oneCateId = obj.categoryParentId
-        this.productLeiMuDiaLogFlags.editProductLeiMu = true
-
-      },
-      // 切换商品的条数
-      categoryCurrentSize(val) {
-        this.categoryPage.currentSize = val
-        this.getCategoryInfo()
-      },
-      // 切换商品页数
-      categoryCurrentPage(val) {
-        // 替换当前页数
-        this.categoryPage.currentPage = val
-        this.getCategoryInfo()
-      },
-      // 添加类目信息
-      addCategory() {
+      this.$confirm('您确定要添加吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
         this.COMMON.startLoading()
-        var url = '/product/category/add'
+        var skuNames = ''
+        this.addNewSkuInfo.forEach(data => {
+          if (skuNames == '') {
+            skuNames = data.productSkuKeyName
+          } else {
+            skuNames += ',' + data.productSkuKeyName
+          }
+        })
+
+        var url = '/product/category/add/category/sku'
+        var para = { 'categoryId': this.currentFunctionId, 'skuInfoJson': skuNames }
+        productAjaxPost(url, para).then(data => {
+          if (data.status == 200) {
+            this.$message({
+              showClose: true,
+              message: '添加成功',
+              type: 'success'
+            })
+            this.COMMON.stopLoading()
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      })
+    },
+    // 修改类目的状态
+    editCategoryState(index, obj, state) {
+      var msg = ''
+      if (state == 2) {
+        msg = '停用'
+      } else {
+        msg = '恢复'
+      }
+
+      this.$confirm('您确定要将商品类目' + msg + '吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.COMMON.startLoading()
+        var url = '/product/category/edit/state'
+        var para = { 'categoryId': obj, 'state': state }
+        productAjaxPost(url, para).then(data => {
+          if (data.status == 200) {
+            this.categoryDatas[index].categoryState = state
+            this.COMMON.stopLoading()
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      })
+    },
+    // 修改类目
+    editCategory() {
+      this.$confirm('您确定要修改该商品类目的信息吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.COMMON.startLoading()
         var siJie = ''
-        this.categortForm.siJi.forEach(data => {
-          console.log(data)
+        this.categortFormEdit.siJis.forEach(data => {
           if (siJie == '') {
             siJie += data
           } else {
             siJie = siJie + ',' + data
           }
         })
-        this.categortForm.siJie = siJie
-        productAjaxPost(url, this.categortForm).then(data => {
+        this.categortFormEdit.siJie = siJie
+        var url = '/product/category/edit'
+        productAjaxPost(url, this.categortFormEdit).then(data => {
           if (data.status == 200) {
-            if (this.categortForm.oneCateId == 0) {
-              this.categoryDatas.push(data.data)
-            }
-            this.productLeiMuDiaLogFlags.addProductLeiMu = false
-            this.categortForm.categoryName = ''
-            this.categortForm.oneCateId = 0
-            this.categortForm.siJi = ''
+            this.productLeiMuDiaLogFlags.editProductLeiMu = false
             this.COMMON.stopLoading()
+            this.categoryDatas[this.currentFunctionIndex].categoryName = this.categortFormEdit.categoryName
           } else if (data.status == 500) {
             this.$message({
               showClose: true,
@@ -744,177 +690,174 @@
             this.COMMON.stopLoading()
           }
         })
-      },
-      // 获取类目数据
-      getCategoryInfo() {
-        this.COMMON.startLoading()
-        var url = '/product/category/index'
-        productAjaxPost(url, this.categoryPage).then(data => {
-          if (data.status == 200) {
-            this.categoryPage.currentPage = data.data.currentPage
-            this.categoryPage.currentSize = data.data.currentSize
-            this.categoryPage.totalSize = data.data.totalSize
-            this.categoryPage.totlaPage = data.data.totlaPage
-            // functionFlag
-            this.categoryDatas = data.data.categoryDatas
-            this.oneCategoryDatas = data.data.oneCategorDatas
-            this.siJieDatas = data.data.siJieDatas
-            this.categoryPage.functionFlag = data.data.addOrEdit
-
-            this.COMMON.stopLoading()
-          } else if (data.status == 500) {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-
-            this.COMMON.stopLoading()
-          } else {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-
-            this.COMMON.stopLoading()
+      })
+    },
+    // 打开编辑类目窗口
+    editProductLeiMuDiv(index, obj) {
+      this.currentFunctionIndex = index
+      this.categortFormEdit.categoryName = obj.categoryName
+      const split = obj.categorySeasonId.split(',')
+      split.forEach(data => {
+        this.categortFormEdit.siJis.push(data)
+      })
+      this.categortFormEdit.categoryId = obj.categoryId
+      this.categortFormEdit.oneCateId = obj.categoryParentId
+      this.productLeiMuDiaLogFlags.editProductLeiMu = true
+    },
+    // 切换商品的条数
+    categoryCurrentSize(val) {
+      this.categoryPage.currentSize = val
+      this.getCategoryInfo()
+    },
+    // 切换商品页数
+    categoryCurrentPage(val) {
+      // 替换当前页数
+      this.categoryPage.currentPage = val
+      this.getCategoryInfo()
+    },
+    // 添加类目信息
+    addCategory() {
+      this.COMMON.startLoading()
+      var url = '/product/category/add'
+      var siJie = ''
+      this.categortForm.siJi.forEach(data => {
+        console.log(data)
+        if (siJie == '') {
+          siJie += data
+        } else {
+          siJie = siJie + ',' + data
+        }
+      })
+      this.categortForm.siJie = siJie
+      productAjaxPost(url, this.categortForm).then(data => {
+        if (data.status == 200) {
+          if (this.categortForm.oneCateId == 0) {
+            this.categoryDatas.push(data.data)
           }
-        })
-      },
-      // 打开SKU模板
-      addLeiMuSkuInfo(index, categoryId) {
-        this.currentFunctionId = categoryId
-        this.COMMON.startLoading()
-        var url = '/product/category/get/category/sku'
-        var para = {'categoryId': categoryId}
-        productAjaxPost(url, para).then(data => {
-          if (data.status == 200) {
-            this.categorySkuInfo = data.data
-            this.productLeiMuDiaLogFlags.addProductLeiMuSkuTemplate = true
-            this.COMMON.stopLoading()
-          } else if (data.status == 500) {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-
-            this.COMMON.stopLoading()
-          } else {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-
-            this.COMMON.stopLoading()
-          }
-        })
-      },
-      /* .......................................................*/
-      // 删除用户定义的SKU
-      handleClose(tag, state , index) {
-
-        this.$confirm('您确定要删除你选中的SKU信息吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.COMMON.startLoading()
-          var url = '/product/category/del/category/sku'
-          var para = {'skuId': tag.productSkuKeyId}
-          productAjaxPost(url, para).then(data => {
-            if (data.status == 200) {
-              this.$message({
-                showClose: true,
-                message: '删除成功',
-                type: 'success'
-              })
-              if (state == 1) {
-                this.categorySkuInfo.systemSkuInfo.splice(index, 1)
-              } else {
-                this.categorySkuInfo.userSkuInfo.splice(index, 1)
-              }
-              this.COMMON.stopLoading()
-            } else if (data.status == 500) {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        })
-
-      },
-      // 显示添加的SKUInput
-      showInput() {
-        this.inputVisible = true
-        this.$nextTick(_ => {
-          this.$refs.saveTagInput.$refs.input.focus()
-        })
-      },
-      // 动态添加SKU
-      handleInputConfirm(state) {
-        const inputValue = this.newSkuName
-        if (inputValue.length > 50) {
+          this.productLeiMuDiaLogFlags.addProductLeiMu = false
+          this.categortForm.categoryName = ''
+          this.categortForm.oneCateId = 0
+          this.categortForm.siJi = ''
+          this.COMMON.stopLoading()
+        } else if (data.status == 500) {
           this.$message({
             showClose: true,
-            message: '最高长度为6位',
-            type: 'error'
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
           })
-          return
-        }
-        const pushs = {
-          'productSkuKeyId': new Date().getTime(),
-          'productSkuKeyName': inputValue
-        }
-        if (inputValue) {
-          if (state == 1) {
-            this.categorySkuInfo.systemSkuInfo.push(pushs)
-          } else {
-            this.categorySkuInfo.userSkuInfo.push(pushs)
-          }
+          this.COMMON.stopLoading()
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
 
-          this.addNewSkuInfo.push(pushs);
+          this.COMMON.stopLoading()
         }
-        this.inputVisible = false
-        this.newSkuName = ''
-      },
-      // 显示添加类目Div
-      addProductLeiMuDiv() {
-        this.productLeiMuDiaLogFlags.addProductLeiMu = true
-      },
-      // 动态加载二级类目
-      loadSubDatas(tree, treeNode, resolve) {
+      })
+    },
+    // 获取类目数据
+    getCategoryInfo() {
+      this.COMMON.startLoading()
+      var url = '/product/category/index'
+      productAjaxPost(url, this.categoryPage).then(data => {
+        if (data.status == 200) {
+          this.categoryPage.currentPage = data.data.currentPage
+          this.categoryPage.currentSize = data.data.currentSize
+          this.categoryPage.totalSize = data.data.totalSize
+          this.categoryPage.totlaPage = data.data.totlaPage
+          // functionFlag
+          this.categoryDatas = data.data.categoryDatas
+          this.oneCategoryDatas = data.data.oneCategorDatas
+          this.siJieDatas = data.data.siJieDatas
+          this.categoryPage.functionFlag = data.data.addOrEdit
+
+          this.COMMON.stopLoading()
+        } else if (data.status == 500) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        }
+      })
+    },
+    // 打开SKU模板
+    addLeiMuSkuInfo(index, categoryId) {
+      this.currentFunctionId = categoryId
+      this.COMMON.startLoading()
+      var url = '/product/category/get/category/sku'
+      var para = { 'categoryId': categoryId }
+      productAjaxPost(url, para).then(data => {
+        if (data.status == 200) {
+          this.categorySkuInfo = data.data
+          this.productLeiMuDiaLogFlags.addProductLeiMuSkuTemplate = true
+          this.COMMON.stopLoading()
+        } else if (data.status == 500) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        }
+      })
+    },
+    /* .......................................................*/
+    // 删除用户定义的SKU
+    handleClose(tag, state, index) {
+      this.$confirm('您确定要删除你选中的SKU信息吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
         this.COMMON.startLoading()
-        var url = '/product/category/load/data'
-        var para = {'parentId': tree.categoryId}
+        var url = '/product/category/del/category/sku'
+        var para = { 'skuId': tag.productSkuKeyId }
         productAjaxPost(url, para).then(data => {
           if (data.status == 200) {
-            // functionFlag
-            resolve(data.data)
+            this.$message({
+              showClose: true,
+              message: '删除成功',
+              type: 'success'
+            })
+            if (state == 1) {
+              this.categorySkuInfo.systemSkuInfo.splice(index, 1)
+            } else {
+              this.categorySkuInfo.userSkuInfo.splice(index, 1)
+            }
             this.COMMON.stopLoading()
           } else if (data.status == 500) {
             this.$message({
@@ -924,7 +867,6 @@
               duration: 3000,
               customClass: 'zzIndex'
             })
-
             this.COMMON.stopLoading()
           } else {
             this.$message({
@@ -938,9 +880,81 @@
             this.COMMON.stopLoading()
           }
         })
+      })
+    },
+    // 显示添加的SKUInput
+    showInput() {
+      this.inputVisible = true
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus()
+      })
+    },
+    // 动态添加SKU
+    handleInputConfirm(state) {
+      const inputValue = this.newSkuName
+      if (inputValue.length > 50) {
+        this.$message({
+          showClose: true,
+          message: '最高长度为6位',
+          type: 'error'
+        })
+        return
       }
+      const pushs = {
+        'productSkuKeyId': new Date().getTime(),
+        'productSkuKeyName': inputValue
+      }
+      if (inputValue) {
+        if (state == 1) {
+          this.categorySkuInfo.systemSkuInfo.push(pushs)
+        } else {
+          this.categorySkuInfo.userSkuInfo.push(pushs)
+        }
+
+        this.addNewSkuInfo.push(pushs)
+      }
+      this.inputVisible = false
+      this.newSkuName = ''
+    },
+    // 显示添加类目Div
+    addProductLeiMuDiv() {
+      this.productLeiMuDiaLogFlags.addProductLeiMu = true
+    },
+    // 动态加载二级类目
+    loadSubDatas(tree, treeNode, resolve) {
+      this.COMMON.startLoading()
+      var url = '/product/category/load/data'
+      var para = { 'parentId': tree.categoryId }
+      productAjaxPost(url, para).then(data => {
+        if (data.status == 200) {
+          // functionFlag
+          resolve(data.data)
+          this.COMMON.stopLoading()
+        } else if (data.status == 500) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        }
+      })
     }
   }
+}
 </script>
 
 <style>

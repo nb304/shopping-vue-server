@@ -113,7 +113,7 @@ export default {
     }
   },
   created() {
-    console.log("home")
+    console.log('home')
     this.$notify({
       title: '注意!!!',
       message: '请尽量使用电脑打开后台管理系统,手机端适配暂不完全。',
