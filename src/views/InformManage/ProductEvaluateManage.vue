@@ -154,7 +154,7 @@
                   </el-col>
 
                   <el-col :sm="{span: 2}" :xs="{span: 8}">
-                    <el-link type="primary" @click="productEvaluateFlags.reportFlag = true">举报评论</el-link>
+                    <el-link type="primary" @click="reportContent(index , o )">举报评论</el-link>
                   </el-col>
 
                   <el-col :sm="{span: 2}" :xs="{span: 8}">
@@ -192,12 +192,12 @@
     <!-- ======================= 分页层 (结束) =========================  -->
 
     <!-- ======================= 评论回复弹出层 =========================  -->
-    <el-dialog
-      :append-to-body="true"
-      width="400px"
-      :close-on-click-modal="false"
-      title="回复评论"
-      :visible.sync="productEvaluateFlags.replyEvaluate"
+    <el-dialog v-el-drag-dialog
+               :append-to-body="true"
+               width="400px"
+
+               title="回复评论"
+               :visible.sync="productEvaluateFlags.replyEvaluate"
     >
       <el-form
         ref="replyEvaluateForm"
@@ -230,31 +230,31 @@
           </el-col>
         </el-row>
       </el-form>
-    </el-dialog>
+    </el-dialog v-el-drag-dialog>
     <!-- ======================= 评论回复弹出层(结束) =========================  -->
 
     <!-- ======================= 评论举报弹出层 =========================  -->
-    <el-dialog
-      :append-to-body="true"
-      width="400px"
-      :close-on-click-modal="false"
-      title="举报"
-      :visible.sync="productEvaluateFlags.reportFlag"
+    <el-dialog v-el-drag-dialog
+               :append-to-body="true"
+               width="400px"
+
+               title="举报"
+               :visible.sync="productEvaluateFlags.reportFlag"
     >
       <el-form ref="reportForm" label-position="left" :inline="true" :model="reportForm" label-width="80px">
         <el-row :gutter="24">
 
           <el-col :sm="{span: 24}" :xs="{span: 24}">
             <el-form-item label="举报类型" style="width:100%;">
-              <el-select style="width:270px;" placeholder="请选择举报类型">
-                <el-option label="恶意刷单" value="shanghai"/>
-                <el-option label="恶意差评" value="beijing"/>
+              <el-select style="width:270px;" v-model="reportForm.reportState" placeholder="请选择举报类型">
+                <el-option :label="o.reportName" v-for="(o , index) in rePortStatePojos"
+                           :value="o.reportValue"/>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="{span: 24}" :xs="{span: 24}">
             <el-form-item label="举报内容" style="width:100%;">
-              <el-input v-model="reportForm.reportType" type="textarea"/>
+              <el-input v-model="reportForm.reportContent" type="textarea"/>
             </el-form-item>
           </el-col>
 
@@ -263,7 +263,7 @@
         <el-row :gutter="24">
           <el-col :sm="{span: 8,offset:4}" :xs="{span: 23}">
 
-            <el-button type="primary" style="width:100%;margin-bottom: 15px;">确认举报</el-button>
+            <el-button type="primary" style="width:100%;margin-bottom: 15px;" @click="yesReport">确认举报</el-button>
           </el-col>
 
           <el-col :sm="{span: 8}" :xs="{span: 23}">
@@ -275,7 +275,7 @@
           </el-col>
         </el-row>
       </el-form>
-    </el-dialog>
+    </el-dialog v-el-drag-dialog>
     <!-- ======================= 评论举报弹出层(结束) =========================  -->
   </div>
 </template>
@@ -296,6 +296,15 @@
     data() {
       return {
 
+        // 举报状态
+        rePortStatePojos:[],
+        // 举报的表单
+        reportForm: {
+          reportState: '',
+          reportContent: '',
+          reportEvId: ''
+        },
+        // 当前操作的评价
         currentFunctionIndex: 0,
         currentFunctionObj: '',
         // 分页小型的flag
@@ -321,11 +330,6 @@
         // //////////////////////////////////////////////////////////////////////////////////
 
         htmlIntter: '复制成功',
-        // 举报回复的表单对象
-        reportForm: {
-          reportContent: '',
-          reportType: ''
-        },
         // 商品回复Form
         replyEvaluateForm: {
           content: ''
@@ -402,7 +406,53 @@
       }
     },
     methods: {
+      // 确认举报
+      yesReport() {
+        this.$confirm('您确定要举报该评论吗?只有一次机会哦！', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          var url = '/product/evaluate/report'
+          productAjaxPost(url, this.reportForm).then(data => {
+            if (data.status == 200) {
+              this.$message({
+                type: 'success',
+                message: '举报成功'
+              })
+              // this.evaluateDatas[this.currentFunctionIndex].retain3 = 1
+              this.productEvaluateFlags.reportFlag = false
+              this.COMMON.stopLoading()
+            } else if (data.status == 500) {
+              this.$message({
+                showClose: true,
+                message: data.msg,
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
 
+              this.COMMON.stopLoading()
+            } else {
+              this.$message({
+                showClose: true,
+                message: data.msg,
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+
+              this.COMMON.stopLoading()
+            }
+          })
+        })
+      },
+      // 打开举报内容
+      reportContent(index, o) {
+        this.currentFunctionIndex = index
+        this.reportForm.reportEvId = o.productEvaluateId
+        this.productEvaluateFlags.reportFlag = true
+      },
       // 确认回复
       yesReply() {
         this.$confirm('您确定要回复吗?只有一次机会哦！', '提示', {
@@ -411,7 +461,7 @@
           type: 'warning'
         }).then(() => {
           var url = '/product/evaluate/reply'
-          var para = { 'evalId': this.currentFunctionObj.productEvaluateId, 'content': this.replyEvaluateForm.content }
+          var para = {'evalId': this.currentFunctionObj.productEvaluateId, 'content': this.replyEvaluateForm.content}
           productAjaxPost(url, para).then(data => {
             if (data.status == 200) {
               this.$message({
@@ -511,6 +561,7 @@
             this.evaluatePage.currentSize = data.data.currentSize
             this.evaluatePage.currentPage = data.data.currentPage
             this.evaluatePage.totalSize = data.data.totalSize
+            this.rePortStatePojos = data.data.rePortStatePojos
             this.COMMON.stopLoading()
           } else if (data.status == 500) {
             this.$message({
@@ -666,11 +717,11 @@
     }
 
     /*  添加商品的css  */
-    #productEvalInfo .addProduct .el-dialog {
+    #productEvalInfo .addProduct .el-dialog v-el-drag-dialog {
       width: 330px !important;
     }
 
-    #productEvalInfo .addProduct .el-dialog #steptwo {
+    #productEvalInfo .addProduct .el-dialog v-el-drag-dialog #steptwo {
       max-height: 31.25rem;
     }
   }
@@ -716,11 +767,11 @@
     }
 
     /*  添加商品的css  */
-    #productEvalInfo .addProduct .el-dialog {
+    #productEvalInfo .addProduct .el-dialog v-el-drag-dialog {
       width: 400px !important;
     }
 
-    #productEvalInfo .addProduct .el-dialog #steptwo {
+    #productEvalInfo .addProduct .el-dialog v-el-drag-dialog #steptwo {
       max-height: 31.25rem;
     }
   }
