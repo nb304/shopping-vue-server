@@ -149,7 +149,7 @@
                 <el-row :gutter="24">
                   <el-col :sm="{span: 2}" :xs="{span: 8}">
                     <el-link type="primary" @click="replyEv(index , o)"
-                             :disabled=" o.retain1 != null && o.retain1.length > 1">回复卖家
+                    >回复卖家
                     </el-link>
                   </el-col>
 
@@ -209,7 +209,14 @@
         <el-row :gutter="24">
           <el-col :sm="{span: 24}" :xs="{span: 24}">
             <el-form-item label="回复内容" style="width:100%;">
-              <el-input v-model="replyEvaluateForm.content" type="textarea" maxlength="500" show-word-limit/>
+              <el-input v-model="currentFunctionObj.retain1" :html="currentFunctionObj.retain1"
+                        :disabled=" currentFunctionObj.retain1 != null && currentFunctionObj.retain1.length > 1"
+                        v-if=" currentFunctionObj.retain1 != null && currentFunctionObj.retain1.length > 1"
+                        type="textarea" maxlength="500" show-word-limit/>
+
+              <el-input v-if="currentFunctionObj.retain1 == null || currentFunctionObj.retain1.length < 1"
+                        v-model="replyEvaluateForm.content"
+                        type="textarea" maxlength="500" show-word-limit/>
             </el-form-item>
           </el-col>
 
@@ -218,7 +225,10 @@
         <el-row :gutter="24">
           <el-col :sm="{span: 8,offset:4}" :xs="{span: 23}">
 
-            <el-button type="primary" style="width:100%;margin-bottom: 15px;" @click="yesReply">确认回复</el-button>
+            <el-button type="primary" style="width:100%;margin-bottom: 15px;"
+                       :disabled=" currentFunctionObj.retain1 != null && currentFunctionObj.retain1.length > 1"
+                       @click="yesReply">确认回复
+            </el-button>
           </el-col>
 
           <el-col :sm="{span: 8}" :xs="{span: 23}">
@@ -246,7 +256,15 @@
 
           <el-col :sm="{span: 24}" :xs="{span: 24}">
             <el-form-item label="举报类型" style="width:100%;">
-              <el-select style="width:270px;" v-model="reportForm.reportState" placeholder="请选择举报类型">
+              <el-select style="width:270px;" v-model="reportForm.reportState" placeholder="请选择举报类型"
+                         v-if="currentFunctionObj.retain3 == null || currentFunctionObj.retain3.length < 1">
+                <el-option :label="o.reportName" v-for="(o , index) in rePortStatePojos"
+                           :value="o.reportValue"/>
+              </el-select>
+
+              <el-select style="width:270px;" v-model="currentFunctionObj.retain4" placeholder="请选择举报类型"
+                         :disabled="true"
+                         v-if="currentFunctionObj.retain3 != null && currentFunctionObj.retain3.length > 1">
                 <el-option :label="o.reportName" v-for="(o , index) in rePortStatePojos"
                            :value="o.reportValue"/>
               </el-select>
@@ -254,7 +272,13 @@
           </el-col>
           <el-col :sm="{span: 24}" :xs="{span: 24}">
             <el-form-item label="举报内容" style="width:100%;">
-              <el-input v-model="reportForm.reportContent" type="textarea"/>
+              <el-input v-model="reportForm.reportContent" maxlength="1000" show-word-limit
+                        v-if="currentFunctionObj.retain3 == null || currentFunctionObj.retain3.length < 1"
+                        type="textarea"/>
+
+              <el-input v-model="currentFunctionObj.retain3" :disabled="true"
+                        v-if="currentFunctionObj.retain3 != null && currentFunctionObj.retain3.length > 1"
+                        type="textarea"/>
             </el-form-item>
           </el-col>
 
@@ -263,7 +287,9 @@
         <el-row :gutter="24">
           <el-col :sm="{span: 8,offset:4}" :xs="{span: 23}">
 
-            <el-button type="primary" style="width:100%;margin-bottom: 15px;" @click="yesReport">确认举报</el-button>
+            <el-button :disabled="currentFunctionObj.retain3 != null && currentFunctionObj.retain3.length"
+                       type="primary" style="width:100%;margin-bottom: 15px;" @click="yesReport">确认举报
+            </el-button>
           </el-col>
 
           <el-col :sm="{span: 8}" :xs="{span: 23}">
@@ -297,7 +323,7 @@
       return {
 
         // 举报状态
-        rePortStatePojos:[],
+        rePortStatePojos: [],
         // 举报的表单
         reportForm: {
           reportState: '',
@@ -421,7 +447,13 @@
                 message: '举报成功'
               })
               // this.evaluateDatas[this.currentFunctionIndex].retain3 = 1
+              this.evaluateDatas[this.currentFunctionIndex].retain3 = this.reportForm.reportContent
+              this.evaluateDatas[this.currentFunctionIndex].retain4 = this.reportForm.reportState
+              this.currentFunctionObj.retain3 = this.reportForm.reportContent
+              this.currentFunctionObj.retain4 = this.reportForm.reportState
               this.productEvaluateFlags.reportFlag = false
+              this.reportForm.reportContent=''
+              this.reportForm.reportState=''
               this.COMMON.stopLoading()
             } else if (data.status == 500) {
               this.$message({
@@ -450,6 +482,7 @@
       // 打开举报内容
       reportContent(index, o) {
         this.currentFunctionIndex = index
+        this.currentFunctionObj = o
         this.reportForm.reportEvId = o.productEvaluateId
         this.productEvaluateFlags.reportFlag = true
       },
@@ -461,7 +494,7 @@
           type: 'warning'
         }).then(() => {
           var url = '/product/evaluate/reply'
-          var para = {'evalId': this.currentFunctionObj.productEvaluateId, 'content': this.replyEvaluateForm.content}
+          var para = { 'evalId': this.currentFunctionObj.productEvaluateId, 'content': this.replyEvaluateForm.content }
           productAjaxPost(url, para).then(data => {
             if (data.status == 200) {
               this.$message({
@@ -470,6 +503,7 @@
               })
               this.evaluateDatas[this.currentFunctionIndex].retain1 = this.replyEvaluateForm.content
               this.productEvaluateFlags.replyEvaluate = false
+              this.replyEvaluateForm.content=''
               this.COMMON.stopLoading()
             } else if (data.status == 500) {
               this.$message({
