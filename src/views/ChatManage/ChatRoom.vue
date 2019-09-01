@@ -22,25 +22,26 @@
               effect="dark">
             </el-alert>
           </div>
-          <el-row v-if="newChatInfos != null && newChatInfos.length > 1" :gutter="24" v-for="o in newChatInfos"
+          <el-row v-if="newChatInfos != null && newChatInfos.length > 0" :gutter="24"
                   style="width: 96%;">
             <!-- ======================= 单独一条消息 =========================  -->
-            <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}"
+
+            <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}"  v-for="(o,index) in newChatInfos"
                     style="margin: 5px 0px !important; cursor: pointer;">
 
-              <el-badge id="phoneBContent" style="margin-bottom: 0px !important;" :value="3" class="item">
+              <el-badge id="phoneBContent" style="margin-bottom: 0px !important;" :value="o.notReadSize" class="item">
                 <div>
                   <el-col :sm="{span: 5}" :lg="{span:5}" :xs="{span: 5}">
                     <div class="block">
-                      <el-avatar :size="50" :src="avatarUrl"/>
+                      <el-avatar :size="50" :src="o.image"/>
                     </div>
                   </el-col>
                   <el-col :sm="{span: 19}" :lg="{span:19}" :xs="{span: 19}">
                     <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}" style="margin: 2px 0px;">
-                      <el-link :underline="false">鹿七七</el-link>
+                      <el-link :underline="false">{{o.name}}</el-link>
                     </el-col>
                     <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}" style="margin: 2px 0px;">
-                      你好！公号{{ o }}为你服务....
+                      {{o.content}}
                     </el-col>
                   </el-col>
                   <el-col style="border-bottom: 1px solid #cccccc;" :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}"/>

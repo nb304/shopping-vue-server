@@ -114,7 +114,7 @@
             :before-close="handleClose">
             <p style="text-align: center; color: #99a9bf;">{{currentMessageFrom.value.createTimeStr}}</p>
             <br>
-            <span style="font-size: 14px; letter-spacing: 1px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{messageContent}}</span>
+            <span style="font-size: 14px; letter-spacing: 1px;" v-html="messageContent"></span>
             <el-link type="danger" @click="delInfo">删除消息</el-link>
             <br/>
           </el-drawer>
@@ -943,6 +943,10 @@
     .myInfos .el-col {
       padding-right: 0rem !important;
     }
+  }
+
+  .el-drawer__body img {
+    width: 300px !important;
   }
 
   .navbar {
