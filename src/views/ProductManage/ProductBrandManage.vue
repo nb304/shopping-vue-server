@@ -305,7 +305,7 @@ export default {
       brandPage: {
         brandName: '', // 查询的商品名称
         totalSize: 0, // 总条数
-        currentSize: 1, // 显示的条数
+        currentSize: 10, // 显示的条数
         currentPage: 1 // 当前显示的页数
       },
       // /////////////////////////////////////////////////////////////////////////////////////

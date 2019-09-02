@@ -330,7 +330,7 @@
         // 分页数据
         feedbackPage: {
           totalSize: 0, // 总条数
-          currentSize: 5, // 显示的条数
+          currentSize: 10, // 显示的条数
           currentPage: 1, // 当前显示的页数
           feedNumber: '',
           userName: '',

@@ -411,7 +411,7 @@ export default {
       categoryPage: {
         categoryName: '', // 查询的商品名称
         totalSize: 0, // 总条数
-        currentSize: 1, // 显示的条数
+        currentSize: 10, // 显示的条数
         currentPage: 1, // 当前显示的页数
         functionFlag: true // 是否可以操作类目
       },
@@ -551,7 +551,7 @@ export default {
           message: '您还没有添加新的数据。',
           type: 'warning'
         })
-        return
+        return;
       }
 
       this.$confirm('您确定要添加吗?', '提示', {
