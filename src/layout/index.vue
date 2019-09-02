@@ -12,6 +12,10 @@
       <right-panel>
         <settings />
       </right-panel>
+
+      <right-panel>
+        <settings />
+      </right-panel>
     </div>
   </div>
 </template>

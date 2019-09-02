@@ -110,8 +110,7 @@
           <el-drawer
             title="消息内容" @click.stop
             :visible.sync="drawer"
-            direction="rtl"
-            :before-close="handleClose">
+            direction="rtl">
             <p style="text-align: center; color: #99a9bf;">{{currentMessageFrom.value.createTimeStr}}</p>
             <br>
             <span style="font-size: 14px; letter-spacing: 1px;" v-html="messageContent"></span>
@@ -149,10 +148,12 @@
             </el-dropdown-item>
           </router-link>
           <el-dropdown-item v-else>
-            <el-badge style="margin-bottom: 0px !important;" :value="3" class="item">
-              <!-- @click="openMyInfos" -->
-              <span @click="openMyInfos">消息中心</span>
-            </el-badge>
+            <div @click="openMyInfos">
+              <el-badge style="margin-bottom: 0px !important;" :value="3" class="item">
+                <!-- @click="openMyInfos" -->
+                <span>消息中心</span>
+              </el-badge>
+            </div>
           </el-dropdown-item>
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">退出系统</span>
@@ -166,8 +167,8 @@
 
     <el-dialog v-el-drag-dialog
                width="77%"
-               :close-on-click-modal="true"
-               :modal="false"
+               :close-on-click-modal="false"
+               :modal="true"
                title="我的消息"
                :visible.sync="myInfosFLag2"
                custom-class="chatInfoClass"
@@ -346,7 +347,7 @@
         if (state == 2) {
 
           var url = systemUrl + '/user/message/clear/or/read'
-          var para = { 'state': 2 }
+          var para = {'state': 2}
           productAjaxPost(url, para).then(data => {
             if (data.status == 200) {
               // 修改成功  判断状态 修改状态
@@ -388,7 +389,7 @@
           }).then(() => {
 
             var url = systemUrl + '/user/message/clear/or/read'
-            var para = { 'state': 3 }
+            var para = {'state': 3}
             productAjaxPost(url, para).then(data => {
               if (data.status == 200) {
                 // 修改成功  判断状态 修改状态
@@ -435,7 +436,7 @@
 
         // 发送AJAX 将消息变成已读信息
         var url = systemUrl + '/user/message/edit/state'
-        var para = { 'messageId': value.messageId, 'messageState': 3 }
+        var para = {'messageId': value.messageId, 'messageState': 3}
         productAjaxPost(url, para).then(data => {
           if (data.status == 200) {
             // 修改成功  判断状态 修改状态w
@@ -486,6 +487,7 @@
         this.COMMON.startLoading()
         this.myInfosFLag2 = true
         this.COMMON.stopLoading()
+
       },
       submit() {
         var newPojo = {
@@ -541,7 +543,7 @@
       editMessageInfoState(index, obj, state) {
         // 发送AJAX 将消息变成已读信息
         var url = systemUrl + '/user/message/edit/state'
-        var para = { 'messageId': obj.messageId, 'messageState': state }
+        var para = {'messageId': obj.messageId, 'messageState': state}
         productAjaxPost(url, para).then(data => {
           if (data.status == 200) {
             // 修改成功  判断状态 修改状态
