@@ -140,7 +140,7 @@
               <span>个人中心</span>
             </el-dropdown-item>
           </router-link>
-          <router-link to="/chatManage">
+          <router-link v-if="chatInfoFlag" to="/chatManage">
             <el-dropdown-item>
               <el-badge style="margin-bottom: 0px !important;" :value="3" class="item">
                 <!-- @click="openMyInfos" -->
@@ -148,6 +148,12 @@
               </el-badge>
             </el-dropdown-item>
           </router-link>
+          <el-dropdown-item v-else>
+            <el-badge style="margin-bottom: 0px !important;" :value="3" class="item">
+              <!-- @click="openMyInfos" -->
+              <span @click="openMyInfos">消息中心</span>
+            </el-badge>
+          </el-dropdown-item>
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">退出系统</span>
           </el-dropdown-item>
@@ -157,237 +163,25 @@
 
     </div>
 
-    <!-- ======================= 我的消息(电脑版) =========================  -->
-    <el-dialog
-      v-if="!isInfoPhoneFlag"
-      width="77%"
-      custom-class="myInfos title-menu-min"
-      :top="infoTopHtml"
-      :close-on-click-modal="false"
-      title="我的消息"
-      :visible.sync="myInfosFLag"
-      append-to-body
+
+    <el-dialog v-el-drag-dialog
+               width="77%"
+               :close-on-click-modal="true"
+               :modal="false"
+               title="我的消息"
+               :visible.sync="myInfosFLag2"
+               custom-class="chatInfoClass"
+               top="7vh"
     >
-      <el-row :gutter="24">
-        <!-- ======================= 我的消息---左边消息列表 =========================  -->
-        <el-col :sm="{span: 8}" :lg="{span:8}" :xs="{span: 0}">
-          <div style="max-height: 500px; min-height: 31.25rem;" class="title-menu-min">
-            <div style="width: 96%;">
-              <el-divider content-position="right">
-                <span>我的消息列表</span>
-              </el-divider>
-            </div>
-            <el-row :gutter="24" style="width: 96%;">
-              <!-- ======================= 单独一条消息 =========================  -->
-              <el-col v-for="o in 10" :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}"
-                      style="margin: 5px 0px !important; cursor: pointer;">
-
-                <el-badge id="phoneBContent" style="margin-bottom: 0px !important;" :value="3" class="item">
-                  <div>
-                    <el-col :sm="{span: 5}" :lg="{span:5}" :xs="{span: 5}">
-                      <div class="block">
-                        <el-avatar :size="50" :src="avatarUrl"/>
-                      </div>
-                    </el-col>
-                    <el-col :sm="{span: 19}" :lg="{span:19}" :xs="{span: 19}">
-                      <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}" style="margin: 2px 0px;">
-                        <el-link :underline="false">鹿七七</el-link>
-                      </el-col>
-                      <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}" style="margin: 2px 0px;">
-                        你好！公号{{ o }}为你服务....
-                      </el-col>
-                    </el-col>
-                    <el-col style="border-bottom: 1px solid #cccccc;" :sm="{span: 24}" :lg="{span:24}"
-                            :xs="{span: 24}"/>
-                  </div>
-                </el-badge>
-              </el-col>
-
-            </el-row>
-          </div>
-        </el-col>
-        <!-- ======================= 我的消息---左边消息列表(结束) =========================  -->
-
-        <!-- ======================= 具体消息 =========================  -->
-        <el-col :sm="{span: 16}" :lg="{span:16}" :xs="{span: 24}">
-          <div>
-            <el-divider content-position="right">
-              <span>鹿七七</span>
-            </el-divider>
-            <!-- ======================= 聊天记录 =========================  -->
-            <el-card class="box-card title-menu-min"
-                     style="width: 100%; max-height: 300px; min-height: 300px; background-color: #E4E5E5;">
-              <el-row v-for="o in liaojlS" style="margin-bottom: 10px;">
-                <div v-if="o.flag == 'left'">
-                  <el-col :sm="{span: 2}" :lg="{span:2}" :xs="{span: 4}">
-                    <div class="block">
-                      <el-avatar shape="square" :size="50" :src="avatarUrl"/>
-                    </div>
-                  </el-col>
-                  <el-col :sm="{span: 18}" :lg="{span:18}" :xs="{span: 18}">
-                    <el-card shadow="always" style="margin-left: 10px;" class="leftInfos">
-                      <div :key="o" class="text item send"
-                           style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;"
-                           v-html="o.content"/>
-                      <div :class="o.userClass"/>
-                    </el-card>
-                  </el-col>
-                </div>
-
-                <div v-if="o.flag == 'right'">
-                  <el-col :lg="{span:18,offset: 4}" :xs="{span: 18,offset: 2}">
-                    <el-card shadow="always" style="margin-right: 15px;" class="rightInfos">
-                      <div :key="o" class="text item send"
-                           style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;"
-                           v-html="o.content"/>
-                      <div :class="o.userClass"/>
-                    </el-card>
-                  </el-col>
-                  <el-col :sm="{span: 2}" :lg="{span:2}" :xs="{span: 4}">
-                    <div class="block">
-                      <el-avatar shape="square" :size="50" :src="avatarUrl"/>
-                    </div>
-                  </el-col>
-                </div>
-
-              </el-row>
-
-            </el-card>
-            <!-- ======================= 聊天记录(结束) =========================  -->
-
-            <!-- ======================= 富文本编辑器 =========================  -->
-            <el-row>
-              <quill-editor ref="text" v-model="content" style="height: 100px;" class="myQuillEditor"
-                            :options="editorOption"/>
-            </el-row>
-
-            <!-- ======================= 富文本编辑器(结束) =========================  -->
-
-            <el-row style="width: 6.25rem !important;">
-              <el-button type="primary" @click="submit">发送消息</el-button>
-            </el-row>
-          </div>
-        </el-col>
-        <!-- ======================= 具体消息(结束) =========================  -->
-      </el-row>
-
+      <chat-info></chat-info>
     </el-dialog>
-    <!-- ======================= 我的消息(电脑版) (结束) =========================  -->
-
-    <!-- ======================= 我的消息(手机版) =========================  -->
-    <el-dialog
-      v-if="isInfoPhoneFlag"
-      width="77%"
-      custom-class="myInfos title-menu-min"
-      :top="infoTopHtml"
-      :close-on-click-modal="false"
-      :title="phoneTitle"
-      :visible.sync="myInfosFLag"
-      append-to-body
-    >
-
-      <transition name="el-zoom-in-center">
-        <div v-if="showInfoListsFlag" class="title-menu-min"
-             style="max-height: 34.375rem !important; min-height: 34.375rem !important;">
-          <el-row v-for="o in 20" :gutter="24">
-            <el-badge id="phoneBContent" style="margin-bottom: 0px !important;" :value="3" class="item">
-              <!-- ======================= 单独一条消息 =========================  -->
-              <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}"
-                      style="margin: 5px 0px !important; cursor: pointer;">
-                <div @click="showChatWindowsFlagMethod">
-                  <el-col :sm="{span: 3}" :lg="{span:3}" :xs="{span: 5}">
-                    <div class="block">
-                      <el-avatar :size="50" :src="avatarUrl"/>
-                    </div>
-                  </el-col>
-                  <el-col :sm="{span: 19}" :lg="{span:19}" :xs="{span: 19}">
-                    <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}" style="margin: 2px 0px;">
-                      <el-link :underline="false">鹿七七</el-link>
-                    </el-col>
-                    <el-col :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}" style="margin: 2px 0px;">
-                      你好！公号{{ o }}为你服务2333....
-                    </el-col>
-                  </el-col>
-                  <el-col style="border-bottom: 1px solid #cccccc;" :sm="{span: 24}" :lg="{span:24}" :xs="{span: 24}"/>
-                </div>
-              </el-col>
-              <!-- ======================= 单独一条消息(结束) =========================  -->
-            </el-badge>
-          </el-row>
-        </div>
-      </transition>
-      <!-- ======================= 我的消息(结束) =========================  -->
-
-      <!-- ======================= 手机端聊天窗口 =========================  -->
-      <transition name="el-zoom-in-center">
-        <div v-if="showChatWindowsFlag" class="title-menu-min"
-             style="max-height: 34.375rem !important; min-height: 34.375rem !important;">
-          <el-page-header content="消息列表" @back="goPhoneInfoLists"/>
-
-          <!-- ======================= 聊天记录 =========================  -->
-          <el-card class="box-card title-menu-min"
-                   style="width: 100%; max-height: 350px; min-height: 350px; background-color: #E4E5E5;">
-            <el-row v-for="o in liaojlS" style="margin-bottom: 10px;">
-              <!-- ======================= 左边消息 =========================  -->
-              <div v-if="o.flag == 'left'">
-                <el-col :sm="{span: 2}" :lg="{span:2}" :xs="{span: 4}">
-                  <div class="block">
-                    <el-avatar shape="square" :size="50" :src="avatarUrl"/>
-                  </div>
-                </el-col>
-                <el-col :sm="{span: 18}" :lg="{span:18}" :xs="{span: 18}">
-                  <el-card shadow="always" style="margin-left: 10px;" class="leftInfos">
-                    <div :key="o" class="text item send"
-                         style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;"
-                         v-html="o.content"/>
-                    <div :class="o.userClass"/>
-                  </el-card>
-                </el-col>
-              </div>
-              <!-- ======================= 左边消息(结束) =========================  -->
-
-              <!-- ======================= 右边消息 =========================  -->
-              <div v-if="o.flag == 'right'">
-                <el-col :lg="{span:18,offset: 4}" :xs="{span: 18,offset: 2}">
-                  <el-card shadow="always" style="margin-right: 15px;" class="rightInfos">
-                    <div :key="o" class="text item send"
-                         style="width: 100% !important;overflow: hidden !important;text-overflow: ellipsis !important;white-space: normal !important;"
-                         v-html="o.content"/>
-                    <div :class="o.userClass"/>
-                  </el-card>
-                </el-col>
-                <el-col class="phoneRightImage" :sm="{span: 2}" :lg="{span:2}" :xs="{span: 4}">
-                  <div class="block">
-                    <el-avatar shape="square" :size="50" :src="avatarUrl"/>
-                  </div>
-                </el-col>
-              </div>
-              <!-- ======================= 右边消息(结束) =========================  -->
-            </el-row>
-
-          </el-card>
-          <!-- ======================= 聊天记录(结束) =========================  -->
-
-          <!-- ======================= 富文本编辑器 =========================  -->
-          <el-row>
-            <quill-editor ref="text" v-model="content" style="height: 100px;" class="myQuillEditor"
-                          :options="editorOption"/>
-          </el-row>
-
-          <el-row style="width: 6.25rem !important;">
-            <el-button type="primary" @click="submit">发送消息</el-button>
-          </el-row>
-
-          <!-- ======================= 富文本编辑器(结束) =========================  -->
-        </div>
-      </transition>
-      <!-- ======================= 手机端聊天窗口(结束) =========================  -->
-    </el-dialog>
-    <!-- ======================= 我的消息(手机版结束) =========================  -->
   </div>
+
+
 </template>
 
 <script>
+
   import {
     mapGetters
   } from 'vuex'
@@ -405,14 +199,23 @@
     productAjaxGet
   } from '@/api/table.js'
 
+  import chatInfo from '@/views/ChatManage/ChatInfo.vue'
+
   var systemUrl = ''
   // 工具栏配置
   const toolbarOptions = [
     ['image', 'video']
   ]
+  import elDragDialog from '@/el-drag-dialog'
+
   export default {
+    directives: {
+      elDragDialog
+    },
     data() {
       return {
+        chatInfoFlag: false,
+        myInfosFLag2: false,
         currentMessageFrom: {
           id: '',
           value: '',
@@ -451,7 +254,8 @@
     components: {
       Breadcrumb,
       Hamburger,
-      quillEditor
+      quillEditor,
+      chatInfo
     },
     computed: {
       ...mapGetters([
@@ -460,17 +264,17 @@
       ])
     },
     created() {
-      var url = systemUrl + "/user/message/get/state"
+      var url = systemUrl + '/user/message/get/state'
       setInterval(() => {
         productAjaxGet(url).then(data => {
 
           if (data.status == 200) {
-            if (data.msg == "yes") {
+            if (data.msg == 'yes') {
 
               this.wDMessage = data.data
-              this.isShowMessage = true;
+              this.isShowMessage = true
             } else {
-              this.isShowMessage = false;
+              this.isShowMessage = false
             }
           } else {
             this.$message({
@@ -487,7 +291,7 @@
     mounted() {
 
       // 发送AJAX查询后台数据
-      var url = systemUrl + "/shop/index"
+      var url = systemUrl + '/shop/index'
 
       productAjaxGet(url).then(data => {
         if (data.status == 200) {
@@ -512,9 +316,10 @@
 
       this.screenWidth = document.body.clientWidth
       this.screenHeight = document.body.clientHeight
-      if (this.screenWidth <= 1000) {
+      if (this.screenWidth <= 500) {
         this.isInfoPhoneFlag = true
         this.infoTopHtml = '1vh'
+        this.chatInfoFlag = true
       } else {
         this.isInfoPhoneFlag = false
         this.infoTopHtml = '10vh'
@@ -540,15 +345,15 @@
       messageState(state) {
         if (state == 2) {
 
-          var url = systemUrl + "/user/message/clear/or/read"
-          var para = {"state": 2}
+          var url = systemUrl + '/user/message/clear/or/read'
+          var para = { 'state': 2 }
           productAjaxPost(url, para).then(data => {
             if (data.status == 200) {
               // 修改成功  判断状态 修改状态
               this.wDMessage.forEach(data => {
-                data.state = 2;
+                data.state = 2
                 this.yDMessage.push(data)
-              });
+              })
 
               this.wDMessage = []
               this.COMMON.stopLoading()
@@ -582,19 +387,19 @@
             type: 'warning'
           }).then(() => {
 
-            var url = systemUrl + "/user/message/clear/or/read"
-            var para = {"state": 3}
+            var url = systemUrl + '/user/message/clear/or/read'
+            var para = { 'state': 3 }
             productAjaxPost(url, para).then(data => {
               if (data.status == 200) {
                 // 修改成功  判断状态 修改状态
-                this.wDMessage = [];
-                this.yDMessage = [];
+                this.wDMessage = []
+                this.yDMessage = []
 
                 this.$message({
                   showClose: true,
                   message: '删除成功',
                   type: 'success'
-                });
+                })
                 this.COMMON.stopLoading()
               } else if (data.status == 500) {
                 this.$message({
@@ -625,20 +430,20 @@
       },
       // 删除信息2
       delInfo2(index, value) {
-        console.log(index);
-        console.log(value);
+        console.log(index)
+        console.log(value)
 
         // 发送AJAX 将消息变成已读信息
-        var url = systemUrl + "/user/message/edit/state"
-        var para = {"messageId": value.messageId, "messageState": 3}
+        var url = systemUrl + '/user/message/edit/state'
+        var para = { 'messageId': value.messageId, 'messageState': 3 }
         productAjaxPost(url, para).then(data => {
           if (data.status == 200) {
             // 修改成功  判断状态 修改状态w
             // 获取原来的信息状态
             if (value.state == 1) {
-              this.wDMessage.splice(index, 1);
+              this.wDMessage.splice(index, 1)
             } else if (value.state == 2) {
-              this.yDMessage.splice(index, 1);
+              this.yDMessage.splice(index, 1)
             }
             this.COMMON.stopLoading()
           } else if (data.status == 500) {
@@ -671,7 +476,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.editMessageInfoState(this.currentMessageFrom.index, this.currentMessageFrom.value, 3);
+          this.editMessageInfoState(this.currentMessageFrom.index, this.currentMessageFrom.value, 3)
           this.drawer = false
         }).catch(() => {
 
@@ -679,7 +484,7 @@
       },
       openMyInfos() {
         this.COMMON.startLoading()
-        this.myInfosFLag = true
+        this.myInfosFLag2 = true
         this.COMMON.stopLoading()
       },
       submit() {
@@ -724,33 +529,33 @@
         this.showChatWindowsFlag = true
       },
       messageInfo(index, obj) {
-        this.currentMessageFrom.value = obj;
+        this.currentMessageFrom.value = obj
         this.drawer = true
         this.messageContent = obj.messageContent
-        this.currentMessageFrom.index = index;
+        this.currentMessageFrom.index = index
         if (obj.state == 1) {
-          this.editMessageInfoState(index, obj, 2);
+          this.editMessageInfoState(index, obj, 2)
         }
       },
       // 修改信息的状态
       editMessageInfoState(index, obj, state) {
         // 发送AJAX 将消息变成已读信息
-        var url = systemUrl + "/user/message/edit/state"
-        var para = {"messageId": obj.messageId, "messageState": state}
+        var url = systemUrl + '/user/message/edit/state'
+        var para = { 'messageId': obj.messageId, 'messageState': state }
         productAjaxPost(url, para).then(data => {
           if (data.status == 200) {
             // 修改成功  判断状态 修改状态
             if (state == 2) {
-              obj.state = 2;
-              this.wDMessage.splice(index, 1);
-              this.yDMessage.push(obj);
+              obj.state = 2
+              this.wDMessage.splice(index, 1)
+              this.yDMessage.push(obj)
             } else if (state == 3) {
               // 获取原来的信息状态
               if (obj.state == 1) {
-                this.yDMessage.splice(this.yDMessage.length - 2, 1);
+                this.yDMessage.splice(this.yDMessage.length - 2, 1)
               } else if (obj.state == 2) {
-                console.log("index" + index)
-                this.yDMessage.splice(index, 1);
+                console.log('index' + index)
+                this.yDMessage.splice(index, 1)
               }
             }
             this.COMMON.stopLoading()
@@ -826,6 +631,11 @@
     /* 圆角 */
     height: 100%;
   }
+
+  .chatInfoClass .el-dialog__body {
+    padding: 0px 0px !important;
+  }
+
 
   .leftArrow {
     position: absolute;
