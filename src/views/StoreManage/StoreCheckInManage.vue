@@ -109,8 +109,8 @@
     <el-dialog v-el-drag-dialog
                width="400px"
                :modal-append-to-body="false"
-               :close-on-click-modal = "false"
-               :modal="false"
+               :close-on-click-modal = "true"
+               :modal="true"
                title="回复商家"
                :visible.sync="isReplyMerchantDiv"
     >

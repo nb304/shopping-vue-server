@@ -3,7 +3,11 @@ import Cookies from 'js-cookie'
 const state = {
   sidebar: {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
-    withoutAnimation: false
+    withoutAnimation: false,
+    showIndexChatInfoFlag: true,
+    showChatInfoFlagDialog: false,
+    showChatInfoFlagDialog2: false,
+    showNewChatInfoFlag: false
   },
   device: 'desktop'
 }

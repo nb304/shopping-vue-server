@@ -1,184 +1,237 @@
 <template>
-  <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar"/>
+  <transition name="el-zoom-in-center">
+    <div class="navbar">
+      <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar"/>
 
-    <breadcrumb class="breadcrumb-container"/>
+      <breadcrumb class="breadcrumb-container"/>
 
-    <div class="right-menu">
+      <div class="right-menu">
 
-      <el-dropdown trigger="click">
-        <div class="avatar-wrapper">
+        <el-dropdown trigger="click">
+          <div class="avatar-wrapper">
 
-          <!-- ======================= 导航栏消息图标 =========================  -->
-          <span class="el-dropdown-link">
             <!-- ======================= 导航栏消息图标 =========================  -->
-            <el-badge trigger="click" v-if="isShowMessage" id="messageRed" is-dot class="item" title="提示">
+            <span class="el-dropdown-link">
+            <!-- ======================= 导航栏消息图标 =========================  -->
+            <el-badge v-if="isShowMessage" id="messageRed" trigger="click" is-dot class="item" title="提示">
               <svg-icon icon-class="message" class-name="message-class"/>
             </el-badge>
-            <el-badge trigger="click" v-else="isShowMessage" title="提示">
+            <el-badge v-else="isShowMessage" trigger="click" title="提示">
               <svg-icon icon-class="message" class-name="message-class"/>
             </el-badge>
-            <!-- ======================= 导航栏消息图标(结束) =========================  -->
+              <!-- ======================= 导航栏消息图标(结束) =========================  -->
           </span>
-          <!-- ======================= 导航栏消息数据实体 =========================  -->
-          <el-dropdown-menu slot="dropdown" style="position: relative;">
-            <div style="position: absolute; top: 20px; right: 20px; z-index: 999999999999999;">
-              <el-link type="warning" style="display: inline;" @click.stop="messageState(2)"
-                       :disabled="wDMessage.length < 1">全部已读
-              </el-link>
-              <el-link type="danger" style="display: inline;" @click.stop="messageState(3)"
-                       :disabled="wDMessage.length <1 && yDMessage.length < 1">全部删除
-              </el-link>
-            </div>
-            <el-tabs type="border-card" style="width:820px !important; max-height: 500px !important;"
-                     class="title-menu-min">
+            <!-- ======================= 导航栏消息数据实体 =========================  -->
+            <el-dropdown-menu slot="dropdown" style="position: relative;">
+              <div style="position: absolute; top: 20px; right: 20px; z-index: 999999999999999;">
+                <el-link
+                  type="warning"
+                  style="display: inline;"
+                  :disabled="wDMessage.length < 1"
+                  @click.stop="messageState(2)"
+                >全部已读
+                </el-link>
+                <el-link
+                  type="danger"
+                  style="display: inline;"
+                  :disabled="wDMessage.length <1 && yDMessage.length < 1"
+                  @click.stop="messageState(3)"
+                >全部删除
+                </el-link>
+              </div>
+              <el-tabs
+                type="border-card"
+                style="width:820px !important; max-height: 500px !important;"
+                class="title-menu-min"
+              >
 
+                <el-tab-pane label="全部消息">
 
-              <el-tab-pane label="全部消息">
+                  <el-badge
+                    v-for="(value,index) in wDMessage"
+                    value="new"
+                    style="margin-bottom:  0px !important; width: 97% !important;"
+                  >
+                    <el-card
+                      shadow="hover"
+                      class="info"
+                      style="margin-bottom: 5px; cursor: pointer;"
+                    >
+                    <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
+                      {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                      <span
+                        style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
+                        title="删除消息"
+                        @click.stop="delInfo2(index , value)"
+                      >x</span>
+                    </span>
 
-                <el-badge value="new" style="margin-bottom:  0px !important; width: 97% !important;"
-                          v-for="(value,index) in wDMessage">
-                  <el-card shadow="hover" class="info"
-                           style="margin-bottom: 5px; cursor: pointer;">
+                    </el-card>
+                  </el-badge>
+
+                  <el-card
+                    v-for="(value,index) in yDMessage"
+                    shadow="hover"
+                    class="info"
+                    style="margin-bottom: 5px; cursor: pointer;"
+                  >
+                  <span :key="value.messageId" style="width:97%; display:block;" @click="messageInfo(index , value)">
+                    {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                    <span
+                      style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
+                      title="删除消息"
+                      @click.stop="delInfo2(index , value)"
+                    >x</span>
+                  </span>
+                  </el-card>
+
+                  <el-card
+                    v-if="yDMessage.length < 1 && wDMessage.length < 1"
+                    shadow="hover"
+                    class="info"
+                    style="margin-bottom: 5px; cursor: pointer;"
+                  >
+                  <span style="width:100%; display:block;">
+                    没有任何消息~~~~
+                  </span>
+                  </el-card>
+
+                </el-tab-pane>
+                <el-tab-pane label="未读消息">
+                  <el-card
+                    v-for="(value,index) in wDMessage"
+                    shadow="hover"
+                    class="info"
+                    style="margin-bottom: 5px; cursor: pointer;"
+                  >
                   <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
                     {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
-                    <span style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;" title="删除消息"
-                          @click.stop="delInfo2(index , value)">x</span>
+                    <span
+                      style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
+                      title="删除消息"
+                      @click.stop="delInfo2(index , value)"
+                    >x</span>
                   </span>
-
                   </el-card>
+                  <el-card
+                    v-if="wDMessage.length < 1"
+                    shadow="hover"
+                    class="info"
+                    style="margin-bottom: 5px; cursor: pointer;"
+                  >
+                  <span style="width:100%; display:block;">
+                    没有任何消息~~~~
+                  </span>
+                  </el-card>
+                </el-tab-pane>
+                <el-tab-pane label="已读消息">
+                  <el-card
+                    v-for="(value,index) in yDMessage"
+                    shadow="hover"
+                    class="info"
+                    style="margin-bottom: 5px; cursor: pointer;"
+                  >
+                  <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
+                    {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                    <span
+                      style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
+                      title="删除消息"
+                      @click.stop="delInfo2(index , value)"
+                    >x</span>
+                  </span>
+                  </el-card>
+
+                  <el-card
+                    v-if="yDMessage.length < 1"
+                    shadow="hover"
+                    class="info"
+                    style="margin-bottom: 5px; cursor: pointer;"
+                  >
+                  <span style="width:100%; display:block;">
+                    没有任何消息~~~~
+                  </span>
+                  </el-card>
+                </el-tab-pane>
+
+              </el-tabs>
+
+            </el-dropdown-menu>
+            <!-- ======================= 导航栏消息图标(结束) =========================  -->
+
+            <el-drawer
+              title="消息内容"
+              :visible.sync="drawer"
+              direction="rtl"
+              @click.stop
+            >
+              <p style="text-align: center; color: #99a9bf;">{{ currentMessageFrom.value.createTimeStr }}</p>
+              <br>
+              <span style="font-size: 14px; letter-spacing: 1px;" v-html="messageContent"/>
+              <el-link type="danger" @click="delInfo">删除消息</el-link>
+              <br>
+            </el-drawer>
+
+          </div>
+
+        </el-dropdown>
+
+        <!-- ======================= 头像 =========================  -->
+        <el-dropdown class="avatar-container" trigger="click">
+          <div class="avatar-wrapper">
+            <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+            <i class="el-icon-caret-bottom"/>
+          </div>
+          <el-dropdown-menu slot="dropdown" class="user-dropdown">
+            <router-link to="/">
+              <el-dropdown-item>
+                <span @click="Home">主页</span>
+              </el-dropdown-item>
+            </router-link>
+            <router-link to="/my">
+              <el-dropdown-item>
+                <span>个人中心</span>
+              </el-dropdown-item>
+            </router-link>
+            <router-link v-if="chatInfoFlag" to="/chatManage">
+              <el-dropdown-item>
+                <el-badge style="margin-bottom: 0px !important;" :value="3" class="item">
+                  <!-- @click="openMyInfos" -->
+                  <span>消息中心</span>
                 </el-badge>
-
-
-                <el-card v-for="(value,index) in yDMessage" shadow="hover" class="info"
-                         style="margin-bottom: 5px; cursor: pointer;">
-                  <span :key="value.messageId" style="width:97%; display:block;" @click="messageInfo(index , value)">
-                     {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
-                    <span style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;" title="删除消息"
-                          @click.stop="delInfo2(index , value)">x</span>
-                  </span>
-                </el-card>
-
-                <el-card shadow="hover" class="info" v-if="yDMessage.length < 1 && wDMessage.length < 1"
-                         style="margin-bottom: 5px; cursor: pointer;">
-                  <span style="width:100%; display:block;">
-                    没有任何消息~~~~
-                  </span>
-                </el-card>
-
-              </el-tab-pane>
-              <el-tab-pane label="未读消息">
-                <el-card v-for="(value,index) in wDMessage" shadow="hover" class="info"
-                         style="margin-bottom: 5px; cursor: pointer;">
-                  <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
-                     {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
-                    <span style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;" title="删除消息"
-                          @click.stop="delInfo2(index , value)">x</span>
-                  </span>
-                </el-card>
-                <el-card shadow="hover" class="info" v-if="wDMessage.length < 1"
-                         style="margin-bottom: 5px; cursor: pointer;">
-                  <span style="width:100%; display:block;">
-                    没有任何消息~~~~
-                  </span>
-                </el-card>
-              </el-tab-pane>
-              <el-tab-pane label="已读消息">
-                <el-card v-for="(value,index) in yDMessage" shadow="hover" class="info"
-                         style="margin-bottom: 5px; cursor: pointer;">
-                  <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
-                     {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
-                    <span style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;" title="删除消息"
-                          @click.stop="delInfo2(index , value)">x</span>
-                  </span>
-                </el-card>
-
-                <el-card shadow="hover" class="info" v-if="yDMessage.length < 1"
-                         style="margin-bottom: 5px; cursor: pointer;">
-                  <span style="width:100%; display:block;">
-                    没有任何消息~~~~
-                  </span>
-                </el-card>
-              </el-tab-pane>
-
-            </el-tabs>
-
+              </el-dropdown-item>
+            </router-link>
+            <el-dropdown-item v-else>
+              <div @click="openMyInfos">
+                <el-badge style="margin-bottom: 0px !important;" :value="3" class="item">
+                  <!-- @click="openMyInfos" -->
+                  <span>消息中心</span>
+                </el-badge>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item divided>
+              <span style="display:block;" @click="logout">退出系统</span>
+            </el-dropdown-item>
           </el-dropdown-menu>
-          <!-- ======================= 导航栏消息图标(结束) =========================  -->
+        </el-dropdown>
+        <!-- ======================= 头像(结束) =========================  -->
 
-
-          <el-drawer
-            title="消息内容" @click.stop
-            :visible.sync="drawer"
-            direction="rtl">
-            <p style="text-align: center; color: #99a9bf;">{{currentMessageFrom.value.createTimeStr}}</p>
-            <br>
-            <span style="font-size: 14px; letter-spacing: 1px;" v-html="messageContent"></span>
-            <el-link type="danger" @click="delInfo">删除消息</el-link>
-            <br/>
-          </el-drawer>
-
-        </div>
-
-      </el-dropdown>
-
-      <!-- ======================= 头像 =========================  -->
-      <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom"/>
-        </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              <span @click="Home">主页</span>
-            </el-dropdown-item>
-          </router-link>
-          <router-link to="/my">
-            <el-dropdown-item>
-              <span>个人中心</span>
-            </el-dropdown-item>
-          </router-link>
-          <router-link v-if="chatInfoFlag" to="/chatManage">
-            <el-dropdown-item>
-              <el-badge style="margin-bottom: 0px !important;" :value="3" class="item">
-                <!-- @click="openMyInfos" -->
-                <span>消息中心</span>
-              </el-badge>
-            </el-dropdown-item>
-          </router-link>
-          <el-dropdown-item v-else>
-            <div @click="openMyInfos">
-              <el-badge style="margin-bottom: 0px !important;" :value="3" class="item">
-                <!-- @click="openMyInfos" -->
-                <span>消息中心</span>
-              </el-badge>
-            </div>
-          </el-dropdown-item>
-          <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">退出系统</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <!-- ======================= 头像(结束) =========================  -->
+      </div>
+      <el-dialog
+        v-el-drag-dialog
+        width="77%"
+        :close-on-click-modal="false"
+        :modal="true"
+        title="我的消息"
+        :visible.sync="$store.state.app.sidebar.showChatInfoFlagDialog "
+        custom-class="chatInfoClass"
+        top="7vh"
+        @close="closeChatInfo"
+      >
+        <chat-info/>
+      </el-dialog>
 
     </div>
-
-
-    <el-dialog v-el-drag-dialog
-               width="77%"
-               :close-on-click-modal="false"
-               :modal="true"
-               title="我的消息"
-               :visible.sync="myInfosFLag2"
-               custom-class="chatInfoClass"
-               top="7vh"
-    >
-      <chat-info></chat-info>
-    </el-dialog>
-  </div>
-
-
+  </transition>
 </template>
 
 <script>
@@ -212,6 +265,12 @@
   export default {
     directives: {
       elDragDialog
+    },
+    components: {
+      Breadcrumb,
+      Hamburger,
+      quillEditor,
+      chatInfo
     },
     data() {
       return {
@@ -252,12 +311,6 @@
 
       }
     },
-    components: {
-      Breadcrumb,
-      Hamburger,
-      quillEditor,
-      chatInfo
-    },
     computed: {
       ...mapGetters([
         'sidebar',
@@ -268,10 +321,8 @@
       var url = systemUrl + '/user/message/get/state'
       setInterval(() => {
         productAjaxGet(url).then(data => {
-
           if (data.status == 200) {
             if (data.msg == 'yes') {
-
               this.wDMessage = data.data
               this.isShowMessage = true
             } else {
@@ -290,7 +341,6 @@
       }, 2000)
     },
     mounted() {
-
       // 发送AJAX查询后台数据
       var url = systemUrl + '/shop/index'
 
@@ -345,9 +395,8 @@
       // 删除全部或者全部已读
       messageState(state) {
         if (state == 2) {
-
           var url = systemUrl + '/user/message/clear/or/read'
-          var para = {'state': 2}
+          var para = { 'state': 2 }
           productAjaxPost(url, para).then(data => {
             if (data.status == 200) {
               // 修改成功  判断状态 修改状态
@@ -380,16 +429,14 @@
               this.COMMON.stopLoading()
             }
           })
-
         } else {
           this.$confirm('你确定要删除全部信息吗?', '确认框', {
             confirmButtonText: '确定删除',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-
             var url = systemUrl + '/user/message/clear/or/read'
-            var para = {'state': 3}
+            var para = { 'state': 3 }
             productAjaxPost(url, para).then(data => {
               if (data.status == 200) {
                 // 修改成功  判断状态 修改状态
@@ -436,7 +483,7 @@
 
         // 发送AJAX 将消息变成已读信息
         var url = systemUrl + '/user/message/edit/state'
-        var para = {'messageId': value.messageId, 'messageState': 3}
+        var para = { 'messageId': value.messageId, 'messageState': 3 }
         productAjaxPost(url, para).then(data => {
           if (data.status == 200) {
             // 修改成功  判断状态 修改状态w
@@ -483,11 +530,17 @@
 
         })
       },
+      // 关闭消息
+      closeChatInfo() {
+        this.$store.state.app.sidebar.showChatInfoFlagDialog = false
+        this.$store.state.app.sidebar.showIndexChatInfoFlag = true
+      },
       openMyInfos() {
         this.COMMON.startLoading()
-        this.myInfosFLag2 = true
+        this.$store.state.app.sidebar.showChatInfoFlagDialog2 = true
+        this.$store.state.app.sidebar.showIndexChatInfoFlag = false
+        this.$store.state.app.sidebar.showNewChatInfoFlag = false
         this.COMMON.stopLoading()
-
       },
       submit() {
         var newPojo = {
@@ -543,7 +596,7 @@
       editMessageInfoState(index, obj, state) {
         // 发送AJAX 将消息变成已读信息
         var url = systemUrl + '/user/message/edit/state'
-        var para = {'messageId': obj.messageId, 'messageState': state}
+        var para = { 'messageId': obj.messageId, 'messageState': state }
         productAjaxPost(url, para).then(data => {
           if (data.status == 200) {
             // 修改成功  判断状态 修改状态
@@ -637,7 +690,6 @@
   .chatInfoClass .el-dialog__body {
     padding: 0px 0px !important;
   }
-
 
   .leftArrow {
     position: absolute;

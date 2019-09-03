@@ -13,9 +13,7 @@
         <settings />
       </right-panel>
 
-      <right-panel>
-        <settings />
-      </right-panel>
+      <right-chat-info></right-chat-info>
     </div>
   </div>
 </template>
@@ -24,6 +22,7 @@
 import { Navbar, Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import RightPanel from '@/components/RightPanel'
+import RightChatInfo from '@/components/RightChatInfo'
 import Settings from './components/Settings/index.vue'
 
 export default {
@@ -33,7 +32,8 @@ export default {
     Sidebar,
     AppMain,
     Settings,
-    RightPanel
+    RightPanel,
+    RightChatInfo
   },
   mixins: [ResizeMixin],
   computed: {
