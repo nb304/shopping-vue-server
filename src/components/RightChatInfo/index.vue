@@ -35,9 +35,15 @@
 </template>
 
 <script>
+
   import chatInfo from '@/views/ChatManage/ChatInfo.vue'
 
+  import elDragDialog from '@/el-drag-dialog'
+
   export default {
+    directives: {
+      elDragDialog
+    },
 
     components: {
       chatInfo
@@ -74,6 +80,7 @@
     position: fixed;
     top: 150px;
     right: 0px;
+    z-index: 9999999999;
     cursor: pointer;
   }
 </style>

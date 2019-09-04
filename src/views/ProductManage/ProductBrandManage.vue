@@ -278,14 +278,13 @@
 
 <script>
 
-import elDragDialog from '@/el-drag-dialog'
 import {
   productAjaxPost,
   productAjaxGet
 } from '@/api/table.js'
 
 var systemUrl = ''
-
+import elDragDialog from '@/el-drag-dialog'
 export default {
   directives: {
     elDragDialog

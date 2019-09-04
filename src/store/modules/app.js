@@ -4,10 +4,14 @@ const state = {
   sidebar: {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false,
+    // 主页显示的flag操作
     showIndexChatInfoFlag: true,
     showChatInfoFlagDialog: false,
     showChatInfoFlagDialog2: false,
-    showNewChatInfoFlag: false
+    showNewChatInfoFlag: false,
+    // 用户的cookie
+    userCookieKey: 'King2UserCookie',
+    userNameCookieKey: 'king2LoginUserName'
   },
   device: 'desktop'
 }

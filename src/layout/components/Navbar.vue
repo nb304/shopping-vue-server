@@ -254,6 +254,7 @@
   } from '@/api/table.js'
 
   import chatInfo from '@/views/ChatManage/ChatInfo.vue'
+  import { getToken, setToken, removeToken } from '@/api/cookieUtil'
 
   var systemUrl = ''
   // 工具栏配置
@@ -321,6 +322,13 @@
       var url = systemUrl + '/user/message/get/state'
       setInterval(() => {
         productAjaxGet(url).then(data => {
+          if (!this.Request_State.checkReqeustState(data)) {
+            removeToken(this.$store.state.app.sidebar.userCookieKey)
+            removeToken(this.$store.state.app.sidebar.userNameCookieKey)
+            removeToken('vue_admin_template_token')
+            location.reload();
+            return
+          }
           if (data.status == 200) {
             if (data.msg == 'yes') {
               this.wDMessage = data.data
@@ -341,6 +349,9 @@
       }, 2000)
     },
     mounted() {
+
+      window.addEventListener('beforeunload', e => {
+      })
       // 发送AJAX查询后台数据
       var url = systemUrl + '/shop/index'
 
@@ -562,6 +573,8 @@
         this.$store.dispatch('app/toggleSideBar')
       },
       async logout() {
+        removeToken(this.$store.state.app.sidebar.userCookieKey)
+        removeToken(this.$store.state.app.sidebar.userNameCookieKey)
         await this.$store.dispatch('user/logout')
         this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       },

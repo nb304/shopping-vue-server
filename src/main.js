@@ -19,6 +19,7 @@ import iView from 'iview'
 
 import common from './utils/common.js' // 引入页面公共的组件方法
 import filters from './filter/filter'
+import checkReqeust from '@/api/checkUserRequestState.js'
 
 /**
  * ================引入的自己获取其他组件自带的样式文件===============
@@ -40,6 +41,7 @@ if (process.env.NODE_ENV === 'production') {
  * 如何调用呢》  在某个vue模板下 this.COMMON.方法名即可
  */
 Vue.prototype.COMMON = common
+Vue.prototype.Request_State = checkReqeust
 
 /**
  * ================引入使用所需要用的组件===============

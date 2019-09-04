@@ -20,8 +20,22 @@
         <div style="max-height: 500px; min-height: 500px; background: #FAFAFA;" class="title-menu-min2">
           <!-- 单独一条信息 -->
           <el-backtop></el-backtop>
-          <el-col :span="24" v-for="(o,index) in newChatInfos" style="margin: 2px 0; cursor: pointer;">
-            <div @click="youjiFunction(o)" @contextmenu.prevent="rightClick">
+
+          <!-- 无消息 -->
+          <el-col :span="24"
+                  v-if="(newChatInfos == null || newChatInfos.length < 1)  &&
+                   (oleChatInfos == null || oleChatInfos.length < 1)">
+            <div style="text-align: center; margin-top: 20px; font-size: 18px; color: #BDBDBD;">
+              暂时无会话
+            </div>
+
+          </el-col>
+          <!-- 无消息End -->
+
+          <!-- 新消息 -->
+          <el-col v-if="newChatInfos != null && newChatInfos.length > 0" :span="24" v-for="(o,index) in newChatInfos"
+                  style="margin: 2px 0; cursor: pointer;">
+            <div @click="getInfo(o , index)" @contextmenu.prevent="rightClick">
               <el-card shadow="hover" style="width: 100%; height: 50px; background: #FAFAFA; ">
                 <!-- 头像 -->
                 <el-col :span="4" style="height: 100% !important;">
@@ -55,9 +69,63 @@
             </div>
           </el-col>
           <!-- 单独一条信息End -->
+          <!-- 新消息 End -->
+
+          <!-- 历史消息 -->
+          <el-col v-if="oleChatInfos != null && oleChatInfos.length > 0" :span="24" v-for="(o,index) in oleChatInfos"
+                  style="margin: 2px 0; cursor: pointer;">
+            <div @click="getInfo(o , index)" @contextmenu.prevent="rightClick">
+              <el-card shadow="hover" style="width: 100%; height: 50px; background: #FAFAFA; ">
+                <!-- 头像 -->
+                <el-col :span="4" style="height: 100% !important;">
+                  <el-avatar shape="square" :size="40"
+                             :src="o.image"></el-avatar>
+                </el-col>
+                <!-- 头像End -->
+
+                <!-- 信息内容 -->
+                <el-col :span="16">
+                  <div style="font-weight: bold;">
+                    {{o.name}}
+                  </div>
+                  <div class="autocut" style="color: #cccccc; font-size: 12px;">
+                    {{o.content}}
+                  </div>
+                </el-col>
+                <!-- 信息内容End -->
+                <!-- 时间以及条数 -->
+                <el-col :span="4" style="text-align: center; ">
+                  <div style="color: #cccccc; font-size: 12px;">
+                    9/2 16:18
+                  </div>
+                  <div style="margin-top: 7px; ">
+                    <el-badge :value="o.notReadSize" :max="99" class="item">
+                    </el-badge>
+                  </div>
+                </el-col>
+                <!-- 时间以及条数End -->
+              </el-card>
+            </div>
+          </el-col>
+          <!-- 单独一条信息End -->
+          <!-- 历史消息 End -->
         </div>
       </el-col>
-      <el-col :span="16">
+
+      <!-- 无消息 -->
+      <el-col :span="16"
+              v-if="currentFunctionObj == null || currentFunctionObj == ''">
+        <div style="text-align: center; margin-top: 20px; font-size: 18px; color: #BDBDBD;">
+          <img style="width: 300px;"
+               src="http://39.105.41.2:9000/king2-product-image/BDDFF87E-A0D0-40A9-A659-3788C2283F8D.gif">
+          <br/>
+          为什么没有人找我聊天呢QVQ???????
+        </div>
+      </el-col>
+      <!-- 无消息 -->
+      <!-- 内容体 -->
+      <el-col element-loading-text="正在同步聊天记录" v-loading="isLoadingGetUserChatInfo"
+              v-if="currentFunctionObj != null && currentFunctionObj != ''" :span="16">
         <div class="chatInfoContent title-menu-min2">
           <!-- 一组消息 -->
           <div>
@@ -66,110 +134,40 @@
 
             <!-- 对方 -->
             <!-- 消息的时间 END -->
-            <el-row style="margin: 5px 0px;">
-              <!-- 头像 -->
-              <el-col :span="2">
-                <el-avatar shape="square" :size="45"
-                           src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"></el-avatar>
-              </el-col>
-              <!-- 消息内容 -->
-              <el-col :span="18">
-                <div style="background-color: #EEEEEE;border-radius: 4px;
-                 padding: 3px 10px; min-height: 35px; line-height: 30px;">
-                  Element-ui,一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库。... 扫码进群大神带你装逼带你飞! ×Close ...
-                  element-ui.cn/ - 百度快照
-                  Element-UI配置 - 简书
-                  2018年9月12日 - 安装ElementUI npm i element-ui -S 按需引入 借助babel-plugin-component,我们可以只引入需要的组件,以达到减小项目体积的目的。
-                  首先,安装 babel-pl...
-                  简书社区 - 百度快照
-                </div>
-              </el-col>
-            </el-row>
-            <!-- 对方 END-->
+            <el-row style="margin: 5px 0px;" v-for="(o , index) in currentFunctionChatInfo">
+              <!-- 自己发送的 -->
+              <div v-if="o.flag">
 
-            <!-- 自己 -->
-            <el-row style="margin: 5px 0px;">
-              <el-col :span="18" :offset="4">
-                <div style="background-color: #2683F5;border-radius: 4px;
-                 padding: 3px 10px; min-height: 35px; line-height: 30px; color: #fff;">
-                  Element-ui,一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库。... 扫码进群大神带你装逼带你飞! ×Close ...
-                  element-ui.cn/ - 百度快照
-                  Element-UI配置 - 简书
-                  2018年9月12日 - 安装ElementUI npm i element-ui -S 按需引入 借助babel-plugin-component,我们可以只引入需要的组件,以达到减小项目体积的目的。
-                  首先,安装 babel-pl...
-                  简书社区 - 百度快照
-                </div>
-              </el-col>
-              <el-col :span="2" style="text-align: right;">
-                <el-avatar shape="square" :size="45"
-                           src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"></el-avatar>
-              </el-col>
+                <!-- 自己 -->
+                <el-col :span="18" :offset="4">
+                  <div style="background-color: #2683F5;border-radius: 4px;
+                 padding: 3px 10px; min-height: 35px; line-height: 30px; color: #fff;" v-html="o.chaoInfoMessage">
+                  </div>
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-avatar shape="square" :size="45"
+                             :src="o.image"></el-avatar>
+                </el-col>
+                <!-- 自己END -->
+              </div>
+              <!-- 别人发送的 -->
+              <div v-else>
+                <!-- 头像 -->
+                <el-col :span="2">
+                  <el-avatar shape="square" :size="45"
+                             :src="o.image"></el-avatar>
+                </el-col>
+                <!-- 消息内容 -->
+                <el-col :span="18">
+                  <div style="background-color: #EEEEEE;border-radius: 4px;
+                 padding: 3px 10px; min-height: 35px; line-height: 30px;" v-html="o.chaoInfoMessage">
+                  </div>
+                </el-col>
+                <!-- 对方 END-->
+              </div>
             </el-row>
-            <!-- 自己END -->
-
-            <!-- 对方 -->
-            <!-- 消息的时间 END -->
-            <el-row style="margin: 5px 0px;">
-              <!-- 头像 -->
-              <el-col :span="2">
-                <el-avatar shape="square" :size="45"
-                           src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"></el-avatar>
-              </el-col>
-              <!-- 消息内容 -->
-              <el-col :span="18">
-                <div style="background-color: #EEEEEE;border-radius: 4px;
-                 padding: 3px 10px; min-height: 35px; line-height: 30px;">
-                  Element-ui,一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库。... 扫码进群大神带你装逼带你飞! ×Close ...
-                  element-ui.cn/ - 百度快照
-                  Element-UI配置 - 简书
-                  2018年9月12日 - 安装ElementUI npm i element-ui -S 按需引入 借助babel-plugin-component,我们可以只引入需要的组件,以达到减小项目体积的目的。
-                  首先,安装 babel-pl...
-                  简书社区 - 百度快照
-                </div>
-              </el-col>
-            </el-row>
-            <!-- 对方 END-->
-
-            <!-- 自己 -->
-            <el-row style="margin: 5px 0px;">
-              <el-col :span="18" :offset="4">
-                <div style="background-color: #2683F5;border-radius: 4px;
-                 padding: 3px 10px; min-height: 35px; line-height: 30px; color: #fff;">
-                  Element-ui,一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库。... 扫码进群大神带你装逼带你飞! ×Close ...
-                  element-ui.cn/ - 百度快照
-                  Element-UI配置 - 简书
-                  2018年9月12日 - 安装ElementUI npm i element-ui -S 按需引入 借助babel-plugin-component,我们可以只引入需要的组件,以达到减小项目体积的目的。
-                  首先,安装 babel-pl...
-                  简书社区 - 百度快照
-                </div>
-              </el-col>
-              <el-col :span="2" style="text-align: right;">
-                <el-avatar shape="square" :size="45"
-                           src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"></el-avatar>
-              </el-col>
-            </el-row>
-            <!-- 自己END -->
-
-            <!-- 自己 -->
-            <el-row style="margin: 5px 0px;">
-              <el-col :span="18" :offset="4">
-                <div style="background-color: #2683F5;border-radius: 4px;
-                 padding: 3px 10px; min-height: 35px; line-height: 30px; color: #fff;">
-                  Element-ui,一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库。... 扫码进群大神带你装逼带你飞! ×Close ...
-                  element-ui.cn/ - 百度快照
-                  Element-UI配置 - 简书
-                  2018年9月12日 - 安装ElementUI npm i element-ui -S 按需引入 借助babel-plugin-component,我们可以只引入需要的组件,以达到减小项目体积的目的。
-                  首先,安装 babel-pl...
-                  简书社区 - 百度快照
-                </div>
-              </el-col>
-              <el-col :span="2" style="text-align: right;">
-                <el-avatar shape="square" :size="45"
-                           src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"></el-avatar>
-              </el-col>
-            </el-row>
-            <!-- 自己END -->
           </div>
+
           <!-- 一组消息END -->
 
         </div>
@@ -199,13 +197,24 @@
   const toolbarOptions = [
     ['image', 'video']
   ]
-  export default {
+  import elDragDialog from '@/el-drag-dialog'
 
+  export default {
+    directives: {
+      elDragDialog
+    },
     components: {
       quillEditor
     },
     data() {
       return {
+        // 加载
+        isLoadingGetUserChatInfo: false,
+        // 当前操作的消息
+        currentFunctionIndex: 0,
+        currentFunctionObj: '',
+        // 当前操作的用户以及和他的聊天记录
+        currentFunctionChatInfo: [],
         // 新消息
         newChatInfos: [],
         // 旧消息
@@ -226,6 +235,40 @@
     },
     methods: {
       youjiFunction(obj) {
+      },
+      getInfo(o, index) {
+        this.isLoadingGetUserChatInfo = true
+        this.currentFunctionObj = o
+        this.currentFunctionIndex = index
+        // 发送Ajax
+        var url = '/char/info/get'
+        var param = { 'getId': o.userId }
+        productAjaxPost(url, param).then(data => {
+          console.log(data)
+          if (data.status == 200) {
+            this.isLoadingGetUserChatInfo = false
+            this.currentFunctionChatInfo = data.data
+            // 修改成功  判断状态 修改状态
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--修改失败,请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+          }
+        })
       }
     },
     created() {
