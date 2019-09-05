@@ -48,19 +48,16 @@
     components: {
       chatInfo
     },
-    created() {
-      this.home()
-    },
     methods: {
-      home() {
-        setTimeout(() => {
-          this.$store.state.app.sidebar.showNewChatInfoFlag = true
-        }, 2000)
-      },
       // 关闭消息
       closeChatInfo() {
         this.$store.state.app.sidebar.showChatInfoFlagDialog2 = false
         this.$store.state.app.sidebar.showIndexChatInfoFlag = true
+        if(this.$store.state.app.sidebar.getCurrentInter != null) {
+          window.clearInterval(this.$store.state.app.sidebar.getCurrentInter)
+          this.$store.state.app.sidebar.getCurrentInter = null
+        }
+
       },
       openMyInfos() {
         this.COMMON.startLoading()

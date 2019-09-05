@@ -11,7 +11,18 @@ const state = {
     showNewChatInfoFlag: false,
     // 用户的cookie
     userCookieKey: 'King2UserCookie',
-    userNameCookieKey: 'king2LoginUserName'
+    userNameCookieKey: 'king2LoginUserName',
+    // 登录的用户信息
+    loginUserInfo: null,
+    // 聊天记录的消息
+    userChatInfos: {
+      newCharInfo:[],
+      oldCharInfo:[]
+    },
+    // 头像
+    image: '',
+    // 定时查询聊天记录的定时器
+    getCurrentInter: null
   },
   device: 'desktop'
 }

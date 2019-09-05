@@ -178,7 +178,7 @@
         <!-- ======================= 头像 =========================  -->
         <el-dropdown class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
-            <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+            <img :src="$store.state.app.sidebar.image" class="user-avatar">
             <i class="el-icon-caret-bottom"/>
           </div>
           <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -222,7 +222,7 @@
         :close-on-click-modal="false"
         :modal="true"
         title="我的消息"
-        :visible.sync="$store.state.app.sidebar.showChatInfoFlagDialog "
+        :visible.sync="$store.state.app.sidebar.showChatInfoFlagDialog"
         custom-class="chatInfoClass"
         top="7vh"
         @close="closeChatInfo"
@@ -326,16 +326,27 @@
             removeToken(this.$store.state.app.sidebar.userCookieKey)
             removeToken(this.$store.state.app.sidebar.userNameCookieKey)
             removeToken('vue_admin_template_token')
-            location.reload();
+            location.reload()
             return
           }
           if (data.status == 200) {
             if (data.msg == 'yes') {
-              this.wDMessage = data.data
+              this.wDMessage = data.data.wd
               this.isShowMessage = true
             } else {
               this.isShowMessage = false
             }
+            this.$store.state.app.sidebar.loginUserInfo = data.data.k2Member
+            this.$store.state.app.sidebar.image = data.data.k2Member.memberPortrait
+
+            // 用户的聊天记录
+            if (data.data.userCharInfoDto.newCharInfo != null && data.data.userCharInfoDto.newCharInfo.length > 0) {
+              this.$store.state.app.sidebar.showNewChatInfoFlag = true
+            } else {
+              this.$store.state.app.sidebar.showNewChatInfoFlag = false
+            }
+            this.$store.state.app.sidebar.userChatInfos.newCharInfo = data.data.userCharInfoDto.newCharInfo
+            this.$store.state.app.sidebar.userChatInfos.oldCharInfo = data.data.userCharInfoDto.oldCharInfo
           } else {
             this.$message({
               showClose: true,
@@ -489,8 +500,6 @@
       },
       // 删除信息2
       delInfo2(index, value) {
-        console.log(index)
-        console.log(value)
 
         // 发送AJAX 将消息变成已读信息
         var url = systemUrl + '/user/message/edit/state'
@@ -567,7 +576,6 @@
         this.liaojlS.push(newPojo)
         this.liaojlS.push(newPojo2)
         this.content = ''
-        console.log(this.$refs.text.value)
       },
       toggleSideBar() {
         this.$store.dispatch('app/toggleSideBar')
@@ -579,7 +587,6 @@
         this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       },
       async Home() {
-        console.log('123')
       },
       Home2() {
         this.isShowMessage = !this.isShowMessage
@@ -622,7 +629,6 @@
               if (obj.state == 1) {
                 this.yDMessage.splice(this.yDMessage.length - 2, 1)
               } else if (obj.state == 2) {
-                console.log('index' + index)
                 this.yDMessage.splice(index, 1)
               }
             }

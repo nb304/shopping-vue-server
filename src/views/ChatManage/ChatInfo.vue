@@ -10,21 +10,24 @@
             style="width: 70% !important; margin-left: 10px;"
             suffix-icon="el-icon-search">
           </el-input>
+
+          <i @click="F5ChatList" class="el-icon-refresh" style="cursor:pointer;font-size: 15px; margin-left: 10px;"
+             title="刷新列表"></i>
         </el-col>
         <el-col :span="16"
-                style="padding-left: 20px; font-weight: bold; font-size: 17px;">鹿七七
+                style="padding-left: 20px; font-weight: bold; font-size: 17px;">{{currentFunctionObj.name}}
         </el-col>
         <el-divider style="margin-bottom: 33px !important;"></el-divider>
       </el-row>
-      <el-col :span="8">
+      <el-col :span="8" element-loading-text="同步聊天列表中,请稍等" v-loading="isLoadingInfoLists">
         <div style="max-height: 500px; min-height: 500px; background: #FAFAFA;" class="title-menu-min2">
           <!-- 单独一条信息 -->
           <el-backtop></el-backtop>
 
           <!-- 无消息 -->
           <el-col :span="24"
-                  v-if="(newChatInfos == null || newChatInfos.length < 1)  &&
-                   (oleChatInfos == null || oleChatInfos.length < 1)">
+                  v-if="($store.state.app.sidebar.userChatInfos.newCharInfo == null || $store.state.app.sidebar.userChatInfos.newCharInfo.length < 1)  &&
+                   ($store.state.app.sidebar.userChatInfos.oldCharInfo == null || $store.state.app.sidebar.userChatInfos.oldCharInfo.length < 1)">
             <div style="text-align: center; margin-top: 20px; font-size: 18px; color: #BDBDBD;">
               暂时无会话
             </div>
@@ -33,78 +36,87 @@
           <!-- 无消息End -->
 
           <!-- 新消息 -->
-          <el-col v-if="newChatInfos != null && newChatInfos.length > 0" :span="24" v-for="(o,index) in newChatInfos"
-                  style="margin: 2px 0; cursor: pointer;">
-            <div @click="getInfo(o , index)" @contextmenu.prevent="rightClick">
-              <el-card shadow="hover" style="width: 100%; height: 50px; background: #FAFAFA; ">
-                <!-- 头像 -->
-                <el-col :span="4" style="height: 100% !important;">
-                  <el-avatar shape="square" :size="40"
-                             :src="o.image"></el-avatar>
-                </el-col>
-                <!-- 头像End -->
+          <el-col
+            v-if="$store.state.app.sidebar.userChatInfos.newCharInfo != null && $store.state.app.sidebar.userChatInfos.newCharInfo.length > 0"
+            :span="24"
+            v-for="(o,index) in $store.state.app.sidebar.userChatInfos.newCharInfo"
+            style="margin: 2px 0; cursor: pointer;">
+            <div @click="getInfo(o , index,'new')" @contextmenu.prevent="rightClick">
 
-                <!-- 信息内容 -->
-                <el-col :span="16">
-                  <div style="font-weight: bold;">
-                    {{o.name}}
-                  </div>
-                  <div class="autocut" style="color: #cccccc; font-size: 12px;">
-                    {{o.content}}
-                  </div>
-                </el-col>
-                <!-- 信息内容End -->
-                <!-- 时间以及条数 -->
-                <el-col :span="4" style="text-align: center; ">
-                  <div style="color: #cccccc; font-size: 12px;">
-                    9/2 16:18
-                  </div>
-                  <div style="margin-top: 7px; ">
-                    <el-badge :value="o.notReadSize" :max="99" class="item">
-                    </el-badge>
-                  </div>
-                </el-col>
-                <!-- 时间以及条数End -->
-              </el-card>
+              <div :class="o.clazz" style="width: 100%; height: 50px; background: #FAFAFA;"><!---->
+                <div class="el-card__body">
+                  <!-- 头像 -->
+                  <el-col :span="4" style="height: 100% !important;">
+                    <el-avatar shape="square" :size="40"
+                               :src="o.image"></el-avatar>
+                  </el-col>
+                  <!-- 头像End -->
+
+                  <!-- 信息内容 -->
+                  <el-col :span="16">
+                    <div style="font-weight: bold;">
+                      {{o.name}}
+                    </div>
+                    <div v-html="o.content" class="autocut" style="color: #cccccc; font-size: 12px;">
+                    </div>
+                  </el-col>
+                  <!-- 信息内容End -->
+                  <!-- 时间以及条数 -->
+                  <el-col :span="4" style="text-align: center; ">
+                    <div style="color: #cccccc; font-size: 12px;">
+                      {{o.time}}
+                    </div>
+                    <div style="margin-top: 7px; ">
+                      <el-badge :value="o.notReadSize" :max="99" class="item">
+                      </el-badge>
+                    </div>
+                  </el-col>
+                  <!-- 时间以及条数End -->
+                </div>
+              </div>
             </div>
           </el-col>
           <!-- 单独一条信息End -->
           <!-- 新消息 End -->
 
           <!-- 历史消息 -->
-          <el-col v-if="oleChatInfos != null && oleChatInfos.length > 0" :span="24" v-for="(o,index) in oleChatInfos"
-                  style="margin: 2px 0; cursor: pointer;">
-            <div @click="getInfo(o , index)" @contextmenu.prevent="rightClick">
-              <el-card shadow="hover" style="width: 100%; height: 50px; background: #FAFAFA; ">
-                <!-- 头像 -->
-                <el-col :span="4" style="height: 100% !important;">
-                  <el-avatar shape="square" :size="40"
-                             :src="o.image"></el-avatar>
-                </el-col>
-                <!-- 头像End -->
+          <el-col
+            v-if="$store.state.app.sidebar.userChatInfos.oldCharInfo != null && $store.state.app.sidebar.userChatInfos.oldCharInfo.length > 0"
+            :span="24"
+            v-for="(o,index) in $store.state.app.sidebar.userChatInfos.oldCharInfo"
+            style="margin: 2px 0; cursor: pointer;">
+            <div @click="getInfo(o , index,'old')" @contextmenu.prevent="rightClick">
+              <div :class="o.clazz" style="width: 100%; height: 50px; background: #FAFAFA;"><!---->
+                <div class="el-card__body">
+                  <!-- 头像 -->
+                  <el-col :span="4" style="height: 100% !important;">
+                    <el-avatar shape="square" :size="40"
+                               :src="o.image"></el-avatar>
+                  </el-col>
+                  <!-- 头像End -->
 
-                <!-- 信息内容 -->
-                <el-col :span="16">
-                  <div style="font-weight: bold;">
-                    {{o.name}}
-                  </div>
-                  <div class="autocut" style="color: #cccccc; font-size: 12px;">
-                    {{o.content}}
-                  </div>
-                </el-col>
-                <!-- 信息内容End -->
-                <!-- 时间以及条数 -->
-                <el-col :span="4" style="text-align: center; ">
-                  <div style="color: #cccccc; font-size: 12px;">
-                    9/2 16:18
-                  </div>
-                  <div style="margin-top: 7px; ">
-                    <el-badge :value="o.notReadSize" :max="99" class="item">
-                    </el-badge>
-                  </div>
-                </el-col>
-                <!-- 时间以及条数End -->
-              </el-card>
+                  <!-- 信息内容 -->
+                  <el-col :span="16">
+                    <div style="font-weight: bold;">
+                      {{o.name}}
+                    </div>
+                    <div v-html="o.content" class="autocut" style="color: #cccccc; font-size: 12px;">
+                    </div>
+                  </el-col>
+                  <!-- 信息内容End -->
+                  <!-- 时间以及条数 -->
+                  <el-col :span="4" style="text-align: center; ">
+                    <div style="color: #cccccc; font-size: 12px;">
+                      {{o.time}}
+                    </div>
+                    <div style="margin-top: 7px; ">
+                      <el-badge :value="o.notReadSize" :max="99" class="item">
+                      </el-badge>
+                    </div>
+                  </el-col>
+                  <!-- 时间以及条数End -->
+                </div>
+              </div>
             </div>
           </el-col>
           <!-- 单独一条信息End -->
@@ -126,27 +138,32 @@
       <!-- 内容体 -->
       <el-col element-loading-text="正在同步聊天记录" v-loading="isLoadingGetUserChatInfo"
               v-if="currentFunctionObj != null && currentFunctionObj != ''" :span="16">
-        <div class="chatInfoContent title-menu-min2">
+        <div ref="scrolldIV" class="chatInfoContent scrolldivmain title-menu-min2">
           <!-- 一组消息 -->
-          <div>
+          <div @scroll="100">
             <!-- 消息的时间 -->
-            <span style="text-align: center; display: block; color: #bababa;">2019/9/2 19:46:21</span>
+            <span style="text-align: center; display: block; color: #bababa;">{{currentTime}}</span>
 
             <!-- 对方 -->
             <!-- 消息的时间 END -->
-            <el-row style="margin: 5px 0px;" v-for="(o , index) in currentFunctionChatInfo">
+            <el-row style="position: relative;margin: 5px 0px;" v-for="(o , index) in currentFunctionChatInfo">
               <!-- 自己发送的 -->
               <div v-if="o.flag">
 
                 <!-- 自己 -->
                 <el-col :span="18" :offset="4">
                   <div style="background-color: #2683F5;border-radius: 4px;
-                 padding: 3px 10px; min-height: 35px; line-height: 30px; color: #fff;" v-html="o.chaoInfoMessage">
+                 padding: 3px 10px; margin-bottom:20px;min-height: 35px; line-height: 30px; color: #fff;"
+                       v-html="o.chaoInfoMessage">
                   </div>
                 </el-col>
                 <el-col :span="2" style="text-align: right;">
                   <el-avatar shape="square" :size="45"
                              :src="o.image"></el-avatar>
+                </el-col>
+                <el-col :span="5" :offset="18"
+                        style="position: absolute;bottom: -2px;color: #bababa;">
+                  {{o.createTimeStr}}
                 </el-col>
                 <!-- 自己END -->
               </div>
@@ -159,9 +176,12 @@
                 </el-col>
                 <!-- 消息内容 -->
                 <el-col :span="18">
-                  <div style="background-color: #EEEEEE;border-radius: 4px;
+                  <div style="margin-bottom:20px;background-color: #EEEEEE;border-radius: 4px;
                  padding: 3px 10px; min-height: 35px; line-height: 30px;" v-html="o.chaoInfoMessage">
                   </div>
+                </el-col>
+                <el-col :span="5" :offset="2" style="position: absolute;bottom: -2px;color: #bababa;">
+                  {{o.createTimeStr}}
                 </el-col>
                 <!-- 对方 END-->
               </div>
@@ -176,8 +196,9 @@
             ref="text" v-model="content" style="height: 120px; margin-right: 1px;"
             :options="editorOption"/>
         </div>
-        <div style="width: 6.25rem !important; position: absolute; right: 10px;">
-          <el-button size="mini">发送消息</el-button>
+        <div style="width: 6.25rem !important; position: absolute; right: 10px;" element-loading-text="发送中"
+             v-loading="sendMessageLoading">
+          <el-button size="mini" @click="sendMessage">发送消息</el-button>
         </div>
       </el-col>
     </el-row>
@@ -208,11 +229,18 @@
     },
     data() {
       return {
-        // 加载
+        // 发送的加载按钮
+        sendMessageLoading: false,
+        // 当前时间
+        currentTime: '',
+        // 加载信息列表
+        isLoadingInfoLists: false,
+        // 加载详细信息
         isLoadingGetUserChatInfo: false,
         // 当前操作的消息
-        currentFunctionIndex: 0,
+        currentFunctionIndex: null,
         currentFunctionObj: '',
+        currentFunctionType: '',
         // 当前操作的用户以及和他的聊天记录
         currentFunctionChatInfo: [],
         // 新消息
@@ -236,19 +264,148 @@
     methods: {
       youjiFunction(obj) {
       },
-      getInfo(o, index) {
+      // 发送消息
+      sendMessage() {
+        // 发送的消息要存入旧的信息中
+        if (this.content.trim() == '') {
+          return
+        }
+        this.sendMessageLoading = true
+        // 发送AJAX添加数据
+        var url = '/char/info/send/message'
+        var param = { 'receiveId': this.currentFunctionObj.userId, 'message': this.content }
+        productAjaxPost(url, param).then(data => {
+          if (data.status == 200) {
+            this.sendMessageLoading = false
+            var para = {
+              'chaoInfoMessage': this.content,
+              'createTimeStr': this.timeToString(new Date()),
+              'flag': true,
+              'image': this.$store.state.app.sidebar.image
+            }
+            if (this.currentFunctionType == 'new') {
+              this.newChatInfos[this.currentFunctionIndex].content = this.content
+            } else {
+              this.oleChatInfos[this.currentFunctionIndex].content = this.content
+            }
+            this.currentFunctionChatInfo.push(para)
+            this.content = ''
+            this.$nextTick(() => {
+              var scrollTop = this.$el.querySelector('.scrolldivmain')
+              scrollTop.scrollTop = scrollTop.scrollHeight
+            })
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg + '--修改失败,请重新刷新页面',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+            this.sendMessageLoading = false
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+            this.sendMessageLoading = false
+          }
+        })
+      },
+      timeToString(time) {
+        var date = new Date(time)
+        var year = date.getFullYear() + '-'
+        var month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date
+            .getMonth() + 1) +
+          '-'
+        date = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ''
+        return year + month + date
+      },
+      getInfo(o, index, type) {
+        this.currentTime = this.timeToString(new Date())
+        this.currentFunctionType = type
+        // 取消上一次的clazz
+        if (this.currentFunctionIndex != null) {
+          if ('old' == type) {
+            this.oleChatInfos[this.currentFunctionIndex].clazz = 'el-card is-hover-shadow'
+          } else if ('new' == type) {
+            this.newChatInfos[this.currentFunctionIndex].clazz = 'el-card is-hover-shadow'
+          }
+        }
         this.isLoadingGetUserChatInfo = true
         this.currentFunctionObj = o
+        if ('old' == type) {
+          this.oleChatInfos[index].clazz = 'el-card is-always-shadow clazzBack'
+        } else {
+          this.newChatInfos[index].clazz = 'el-card is-always-shadow clazzBack'
+        }
+        if (this.newChatInfos != null && this.newChatInfos.length > 0) {
+          this.newChatInfos[index].notReadSize = null
+        }
         this.currentFunctionIndex = index
-        // 发送Ajax
-        var url = '/char/info/get'
-        var param = { 'getId': o.userId }
-        productAjaxPost(url, param).then(data => {
-          console.log(data)
+        this.F5CurrentChatInfos()
+        var inter = setInterval(() => {
+          if (!this.isLoadingGetUserChatInfo) {
+            this.$nextTick(() => {
+              var scrollTop = this.$el.querySelector('.scrolldivmain')
+              scrollTop.scrollTop = scrollTop.scrollHeight
+            })
+            window.clearInterval(inter)
+          }
+        }, 10)
+      },
+      F5CurrentChatInfos() {
+        if (this.$store.state.app.sidebar.getCurrentInter != null) {
+          window.clearInterval(this.$store.state.app.sidebar.getCurrentInter)
+          this.$store.state.app.sidebar.getCurrentInter = null
+        }
+        this.$store.state.app.sidebar.getCurrentInter = setInterval(() => {
+          // 发送Ajax
+          var url = '/char/info/get'
+          var param = { 'getId': this.currentFunctionObj.userId }
+          productAjaxPost(url, param).then(data => {
+            if (data.status == 200) {
+              this.isLoadingGetUserChatInfo = false
+              this.currentFunctionChatInfo = data.data
+            } else if (data.status == 500) {
+              this.$message({
+                showClose: true,
+                message: data.msg + '--修改失败,请重新刷新页面',
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+
+            } else {
+              this.$message({
+                showClose: true,
+                message: data.msg,
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+
+            }
+          })
+        }, 1000)
+      },
+      F5ChatList() {
+        this.isLoadingInfoLists = true
+        var url = '/char/info/index'
+        productAjaxPost(url).then(data => {
           if (data.status == 200) {
-            this.isLoadingGetUserChatInfo = false
-            this.currentFunctionChatInfo = data.data
             // 修改成功  判断状态 修改状态
+            this.newChatInfos = data.data.newCharInfo
+            this.oleChatInfos = data.data.oldCharInfo
+            this.isLoadingInfoLists = false
+            this.$message({
+              showClose: true,
+              message: '加载完成',
+              type: 'success'
+            })
           } else if (data.status == 500) {
             this.$message({
               showClose: true,
@@ -258,6 +415,7 @@
               customClass: 'zzIndex'
             })
 
+            this.isLoadingInfoLists = false
           } else {
             this.$message({
               showClose: true,
@@ -266,43 +424,13 @@
               duration: 3000,
               customClass: 'zzIndex'
             })
-
+            this.isLoadingInfoLists = false
           }
         })
       }
     },
     created() {
-      this.COMMON.startLoading()
-      var url = '/char/info/index'
-      productAjaxPost(url).then(data => {
-        console.log(data)
-        if (data.status == 200) {
-          // 修改成功  判断状态 修改状态
-          this.newChatInfos = data.data.newCharInfo
-          this.oleChatInfos = data.data.oldCharInfo
-          this.COMMON.stopLoading()
-        } else if (data.status == 500) {
-          this.$message({
-            showClose: true,
-            message: data.msg + '--修改失败,请重新刷新页面',
-            type: 'error',
-            duration: 3000,
-            customClass: 'zzIndex'
-          })
-
-          this.COMMON.stopLoading()
-        } else {
-          this.$message({
-            showClose: true,
-            message: data.msg,
-            type: 'error',
-            duration: 3000,
-            customClass: 'zzIndex'
-          })
-
-          this.COMMON.stopLoading()
-        }
-      })
+      this.F5ChatList()
     }
 
   }
@@ -362,6 +490,10 @@
   #chatInfoDiv .el-divider {
     margin-top: 33px !important;
     margin-bottom: 0px !important;
+  }
+
+  .clazzBack {
+    background-color: #F3F3F3 !important;
   }
 
 </style>
