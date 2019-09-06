@@ -322,14 +322,37 @@
       var url = systemUrl + '/user/message/get/state'
       setInterval(() => {
         productAjaxGet(url).then(data => {
-          if (!this.Request_State.checkReqeustState(data)) {
-            removeToken(this.$store.state.app.sidebar.userCookieKey)
-            removeToken(this.$store.state.app.sidebar.userNameCookieKey)
-            removeToken('vue_admin_template_token')
-            location.reload()
-            return
-          }
-          if (data.status == 200) {
+          console.log(data)
+          if (data.status != 200) {
+            if (data.status == 201) {
+              this.$message({
+                showClose: true,
+                message: '该账号在其他地方登入,三秒后将跳到登入页面。',
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+            }
+
+            if (data.status == 401) {
+              this.$message({
+                showClose: true,
+                message: '用户未登入。',
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+            }
+
+            setTimeout(() => {
+              removeToken(this.$store.state.app.sidebar.userCookieKey)
+              removeToken(this.$store.state.app.sidebar.userNameCookieKey)
+              removeToken('vue_admin_template_token')
+              location.reload()
+              return
+            }, 3000)
+
+          } else if (data.status == 200) {
             if (data.msg == 'yes') {
               this.wDMessage = data.data.wd
               this.isShowMessage = true
@@ -347,7 +370,7 @@
             }
             this.$store.state.app.sidebar.userChatInfos.newCharInfo = data.data.userCharInfoDto.newCharInfo
             this.$store.state.app.sidebar.userChatInfos.oldCharInfo = data.data.userCharInfoDto.oldCharInfo
-          } else {
+          } else if (data.status == 500) {
             this.$message({
               showClose: true,
               message: data.msg + '--请重新刷新页面',
