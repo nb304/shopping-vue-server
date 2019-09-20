@@ -8,12 +8,12 @@
       <el-row :gutter="24">
         <el-col :sm="{span: 3}" :xs="{span: 8}" style="margin-bottom: 10px;;">
           <el-select v-model="productEvaluateSearchForm.querykey" placeholder="选择查询条件">
-            <el-option label="订单编号" value="1"/>
-            <el-option label="用户名称" value="2"/>
+            <el-option label="订单编号" value="1" />
+            <el-option label="用户名称" value="2" />
           </el-select>
         </el-col>
         <el-col :sm="{span: 5}" :xs="{span: 15}" style="margin-bottom: 10px;;" class="queryValueClass">
-          <el-input v-model="productEvaluateSearchForm.queryValue" placeholder="请输入查询条件"/>
+          <el-input v-model="productEvaluateSearchForm.queryValue" placeholder="请输入查询条件" />
         </el-col>
 
         <el-col :sm="{span:9}" :xs="{span: 23}" style="margin-bottom: 10px;; ">
@@ -90,7 +90,7 @@
           <el-collapse accordion>
             <el-collapse-item>
               <template slot="title">
-                订单编号:{{ o.orderNumber }}<i class="header-icon el-icon-s-comment"/>
+                订单编号:{{ o.orderNumber }}<i class="header-icon el-icon-s-comment" />
               </template>
               <el-card shadow="hover">
                 <div class="userEvaInfoDiv">
@@ -148,7 +148,9 @@
 
                 <el-row :gutter="24">
                   <el-col :sm="{span: 2}" :xs="{span: 8}">
-                    <el-link type="primary" @click="replyEv(index , o)"
+                    <el-link
+                      type="primary"
+                      @click="replyEv(index , o)"
                     >回复卖家
                     </el-link>
                   </el-col>
@@ -192,12 +194,13 @@
     <!-- ======================= 分页层 (结束) =========================  -->
 
     <!-- ======================= 评论回复弹出层 =========================  -->
-    <el-dialog v-el-drag-dialog
-               :append-to-body="true"
-               width="400px"
+    <el-dialog
+      v-el-drag-dialog
+      :append-to-body="true"
+      width="400px"
 
-               title="回复评论"
-               :visible.sync="productEvaluateFlags.replyEvaluate"
+      title="回复评论"
+      :visible.sync="productEvaluateFlags.replyEvaluate"
     >
       <el-form
         ref="replyEvaluateForm"
@@ -209,14 +212,23 @@
         <el-row :gutter="24">
           <el-col :sm="{span: 24}" :xs="{span: 24}">
             <el-form-item label="回复内容" style="width:100%;">
-              <el-input v-model="currentFunctionObj.retain1" :html="currentFunctionObj.retain1"
-                        :disabled=" currentFunctionObj.retain1 != null && currentFunctionObj.retain1.length > 1"
-                        v-if=" currentFunctionObj.retain1 != null && currentFunctionObj.retain1.length > 1"
-                        type="textarea" maxlength="500" show-word-limit/>
+              <el-input
+                v-if=" currentFunctionObj.retain1 != null && currentFunctionObj.retain1.length > 1"
+                v-model="currentFunctionObj.retain1"
+                :html="currentFunctionObj.retain1"
+                :disabled=" currentFunctionObj.retain1 != null && currentFunctionObj.retain1.length > 1"
+                type="textarea"
+                maxlength="500"
+                show-word-limit
+              />
 
-              <el-input v-if="currentFunctionObj.retain1 == null || currentFunctionObj.retain1.length < 1"
-                        v-model="replyEvaluateForm.content"
-                        type="textarea" maxlength="500" show-word-limit/>
+              <el-input
+                v-if="currentFunctionObj.retain1 == null || currentFunctionObj.retain1.length < 1"
+                v-model="replyEvaluateForm.content"
+                type="textarea"
+                maxlength="500"
+                show-word-limit
+              />
             </el-form-item>
           </el-col>
 
@@ -225,9 +237,12 @@
         <el-row :gutter="24">
           <el-col :sm="{span: 8,offset:4}" :xs="{span: 23}">
 
-            <el-button type="primary" style="width:100%;margin-bottom: 15px;"
-                       :disabled=" currentFunctionObj.retain1 != null && currentFunctionObj.retain1.length > 1"
-                       @click="yesReply">确认回复
+            <el-button
+              type="primary"
+              style="width:100%;margin-bottom: 15px;"
+              :disabled=" currentFunctionObj.retain1 != null && currentFunctionObj.retain1.length > 1"
+              @click="yesReply"
+            >确认回复
             </el-button>
           </el-col>
 
@@ -244,41 +259,63 @@
     <!-- ======================= 评论回复弹出层(结束) =========================  -->
 
     <!-- ======================= 评论举报弹出层 =========================  -->
-    <el-dialog v-el-drag-dialog
-               :append-to-body="true"
-               width="400px"
+    <el-dialog
+      v-el-drag-dialog
+      :append-to-body="true"
+      width="400px"
 
-               title="举报"
-               :visible.sync="productEvaluateFlags.reportFlag"
+      title="举报"
+      :visible.sync="productEvaluateFlags.reportFlag"
     >
       <el-form ref="reportForm" label-position="left" :inline="true" :model="reportForm" label-width="80px">
         <el-row :gutter="24">
 
           <el-col :sm="{span: 24}" :xs="{span: 24}">
             <el-form-item label="举报类型" style="width:100%;">
-              <el-select style="width:270px;" v-model="reportForm.reportState" placeholder="请选择举报类型"
-                         v-if="currentFunctionObj.retain3 == null || currentFunctionObj.retain3.length < 1">
-                <el-option :label="o.reportName" v-for="(o , index) in rePortStatePojos"
-                           :value="o.reportValue"/>
+              <el-select
+                v-if="currentFunctionObj.retain3 == null || currentFunctionObj.retain3.length < 1"
+                v-model="reportForm.reportState"
+                style="width:270px;"
+                placeholder="请选择举报类型"
+              >
+                <el-option
+                  v-for="(o , index) in rePortStatePojos"
+                  :label="o.reportName"
+                  :value="o.reportValue"
+                />
               </el-select>
 
-              <el-select style="width:270px;" v-model="currentFunctionObj.retain4" placeholder="请选择举报类型"
-                         :disabled="true"
-                         v-if="currentFunctionObj.retain3 != null && currentFunctionObj.retain3.length > 1">
-                <el-option :label="o.reportName" v-for="(o , index) in rePortStatePojos"
-                           :value="o.reportValue"/>
+              <el-select
+                v-if="currentFunctionObj.retain3 != null && currentFunctionObj.retain3.length > 1"
+                v-model="currentFunctionObj.retain4"
+                style="width:270px;"
+                placeholder="请选择举报类型"
+                :disabled="true"
+              >
+                <el-option
+                  v-for="(o , index) in rePortStatePojos"
+                  :label="o.reportName"
+                  :value="o.reportValue"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="{span: 24}" :xs="{span: 24}">
             <el-form-item label="举报内容" style="width:100%;">
-              <el-input v-model="reportForm.reportContent" maxlength="1000" show-word-limit
-                        v-if="currentFunctionObj.retain3 == null || currentFunctionObj.retain3.length < 1"
-                        type="textarea"/>
+              <el-input
+                v-if="currentFunctionObj.retain3 == null || currentFunctionObj.retain3.length < 1"
+                v-model="reportForm.reportContent"
+                maxlength="1000"
+                show-word-limit
+                type="textarea"
+              />
 
-              <el-input v-model="currentFunctionObj.retain3" :disabled="true"
-                        v-if="currentFunctionObj.retain3 != null && currentFunctionObj.retain3.length > 1"
-                        type="textarea"/>
+              <el-input
+                v-if="currentFunctionObj.retain3 != null && currentFunctionObj.retain3.length > 1"
+                v-model="currentFunctionObj.retain3"
+                :disabled="true"
+                type="textarea"
+              />
             </el-form-item>
           </el-col>
 
@@ -287,8 +324,12 @@
         <el-row :gutter="24">
           <el-col :sm="{span: 8,offset:4}" :xs="{span: 23}">
 
-            <el-button :disabled="currentFunctionObj.retain3 != null && currentFunctionObj.retain3.length"
-                       type="primary" style="width:100%;margin-bottom: 15px;" @click="yesReport">确认举报
+            <el-button
+              :disabled="currentFunctionObj.retain3 != null && currentFunctionObj.retain3.length"
+              type="primary"
+              style="width:100%;margin-bottom: 15px;"
+              @click="yesReport"
+            >确认举报
             </el-button>
           </el-col>
 
@@ -307,295 +348,153 @@
 </template>
 
 <script>
-  import elDragDialog from '@/el-drag-dialog'
-  import {
-    productAjaxPost,
-    productAjaxGet
-  } from '@/api/table.js'
+import elDragDialog from '@/el-drag-dialog'
+import {
+  productAjaxPost,
+  productAjaxGet
+} from '@/api/table.js'
 
-  var systemUrl = ''
+var systemUrl = ''
 
-  export default {
-    directives: {
-      elDragDialog
-    },
-    data() {
-      return {
+export default {
+  directives: {
+    elDragDialog
+  },
+  data() {
+    return {
 
-        // 举报状态
-        rePortStatePojos: [],
-        // 举报的表单
-        reportForm: {
-          reportState: '',
-          reportContent: '',
-          reportEvId: ''
-        },
-        // 当前操作的评价
-        currentFunctionIndex: 0,
-        currentFunctionObj: '',
-        // 分页小型的flag
-        pageFlag: false,
-        // 评价的分类数据
-        evaluatePage: {
-          totalSize: 0, // 总条数
-          currentSize: 10, // 显示的条数
-          currentPage: 1, // 当前显示的页数
-          orderNumber: '',
-          userName: '',
-          startTimeStr: '',
-          endTimeStr: ''
-        },
-        // 商品评价搜索表单
-        productEvaluateSearchForm: {
-          querykey: '',
-          queryValue: '',
-          queryTimes: []
-        },
-        // 评价的集合数据
-        evaluateDatas: [],
-        // //////////////////////////////////////////////////////////////////////////////////
+      // 举报状态
+      rePortStatePojos: [],
+      // 举报的表单
+      reportForm: {
+        reportState: '',
+        reportContent: '',
+        reportEvId: ''
+      },
+      // 当前操作的评价
+      currentFunctionIndex: 0,
+      currentFunctionObj: '',
+      // 分页小型的flag
+      pageFlag: false,
+      // 评价的分类数据
+      evaluatePage: {
+        totalSize: 0, // 总条数
+        currentSize: 10, // 显示的条数
+        currentPage: 1, // 当前显示的页数
+        orderNumber: '',
+        userName: '',
+        startTimeStr: '',
+        endTimeStr: ''
+      },
+      // 商品评价搜索表单
+      productEvaluateSearchForm: {
+        querykey: '',
+        queryValue: '',
+        queryTimes: []
+      },
+      // 评价的集合数据
+      evaluateDatas: [],
+      // //////////////////////////////////////////////////////////////////////////////////
 
-        htmlIntter: '复制成功',
-        // 商品回复Form
-        replyEvaluateForm: {
-          content: ''
-        },
-        // 商品评论弹出层
-        productEvaluateFlags: {
-          // 回复的弹出层Flag
-          replyEvaluate: false,
-          // 举报的弹出层Flag
-          reportFlag: false
-        },
-        // 分页条数
-        total: 100,
-        // 日期快捷键
-        pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '关闭',
-            onClick(picker) {
-              picker.$emit('pick', ['', ''])
-            }
-          }]
-        },
-        // 页面的长宽
-        screenWidth: '',
-        screenHeight: ''
-      }
-    },
-    created() {
-      // 初始化方法 vue组件初始化完成,网页未完成
-      this.getEvaluateInfo()
-    },
-    mounted() {
-      this.screenWidth = document.body.clientWidth
-      this.screenHeight = document.body.clientHeight
-      if (this.screenWidth <= 500) {
-        this.productTopHtml = '1vh'
-        this.pageFlag = true
-      } else {
-      }
-      window.onresize = () => {
-        return (() => {
-          this.screenWidth = document.body.clientWidth
-          this.screenHeight = document.body.clientHeight
-          // 判断宽度是否小于500 小于500 全部全屏显示
-          if (this.screenWidth <= 500) {
-            this.pageFlag = true
-          } else {
+      htmlIntter: '复制成功',
+      // 商品回复Form
+      replyEvaluateForm: {
+        content: ''
+      },
+      // 商品评论弹出层
+      productEvaluateFlags: {
+        // 回复的弹出层Flag
+        replyEvaluate: false,
+        // 举报的弹出层Flag
+        reportFlag: false
+      },
+      // 分页条数
+      total: 100,
+      // 日期快捷键
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
           }
-        })()
-      }
-    },
-    methods: {
-      // 确认举报
-      yesReport() {
-        this.$confirm('您确定要举报该评论吗?只有一次机会哦！', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          var url = '/product/evaluate/report'
-          productAjaxPost(url, this.reportForm).then(data => {
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: '举报成功'
-              })
-              // this.evaluateDatas[this.currentFunctionIndex].retain3 = 1
-              this.evaluateDatas[this.currentFunctionIndex].retain3 = this.reportForm.reportContent
-              this.evaluateDatas[this.currentFunctionIndex].retain4 = this.reportForm.reportState
-              this.currentFunctionObj.retain3 = this.reportForm.reportContent
-              this.currentFunctionObj.retain4 = this.reportForm.reportState
-              this.productEvaluateFlags.reportFlag = false
-              this.reportForm.reportContent=''
-              this.reportForm.reportState=''
-              this.COMMON.stopLoading()
-            } else if (data.status == 500) {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        })
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '关闭',
+          onClick(picker) {
+            picker.$emit('pick', ['', ''])
+          }
+        }]
       },
-      // 打开举报内容
-      reportContent(index, o) {
-        this.currentFunctionIndex = index
-        this.currentFunctionObj = o
-        this.reportForm.reportEvId = o.productEvaluateId
-        this.productEvaluateFlags.reportFlag = true
-      },
-      // 确认回复
-      yesReply() {
-        this.$confirm('您确定要回复吗?只有一次机会哦！', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          var url = '/product/evaluate/reply'
-          var para = { 'evalId': this.currentFunctionObj.productEvaluateId, 'content': this.replyEvaluateForm.content }
-          productAjaxPost(url, para).then(data => {
-            if (data.status == 200) {
-              this.$message({
-                type: 'success',
-                message: '回复成功'
-              })
-              this.evaluateDatas[this.currentFunctionIndex].retain1 = this.replyEvaluateForm.content
-              this.productEvaluateFlags.replyEvaluate = false
-              this.replyEvaluateForm.content=''
-              this.COMMON.stopLoading()
-            } else if (data.status == 500) {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        })
-      },
-      // 回复评论
-      replyEv(index, obj) {
-        this.currentFunctionIndex = index
-        this.currentFunctionObj = obj
-        this.productEvaluateFlags.replyEvaluate = true
-      },
-      // 商品类型
-      state(state) {
-        this.evaluatePage.isHZCState = state
-        this.getEvaluateInfo()
-      },
-      // 切换商品的条数
-      categoryCurrentSize(val) {
-        this.evaluatePage.currentSize = val
-        this.getEvaluateInfo()
-      },
-      // 切换商品页数
-      categoryCurrentPage(val) {
-        // 替换当前页数
-        this.evaluatePage.currentPage = val
-        this.getEvaluateInfo()
-      },
-      // 格式化时间
-      timeToString(time) {
-        var date = new Date(time)
-        var year = date.getFullYear() + '-'
-        var month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date
-            .getMonth() + 1) +
-          '-'
-        date = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ''
-        return year + month + date
-      },
-      // 单击搜索
-      searchProduceEv() {
-        this.evaluatePage.startTimeStr = ''
-        this.evaluatePage.endTimeStr = ''
-        this.evaluatePage.currentPage = 1
-        this.evaluatePage.userName = ''
-        this.evaluatePage.orderNumber = ''
-        if (this.productEvaluateSearchForm.querykey == 1) {
-          this.evaluatePage.orderNumber = this.productEvaluateSearchForm.queryValue
-          this.evaluatePage.userName = ''
-        } else if (this.productEvaluateSearchForm.querykey == 2) {
-          this.evaluatePage.orderNumber = ''
-          this.evaluatePage.userName = this.productEvaluateSearchForm.queryValue
+      // 页面的长宽
+      screenWidth: '',
+      screenHeight: ''
+    }
+  },
+  created() {
+    // 初始化方法 vue组件初始化完成,网页未完成
+    this.getEvaluateInfo()
+  },
+  mounted() {
+    this.screenWidth = document.body.clientWidth
+    this.screenHeight = document.body.clientHeight
+    if (this.screenWidth <= 500) {
+      this.productTopHtml = '1vh'
+      this.pageFlag = true
+    } else {
+    }
+    window.onresize = () => {
+      return (() => {
+        this.screenWidth = document.body.clientWidth
+        this.screenHeight = document.body.clientHeight
+        // 判断宽度是否小于500 小于500 全部全屏显示
+        if (this.screenWidth <= 500) {
+          this.pageFlag = true
+        } else {
         }
-
-        if (this.productEvaluateSearchForm.queryTimes != null && this.productEvaluateSearchForm.queryTimes.length == 1) {
-          this.evaluatePage.startTimeStr = this.timeToString(this.productEvaluateSearchForm.queryTimes[0])
-        } else if (this.productEvaluateSearchForm.queryTimes != null && this.productEvaluateSearchForm.queryTimes.length == 2) {
-          this.evaluatePage.startTimeStr = this.timeToString(this.productEvaluateSearchForm.queryTimes[0])
-          this.evaluatePage.endTimeStr = this.timeToString(this.productEvaluateSearchForm.queryTimes[1])
-        }
-
-        this.getEvaluateInfo()
-      },
-      // 查询商品评价信息
-      getEvaluateInfo() {
-        this.COMMON.startLoading()
-        var url = '/product/evaluate/index'
-        productAjaxPost(url, this.evaluatePage).then(data => {
+      })()
+    }
+  },
+  methods: {
+    // 确认举报
+    yesReport() {
+      this.$confirm('您确定要举报该评论吗?只有一次机会哦！', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var url = '/product/evaluate/report'
+        productAjaxPost(url, this.reportForm).then(data => {
           if (data.status == 200) {
-            this.evaluateDatas = data.data.productEvaluateDatas
-            this.evaluatePage.currentSize = data.data.currentSize
-            this.evaluatePage.currentPage = data.data.currentPage
-            this.evaluatePage.totalSize = data.data.totalSize
-            this.rePortStatePojos = data.data.rePortStatePojos
+            this.$message({
+              type: 'success',
+              message: '举报成功'
+            })
+            // this.evaluateDatas[this.currentFunctionIndex].retain3 = 1
+            this.evaluateDatas[this.currentFunctionIndex].retain3 = this.reportForm.reportContent
+            this.evaluateDatas[this.currentFunctionIndex].retain4 = this.reportForm.reportState
+            this.currentFunctionObj.retain3 = this.reportForm.reportContent
+            this.currentFunctionObj.retain4 = this.reportForm.reportState
+            this.productEvaluateFlags.reportFlag = false
+            this.reportForm.reportContent = ''
+            this.reportForm.reportState = ''
             this.COMMON.stopLoading()
           } else if (data.status == 500) {
             this.$message({
@@ -619,9 +518,151 @@
             this.COMMON.stopLoading()
           }
         })
+      })
+    },
+    // 打开举报内容
+    reportContent(index, o) {
+      this.currentFunctionIndex = index
+      this.currentFunctionObj = o
+      this.reportForm.reportEvId = o.productEvaluateId
+      this.productEvaluateFlags.reportFlag = true
+    },
+    // 确认回复
+    yesReply() {
+      this.$confirm('您确定要回复吗?只有一次机会哦！', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var url = '/product/evaluate/reply'
+        var para = { 'evalId': this.currentFunctionObj.productEvaluateId, 'content': this.replyEvaluateForm.content }
+        productAjaxPost(url, para).then(data => {
+          if (data.status == 200) {
+            this.$message({
+              type: 'success',
+              message: '回复成功'
+            })
+            this.evaluateDatas[this.currentFunctionIndex].retain1 = this.replyEvaluateForm.content
+            this.productEvaluateFlags.replyEvaluate = false
+            this.replyEvaluateForm.content = ''
+            this.COMMON.stopLoading()
+          } else if (data.status == 500) {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
+
+            this.COMMON.stopLoading()
+          }
+        })
+      })
+    },
+    // 回复评论
+    replyEv(index, obj) {
+      this.currentFunctionIndex = index
+      this.currentFunctionObj = obj
+      this.productEvaluateFlags.replyEvaluate = true
+    },
+    // 商品类型
+    state(state) {
+      this.evaluatePage.isHZCState = state
+      this.getEvaluateInfo()
+    },
+    // 切换商品的条数
+    categoryCurrentSize(val) {
+      this.evaluatePage.currentSize = val
+      this.getEvaluateInfo()
+    },
+    // 切换商品页数
+    categoryCurrentPage(val) {
+      // 替换当前页数
+      this.evaluatePage.currentPage = val
+      this.getEvaluateInfo()
+    },
+    // 格式化时间
+    timeToString(time) {
+      var date = new Date(time)
+      var year = date.getFullYear() + '-'
+      var month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date
+        .getMonth() + 1) +
+          '-'
+      date = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ''
+      return year + month + date
+    },
+    // 单击搜索
+    searchProduceEv() {
+      this.evaluatePage.startTimeStr = ''
+      this.evaluatePage.endTimeStr = ''
+      this.evaluatePage.currentPage = 1
+      this.evaluatePage.userName = ''
+      this.evaluatePage.orderNumber = ''
+      if (this.productEvaluateSearchForm.querykey == 1) {
+        this.evaluatePage.orderNumber = this.productEvaluateSearchForm.queryValue
+        this.evaluatePage.userName = ''
+      } else if (this.productEvaluateSearchForm.querykey == 2) {
+        this.evaluatePage.orderNumber = ''
+        this.evaluatePage.userName = this.productEvaluateSearchForm.queryValue
       }
+
+      if (this.productEvaluateSearchForm.queryTimes != null && this.productEvaluateSearchForm.queryTimes.length == 1) {
+        this.evaluatePage.startTimeStr = this.timeToString(this.productEvaluateSearchForm.queryTimes[0])
+      } else if (this.productEvaluateSearchForm.queryTimes != null && this.productEvaluateSearchForm.queryTimes.length == 2) {
+        this.evaluatePage.startTimeStr = this.timeToString(this.productEvaluateSearchForm.queryTimes[0])
+        this.evaluatePage.endTimeStr = this.timeToString(this.productEvaluateSearchForm.queryTimes[1])
+      }
+
+      this.getEvaluateInfo()
+    },
+    // 查询商品评价信息
+    getEvaluateInfo() {
+      this.COMMON.startLoading()
+      var url = '/product/evaluate/index'
+      productAjaxPost(url, this.evaluatePage).then(data => {
+        if (data.status == 200) {
+          this.evaluateDatas = data.data.productEvaluateDatas
+          this.evaluatePage.currentSize = data.data.currentSize
+          this.evaluatePage.currentPage = data.data.currentPage
+          this.evaluatePage.totalSize = data.data.totalSize
+          this.rePortStatePojos = data.data.rePortStatePojos
+          this.COMMON.stopLoading()
+        } else if (data.status == 500) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        }
+      })
     }
   }
+}
 </script>
 
 <style>

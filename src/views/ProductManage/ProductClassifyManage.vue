@@ -551,7 +551,7 @@ export default {
           message: '您还没有添加新的数据。',
           type: 'warning'
         })
-        return;
+        return
       }
 
       this.$confirm('您确定要添加吗?', '提示', {

@@ -1,9 +1,9 @@
 <template>
   <transition name="el-zoom-in-center">
-    <div class="navbar">
-      <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar"/>
+    <div id="navbar" class="navbar">
+      <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
-      <breadcrumb class="breadcrumb-container"/>
+      <breadcrumb class="breadcrumb-container" />
 
       <div class="right-menu">
 
@@ -12,17 +12,17 @@
 
             <!-- ======================= 导航栏消息图标 =========================  -->
             <span class="el-dropdown-link">
-            <!-- ======================= 导航栏消息图标 =========================  -->
-            <el-badge v-if="isShowMessage" id="messageRed" trigger="click" is-dot class="item" title="提示">
-              <svg-icon icon-class="message" class-name="message-class"/>
-            </el-badge>
-            <el-badge v-else="isShowMessage" trigger="click" title="提示">
-              <svg-icon icon-class="message" class-name="message-class"/>
-            </el-badge>
+              <!-- ======================= 导航栏消息图标 =========================  -->
+              <el-badge v-if="isShowMessage" id="messageRed" trigger="click" is-dot class="item" title="提示">
+                <svg-icon icon-class="message" class-name="message-class" />
+              </el-badge>
+              <el-badge v-else="isShowMessage" trigger="click" title="提示">
+                <svg-icon icon-class="message" class-name="message-class" />
+              </el-badge>
               <!-- ======================= 导航栏消息图标(结束) =========================  -->
-          </span>
+            </span>
             <!-- ======================= 导航栏消息数据实体 =========================  -->
-            <el-dropdown-menu slot="dropdown" style="position: relative;">
+            <el-dropdown-menu slot="dropdown" class="el-dropdown-menu2" style="position: relative;">
               <div style="position: absolute; top: 20px; right: 20px; z-index: 999999999999999;">
                 <el-link
                   type="warning"
@@ -57,14 +57,14 @@
                       class="info"
                       style="margin-bottom: 5px; cursor: pointer;"
                     >
-                    <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
-                      {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
-                      <span
-                        style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
-                        title="删除消息"
-                        @click.stop="delInfo2(index , value)"
-                      >x</span>
-                    </span>
+                      <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
+                        {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                        <span
+                          style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
+                          title="删除消息"
+                          @click.stop="delInfo2(index , value)"
+                        >x</span>
+                      </span>
 
                     </el-card>
                   </el-badge>
@@ -75,14 +75,14 @@
                     class="info"
                     style="margin-bottom: 5px; cursor: pointer;"
                   >
-                  <span :key="value.messageId" style="width:97%; display:block;" @click="messageInfo(index , value)">
-                    {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
-                    <span
-                      style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
-                      title="删除消息"
-                      @click.stop="delInfo2(index , value)"
-                    >x</span>
-                  </span>
+                    <span :key="value.messageId" style="width:97%; display:block;" @click="messageInfo(index , value)">
+                      {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                      <span
+                        style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
+                        title="删除消息"
+                        @click.stop="delInfo2(index , value)"
+                      >x</span>
+                    </span>
                   </el-card>
 
                   <el-card
@@ -91,9 +91,9 @@
                     class="info"
                     style="margin-bottom: 5px; cursor: pointer;"
                   >
-                  <span style="width:100%; display:block;">
-                    没有任何消息~~~~
-                  </span>
+                    <span style="width:100%; display:block;">
+                      没有任何消息~~~~
+                    </span>
                   </el-card>
 
                 </el-tab-pane>
@@ -104,14 +104,14 @@
                     class="info"
                     style="margin-bottom: 5px; cursor: pointer;"
                   >
-                  <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
-                    {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
-                    <span
-                      style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
-                      title="删除消息"
-                      @click.stop="delInfo2(index , value)"
-                    >x</span>
-                  </span>
+                    <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
+                      {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                      <span
+                        style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
+                        title="删除消息"
+                        @click.stop="delInfo2(index , value)"
+                      >x</span>
+                    </span>
                   </el-card>
                   <el-card
                     v-if="wDMessage.length < 1"
@@ -119,9 +119,9 @@
                     class="info"
                     style="margin-bottom: 5px; cursor: pointer;"
                   >
-                  <span style="width:100%; display:block;">
-                    没有任何消息~~~~
-                  </span>
+                    <span style="width:100%; display:block;">
+                      没有任何消息~~~~
+                    </span>
                   </el-card>
                 </el-tab-pane>
                 <el-tab-pane label="已读消息">
@@ -131,14 +131,14 @@
                     class="info"
                     style="margin-bottom: 5px; cursor: pointer;"
                   >
-                  <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
-                    {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
-                    <span
-                      style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
-                      title="删除消息"
-                      @click.stop="delInfo2(index , value)"
-                    >x</span>
-                  </span>
+                    <span :key="value.messageId" style="width:100%; display:block;" @click="messageInfo(index , value)">
+                      {{ value.subStringContent }}...<span style="color: #cccccc;">&nbsp;&nbsp;&nbsp;单击查看详细信息</span>
+                      <span
+                        style="float: right; font-size: 15px; color: #cccccc; font-weight: bold;"
+                        title="删除消息"
+                        @click.stop="delInfo2(index , value)"
+                      >x</span>
+                    </span>
                   </el-card>
 
                   <el-card
@@ -147,9 +147,9 @@
                     class="info"
                     style="margin-bottom: 5px; cursor: pointer;"
                   >
-                  <span style="width:100%; display:block;">
-                    没有任何消息~~~~
-                  </span>
+                    <span style="width:100%; display:block;">
+                      没有任何消息~~~~
+                    </span>
                   </el-card>
                 </el-tab-pane>
 
@@ -166,7 +166,7 @@
             >
               <p style="text-align: center; color: #99a9bf;">{{ currentMessageFrom.value.createTimeStr }}</p>
               <br>
-              <span style="font-size: 14px; letter-spacing: 1px;" v-html="messageContent"/>
+              <span style="font-size: 14px; letter-spacing: 1px;" v-html="messageContent" />
               <el-link type="danger" @click="delInfo">删除消息</el-link>
               <br>
             </el-drawer>
@@ -179,7 +179,7 @@
         <el-dropdown class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img :src="$store.state.app.sidebar.image" class="user-avatar">
-            <i class="el-icon-caret-bottom"/>
+            <i class="el-icon-caret-bottom" />
           </div>
           <el-dropdown-menu slot="dropdown" class="user-dropdown">
             <router-link to="/">
@@ -227,7 +227,7 @@
         top="7vh"
         @close="closeChatInfo"
       >
-        <chat-info/>
+        <chat-info />
       </el-dialog>
 
     </div>
@@ -236,168 +236,139 @@
 
 <script>
 
-  import {
-    mapGetters
-  } from 'vuex'
-  import Breadcrumb from '@/components/Breadcrumb'
-  import Hamburger from '@/components/Hamburger'
-  import {
-    quillEditor
-  } from 'vue-quill-editor'
+import {
+  mapGetters
+} from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+import {
+  quillEditor
+} from 'vue-quill-editor'
 
-  import 'quill/dist/quill.core.css'
-  import 'quill/dist/quill.snow.css'
-  import 'quill/dist/quill.bubble.css'
-  import {
-    productAjaxPost,
-    productAjaxGet
-  } from '@/api/table.js'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import {
+  productAjaxPost,
+  productAjaxGet
+} from '@/api/table.js'
 
-  import chatInfo from '@/views/ChatManage/ChatInfo.vue'
-  import { getToken, setToken, removeToken } from '@/api/cookieUtil'
+import chatInfo from '@/views/ChatManage/ChatInfo.vue'
+import { getToken, setToken, removeToken } from '@/api/cookieUtil'
 
-  var systemUrl = ''
-  // 工具栏配置
-  const toolbarOptions = [
-    ['image', 'video']
-  ]
-  import elDragDialog from '@/el-drag-dialog'
+var systemUrl = ''
+// 工具栏配置
+const toolbarOptions = [
+  ['image', 'video']
+]
+import elDragDialog from '@/el-drag-dialog'
 
-  export default {
-    directives: {
-      elDragDialog
-    },
-    components: {
-      Breadcrumb,
-      Hamburger,
-      quillEditor,
-      chatInfo
-    },
-    data() {
-      return {
-        chatInfoFlag: false,
-        myInfosFLag2: false,
-        currentMessageFrom: {
-          id: '',
-          value: '',
-          index: 0
-        },
-        // 消息内容
-        messageContent: '',
-        // 是否打开消息窗口
-        drawer: false,
-        // 已读消息和未读消息
-        yDMessage: [],
-        wDMessage: [],
-        // 手机端聊天Title
-        phoneTitle: '消息列表',
-        // 手机聊天消息列表
-        showInfoListsFlag: true,
-        // 手机聊天窗口
-        showChatWindowsFlag: false,
-        screenWidth: '',
-        screenHeight: '',
-        infoTopHtml: '',
-        isInfoPhoneFlag: false,
-        liaojlS: [],
-        content: '',
-        editorOption: {
-          modules: {
-            toolbar: toolbarOptions
-          }
-        },
-        avatarUrl: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80',
-        myInfosFLag: false,
-        isShowMessage: false
+export default {
+  directives: {
+    elDragDialog
+  },
+  components: {
+    Breadcrumb,
+    Hamburger,
+    quillEditor,
+    chatInfo
+  },
+  data() {
+    return {
+      chatInfoFlag: false,
+      myInfosFLag2: false,
+      currentMessageFrom: {
+        id: '',
+        value: '',
+        index: 0
+      },
+      // 消息内容
+      messageContent: '',
+      // 是否打开消息窗口
+      drawer: false,
+      // 已读消息和未读消息
+      yDMessage: [],
+      wDMessage: [],
+      // 手机端聊天Title
+      phoneTitle: '消息列表',
+      // 手机聊天消息列表
+      showInfoListsFlag: true,
+      // 手机聊天窗口
+      showChatWindowsFlag: false,
+      screenWidth: '',
+      screenHeight: '',
+      infoTopHtml: '',
+      isInfoPhoneFlag: false,
+      liaojlS: [],
+      content: '',
+      editorOption: {
+        modules: {
+          toolbar: toolbarOptions
+        }
+      },
+      avatarUrl: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80',
+      myInfosFLag: false,
+      isShowMessage: false
 
-      }
-    },
-    computed: {
-      ...mapGetters([
-        'sidebar',
-        'avatar'
-      ])
-    },
-    created() {
-      var url = systemUrl + '/user/message/get/state'
-      setInterval(() => {
-        productAjaxGet(url).then(data => {
-          console.log(data)
-          if (data.status != 200) {
-            if (data.status == 201) {
-              this.$message({
-                showClose: true,
-                message: '该账号在其他地方登入,三秒后将跳到登入页面。',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-            }
-
-            if (data.status == 401) {
-              this.$message({
-                showClose: true,
-                message: '用户未登入。',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-            }
-
-            setTimeout(() => {
-              removeToken(this.$store.state.app.sidebar.userCookieKey)
-              removeToken(this.$store.state.app.sidebar.userNameCookieKey)
-              removeToken('vue_admin_template_token')
-              location.reload()
-              return
-            }, 3000)
-
-          } else if (data.status == 200) {
-            if (data.msg == 'yes') {
-              this.wDMessage = data.data.wd
-              this.isShowMessage = true
-            } else {
-              this.isShowMessage = false
-            }
-            this.$store.state.app.sidebar.loginUserInfo = data.data.k2Member
-            this.$store.state.app.sidebar.image = data.data.k2Member.memberPortrait
-
-            // 用户的聊天记录
-            if (data.data.userCharInfoDto.newCharInfo != null && data.data.userCharInfoDto.newCharInfo.length > 0) {
-              this.$store.state.app.sidebar.showNewChatInfoFlag = true
-            } else {
-              this.$store.state.app.sidebar.showNewChatInfoFlag = false
-            }
-            this.$store.state.app.sidebar.userChatInfos.newCharInfo = data.data.userCharInfoDto.newCharInfo
-            this.$store.state.app.sidebar.userChatInfos.oldCharInfo = data.data.userCharInfoDto.oldCharInfo
-          } else if (data.status == 500) {
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'sidebar',
+      'avatar'
+    ])
+  },
+  created() {
+    var url = systemUrl + '/user/message/get/state'
+    setInterval(() => {
+      productAjaxGet(url).then(data => {
+        if (data.status != 200) {
+          if (data.status == 201) {
             this.$message({
               showClose: true,
-              message: data.msg + '--请重新刷新页面',
+              message: '该账号在其他地方登入,三秒后将跳到登入页面。',
               type: 'error',
               duration: 3000,
               customClass: 'zzIndex'
             })
           }
-        })
-      }, 2000)
-    },
-    mounted() {
 
-      window.addEventListener('beforeunload', e => {
-      })
-      // 发送AJAX查询后台数据
-      var url = systemUrl + '/shop/index'
-
-      productAjaxGet(url).then(data => {
-        if (data.status == 200) {
-          if (data.data != null) {
-            this.yDMessage = data.data.yDMessage
-            this.wDMessage = data.data.wDMessage
+          if (data.status == 401) {
+            this.$message({
+              showClose: true,
+              message: '用户未登入。',
+              type: 'error',
+              duration: 3000,
+              customClass: 'zzIndex'
+            })
           }
 
-          this.COMMON.stopLoading()
-        } else {
+          setTimeout(() => {
+            removeToken(this.$store.state.app.sidebar.userCookieKey)
+            removeToken(this.$store.state.app.sidebar.userNameCookieKey)
+            removeToken('vue_admin_template_token')
+            location.reload()
+            return
+          }, 3000)
+        } else if (data.status == 200) {
+          if (data.msg == 'yes') {
+            this.wDMessage = data.data.wd
+            this.isShowMessage = true
+          } else {
+            this.isShowMessage = false
+          }
+          this.$store.state.app.sidebar.loginUserInfo = data.data.k2Member
+          this.$store.state.app.sidebar.image = data.data.k2Member.memberPortrait
+
+          // 用户的聊天记录
+          if (data.data.userCharInfoDto.newCharInfo != null && data.data.userCharInfoDto.newCharInfo.length > 0) {
+            this.$store.state.app.sidebar.showNewChatInfoFlag = true
+          } else {
+            this.$store.state.app.sidebar.showNewChatInfoFlag = false
+          }
+          this.$store.state.app.sidebar.userChatInfos.newCharInfo = data.data.userCharInfoDto.newCharInfo
+          this.$store.state.app.sidebar.userChatInfos.oldCharInfo = data.data.userCharInfoDto.oldCharInfo
+        } else if (data.status == 500) {
           this.$message({
             showClose: true,
             message: data.msg + '--请重新刷新页面',
@@ -405,256 +376,78 @@
             duration: 3000,
             customClass: 'zzIndex'
           })
-
-          this.COMMON.stopLoading()
         }
       })
+    }, 2000)
+  },
+  mounted() {
+    window.addEventListener('beforeunload', e => {
+    })
+    // 发送AJAX查询后台数据
+    var url = systemUrl + '/shop/index'
 
-      this.screenWidth = document.body.clientWidth
-      this.screenHeight = document.body.clientHeight
-      if (this.screenWidth <= 500) {
-        this.isInfoPhoneFlag = true
-        this.infoTopHtml = '1vh'
-        this.chatInfoFlag = true
-      } else {
-        this.isInfoPhoneFlag = false
-        this.infoTopHtml = '10vh'
-      }
-      window.onresize = () => {
-        return (() => {
-          this.screenWidth = document.body.clientWidth
-          this.screenHeight = document.body.clientHeight
-          // 判断宽度是否小于500 小于500 全部全屏显示
-          if (this.screenWidth <= 1000) {
-            this.isInfoPhoneFlag = true
-            this.infoTopHtml = '1vh'
-          } else {
-            this.isInfoPhoneFlag = false
-            this.infoTopHtml = '10vh'
-          }
-        })()
-      }
-    },
-    methods: {
-
-      // 删除全部或者全部已读
-      messageState(state) {
-        if (state == 2) {
-          var url = systemUrl + '/user/message/clear/or/read'
-          var para = { 'state': 2 }
-          productAjaxPost(url, para).then(data => {
-            if (data.status == 200) {
-              // 修改成功  判断状态 修改状态
-              this.wDMessage.forEach(data => {
-                data.state = 2
-                this.yDMessage.push(data)
-              })
-
-              this.wDMessage = []
-              this.COMMON.stopLoading()
-            } else if (data.status == 500) {
-              this.$message({
-                showClose: true,
-                message: data.msg + '--修改失败,请重新刷新页面',
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            } else {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error',
-                duration: 3000,
-                customClass: 'zzIndex'
-              })
-
-              this.COMMON.stopLoading()
-            }
-          })
-        } else {
-          this.$confirm('你确定要删除全部信息吗?', '确认框', {
-            confirmButtonText: '确定删除',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            var url = systemUrl + '/user/message/clear/or/read'
-            var para = { 'state': 3 }
-            productAjaxPost(url, para).then(data => {
-              if (data.status == 200) {
-                // 修改成功  判断状态 修改状态
-                this.wDMessage = []
-                this.yDMessage = []
-
-                this.$message({
-                  showClose: true,
-                  message: '删除成功',
-                  type: 'success'
-                })
-                this.COMMON.stopLoading()
-              } else if (data.status == 500) {
-                this.$message({
-                  showClose: true,
-                  message: data.msg + '--修改失败,请重新刷新页面',
-                  type: 'error',
-                  duration: 3000,
-                  customClass: 'zzIndex'
-                })
-
-                this.COMMON.stopLoading()
-              } else {
-                this.$message({
-                  showClose: true,
-                  message: data.msg,
-                  type: 'error',
-                  duration: 3000,
-                  customClass: 'zzIndex'
-                })
-
-                this.COMMON.stopLoading()
-              }
-            })
-          }).catch(() => {
-
-          })
+    productAjaxGet(url).then(data => {
+      if (data.status == 200) {
+        if (data.data != null) {
+          this.yDMessage = data.data.yDMessage
+          this.wDMessage = data.data.wDMessage
         }
-      },
-      // 删除信息2
-      delInfo2(index, value) {
 
-        // 发送AJAX 将消息变成已读信息
-        var url = systemUrl + '/user/message/edit/state'
-        var para = { 'messageId': value.messageId, 'messageState': 3 }
-        productAjaxPost(url, para).then(data => {
-          if (data.status == 200) {
-            // 修改成功  判断状态 修改状态w
-            // 获取原来的信息状态
-            if (value.state == 1) {
-              this.wDMessage.splice(index, 1)
-            } else if (value.state == 2) {
-              this.yDMessage.splice(index, 1)
-            }
-            this.COMMON.stopLoading()
-          } else if (data.status == 500) {
-            this.$message({
-              showClose: true,
-              message: data.msg + '--删除失败,请重新刷新页面',
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-
-            this.COMMON.stopLoading()
-          } else {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-
-            this.COMMON.stopLoading()
-          }
-        })
-      },
-      // 删除信息
-      delInfo() {
-        this.$confirm('你确定要删除信息吗?', '确认框', {
-          confirmButtonText: '确定删除',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.editMessageInfoState(this.currentMessageFrom.index, this.currentMessageFrom.value, 3)
-          this.drawer = false
-        }).catch(() => {
-
-        })
-      },
-      // 关闭消息
-      closeChatInfo() {
-        this.$store.state.app.sidebar.showChatInfoFlagDialog = false
-        this.$store.state.app.sidebar.showIndexChatInfoFlag = true
-      },
-      openMyInfos() {
-        this.COMMON.startLoading()
-        this.$store.state.app.sidebar.showChatInfoFlagDialog2 = true
-        this.$store.state.app.sidebar.showIndexChatInfoFlag = false
-        this.$store.state.app.sidebar.showNewChatInfoFlag = false
         this.COMMON.stopLoading()
-      },
-      submit() {
-        var newPojo = {
-          content: 'LEFTINFO:' + this.$refs.text.value,
-          userClass: 'leftArrow',
-          flag: 'left'
+      } else {
+        this.$message({
+          showClose: true,
+          message: data.msg + '--请重新刷新页面',
+          type: 'error',
+          duration: 3000,
+          customClass: 'zzIndex'
+        })
+
+        this.COMMON.stopLoading()
+      }
+    })
+
+    this.screenWidth = document.body.clientWidth
+    this.screenHeight = document.body.clientHeight
+    if (this.screenWidth <= 500) {
+      this.isInfoPhoneFlag = true
+      this.infoTopHtml = '1vh'
+      this.chatInfoFlag = true
+    } else {
+      this.isInfoPhoneFlag = false
+      this.infoTopHtml = '10vh'
+    }
+    window.onresize = () => {
+      return (() => {
+        this.screenWidth = document.body.clientWidth
+        this.screenHeight = document.body.clientHeight
+        // 判断宽度是否小于500 小于500 全部全屏显示
+        if (this.screenWidth <= 1000) {
+          this.isInfoPhoneFlag = true
+          this.infoTopHtml = '1vh'
+        } else {
+          this.isInfoPhoneFlag = false
+          this.infoTopHtml = '10vh'
         }
-        var newPojo2 = {
-          content: 'RIGHTINFO:' + this.$refs.text.value,
-          userClass: 'rightArrow',
-          flag: 'right'
-        }
-        this.liaojlS.push(newPojo)
-        this.liaojlS.push(newPojo2)
-        this.content = ''
-      },
-      toggleSideBar() {
-        this.$store.dispatch('app/toggleSideBar')
-      },
-      async logout() {
-        removeToken(this.$store.state.app.sidebar.userCookieKey)
-        removeToken(this.$store.state.app.sidebar.userNameCookieKey)
-        await this.$store.dispatch('user/logout')
-        this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-      },
-      async Home() {
-      },
-      Home2() {
-        this.isShowMessage = !this.isShowMessage
-      },
-      // 手机端返回消息列表
-      goPhoneInfoLists() {
-        this.phoneTitle = '消息列表'
-        this.showInfoListsFlag = true
-        this.showChatWindowsFlag = false
-      },
-      // 手机端显示发送消息窗口
-      showChatWindowsFlagMethod() {
-        this.phoneTitle = '鹿七七'
-        this.showInfoListsFlag = false
-        this.showChatWindowsFlag = true
-      },
-      messageInfo(index, obj) {
-        this.currentMessageFrom.value = obj
-        this.drawer = true
-        this.messageContent = obj.messageContent
-        this.currentMessageFrom.index = index
-        if (obj.state == 1) {
-          this.editMessageInfoState(index, obj, 2)
-        }
-      },
-      // 修改信息的状态
-      editMessageInfoState(index, obj, state) {
-        // 发送AJAX 将消息变成已读信息
-        var url = systemUrl + '/user/message/edit/state'
-        var para = { 'messageId': obj.messageId, 'messageState': state }
+      })()
+    }
+  },
+  methods: {
+
+    // 删除全部或者全部已读
+    messageState(state) {
+      if (state == 2) {
+        var url = systemUrl + '/user/message/clear/or/read'
+        var para = { 'state': 2 }
         productAjaxPost(url, para).then(data => {
           if (data.status == 200) {
             // 修改成功  判断状态 修改状态
-            if (state == 2) {
-              obj.state = 2
-              this.wDMessage.splice(index, 1)
-              this.yDMessage.push(obj)
-            } else if (state == 3) {
-              // 获取原来的信息状态
-              if (obj.state == 1) {
-                this.yDMessage.splice(this.yDMessage.length - 2, 1)
-              } else if (obj.state == 2) {
-                this.yDMessage.splice(index, 1)
-              }
-            }
+            this.wDMessage.forEach(data => {
+              data.state = 2
+              this.yDMessage.push(data)
+            })
+
+            this.wDMessage = []
             this.COMMON.stopLoading()
           } else if (data.status == 500) {
             this.$message({
@@ -678,62 +471,265 @@
             this.COMMON.stopLoading()
           }
         })
+      } else {
+        this.$confirm('你确定要删除全部信息吗?', '确认框', {
+          confirmButtonText: '确定删除',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          var url = systemUrl + '/user/message/clear/or/read'
+          var para = { 'state': 3 }
+          productAjaxPost(url, para).then(data => {
+            if (data.status == 200) {
+              // 修改成功  判断状态 修改状态
+              this.wDMessage = []
+              this.yDMessage = []
+
+              this.$message({
+                showClose: true,
+                message: '删除成功',
+                type: 'success'
+              })
+              this.COMMON.stopLoading()
+            } else if (data.status == 500) {
+              this.$message({
+                showClose: true,
+                message: data.msg + '--修改失败,请重新刷新页面',
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+
+              this.COMMON.stopLoading()
+            } else {
+              this.$message({
+                showClose: true,
+                message: data.msg,
+                type: 'error',
+                duration: 3000,
+                customClass: 'zzIndex'
+              })
+
+              this.COMMON.stopLoading()
+            }
+          })
+        }).catch(() => {
+
+        })
       }
+    },
+    // 删除信息2
+    delInfo2(index, value) {
+      // 发送AJAX 将消息变成已读信息
+      var url = systemUrl + '/user/message/edit/state'
+      var para = { 'messageId': value.messageId, 'messageState': 3 }
+      productAjaxPost(url, para).then(data => {
+        if (data.status == 200) {
+          // 修改成功  判断状态 修改状态w
+          // 获取原来的信息状态
+          if (value.state == 1) {
+            this.wDMessage.splice(index, 1)
+          } else if (value.state == 2) {
+            this.yDMessage.splice(index, 1)
+          }
+          this.COMMON.stopLoading()
+        } else if (data.status == 500) {
+          this.$message({
+            showClose: true,
+            message: data.msg + '--删除失败,请重新刷新页面',
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        }
+      })
+    },
+    // 删除信息
+    delInfo() {
+      this.$confirm('你确定要删除信息吗?', '确认框', {
+        confirmButtonText: '确定删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.editMessageInfoState(this.currentMessageFrom.index, this.currentMessageFrom.value, 3)
+        this.drawer = false
+      }).catch(() => {
+
+      })
+    },
+    // 关闭消息
+    closeChatInfo() {
+      this.$store.state.app.sidebar.showChatInfoFlagDialog = false
+      this.$store.state.app.sidebar.showIndexChatInfoFlag = true
+    },
+    openMyInfos() {
+      this.COMMON.startLoading()
+      this.$store.state.app.sidebar.showChatInfoFlagDialog2 = true
+      this.$store.state.app.sidebar.showIndexChatInfoFlag = false
+      this.$store.state.app.sidebar.showNewChatInfoFlag = false
+      this.COMMON.stopLoading()
+    },
+    submit() {
+      var newPojo = {
+        content: 'LEFTINFO:' + this.$refs.text.value,
+        userClass: 'leftArrow',
+        flag: 'left'
+      }
+      var newPojo2 = {
+        content: 'RIGHTINFO:' + this.$refs.text.value,
+        userClass: 'rightArrow',
+        flag: 'right'
+      }
+      this.liaojlS.push(newPojo)
+      this.liaojlS.push(newPojo2)
+      this.content = ''
+    },
+    toggleSideBar() {
+      this.$store.dispatch('app/toggleSideBar')
+    },
+    async logout() {
+      removeToken(this.$store.state.app.sidebar.userCookieKey)
+      removeToken(this.$store.state.app.sidebar.userNameCookieKey)
+      await this.$store.dispatch('user/logout')
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    async Home() {
+    },
+    Home2() {
+      this.isShowMessage = !this.isShowMessage
+    },
+    // 手机端返回消息列表
+    goPhoneInfoLists() {
+      this.phoneTitle = '消息列表'
+      this.showInfoListsFlag = true
+      this.showChatWindowsFlag = false
+    },
+    // 手机端显示发送消息窗口
+    showChatWindowsFlagMethod() {
+      this.phoneTitle = '鹿七七'
+      this.showInfoListsFlag = false
+      this.showChatWindowsFlag = true
+    },
+    messageInfo(index, obj) {
+      this.currentMessageFrom.value = obj
+      this.drawer = true
+      this.messageContent = obj.messageContent
+      this.currentMessageFrom.index = index
+      if (obj.state == 1) {
+        this.editMessageInfoState(index, obj, 2)
+      }
+    },
+    // 修改信息的状态
+    editMessageInfoState(index, obj, state) {
+      // 发送AJAX 将消息变成已读信息
+      var url = systemUrl + '/user/message/edit/state'
+      var para = { 'messageId': obj.messageId, 'messageState': state }
+      productAjaxPost(url, para).then(data => {
+        if (data.status == 200) {
+          // 修改成功  判断状态 修改状态
+          if (state == 2) {
+            obj.state = 2
+            this.wDMessage.splice(index, 1)
+            this.yDMessage.push(obj)
+          } else if (state == 3) {
+            // 获取原来的信息状态
+            if (obj.state == 1) {
+              this.yDMessage.splice(this.yDMessage.length - 2, 1)
+            } else if (obj.state == 2) {
+              this.yDMessage.splice(index, 1)
+            }
+          }
+          this.COMMON.stopLoading()
+        } else if (data.status == 500) {
+          this.$message({
+            showClose: true,
+            message: data.msg + '--修改失败,请重新刷新页面',
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error',
+            duration: 3000,
+            customClass: 'zzIndex'
+          })
+
+          this.COMMON.stopLoading()
+        }
+      })
     }
   }
+}
 </script>
 
 <style lang="scss">
-  #phoneBContent .el-badge__content {
+  #navbar #phoneBContent .el-badge__content {
     margin-top: 0.625rem !important;
   }
 
   @media only screen and (min-width: 413px) and (max-width: 420px) {
-    .leftArrow {
+    #navbar .leftArrow {
       left: 54px !important;
     }
 
-    .rightArrow {
+    #navbar .rightArrow {
       right: 59px !important;
     }
 
-    .phoneRightImage {
+    #navbar .phoneRightImage {
       padding-left: 5px !important;
     }
   }
 
   @media only screen and (min-width: 340px) and (max-width: 400px) {
-    .leftArrow {
+    #navbar .leftArrow {
       display: none !important;
     }
 
-    .rightArrow {
+    #navbar .rightArrow {
       display: none !important;
     }
   }
 
   @media only screen and (min-width: 1200px) and (max-width: 1400px) {
-    .rightInfos {
+    #navbar .rightInfos {
       margin-right: 22px !important;
     }
 
-    .leftInfos {
+    #navbar .leftInfos {
       margin-left: 17px !important;
     }
   }
 
-  .send {
+  #navbar .send {
     position: relative;
     border-radius: 5px;
     /* 圆角 */
     height: 100%;
   }
 
-  .chatInfoClass .el-dialog__body {
+  #navbar .chatInfoClass .el-dialog__body {
     padding: 0px 0px !important;
   }
 
-  .leftArrow {
+  #navbar .leftArrow {
     position: absolute;
     top: 5px;
     left: 55px;
@@ -745,7 +741,7 @@
     border-color: #E4E5E5 #FFFFFF #E4E5E5 #E4E5E5;
   }
 
-  .rightArrow {
+  #navbar .rightArrow {
     position: absolute;
     top: 5px;
     right: 60px;
@@ -757,7 +753,7 @@
     border-color: #E4E5E5 #E4E5E5 #E4E5E5 #FFFFFF;
   }
 
-  .navbar .el-tab-pane {
+  #navbar .el-tab-pane {
     max-height: 400px;
     overflow: auto !important;
   }
@@ -766,7 +762,7 @@
     margin: 10px 0px;
   }
 
-  .el-card__body {
+  #navbar .el-card__body {
     padding: 10px 10px !important;
     width: 100%;
     overflow: hidden;
@@ -780,33 +776,33 @@
   }
 
   /*新加入隐藏滚动条效果*/
-  .title-menu-min {
+  #navbar .title-menu-min {
     overflow-y: scroll !important;
     -webkit-overflow-scrolling: touch;
   }
 
-  .title-menu-min::-webkit-scrollbar {
+  #navbar .title-menu-min::-webkit-scrollbar {
     /*滚动条整体样式*/
     width: 4px;
     /*高宽分别对应横竖滚动条的尺寸*/
     height: 4px;
   }
 
-  .title-menu-min::-webkit-scrollbar-thumb {
+  #navbar .title-menu-min::-webkit-scrollbar-thumb {
     /*滚动条里面小方块*/
     border-radius: 5px;
     -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     background: rgba(0, 0, 0, 0.2);
   }
 
-  .title-menu-min::-webkit-scrollbar-track {
+  #navbar .title-menu-min::-webkit-scrollbar-track {
     /*滚动条里面轨道*/
     -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 0;
     background: rgba(0, 0, 0, 0.1);
   }
 
-  .el-dropdown-menu {
+  .el-dropdown-menu2 {
     position: absolute;
     top: 30px !important;
   }
@@ -817,24 +813,24 @@
     top: 12px;
   }
 
-  .text {
+  #navbar .text {
     font-size: 14px;
   }
 
-  .box-card {
+  #navbar .box-card {
     width: 300px;
   }
 
-  .el-badge {
+  #navbar .el-badge {
     margin-bottom: 30px;
   }
 
-  #messageRed .el-badge__content {
+  #navbar #messageRed .el-badge__content {
     margin-top: 12px !important;
     margin-right: 6px;
   }
 
-  .message-class {
+  #navbar .message-class {
     height: 25px !important;
     width: 25px !important;
     padding: 5px 5px 0 0;

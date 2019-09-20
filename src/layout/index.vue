@@ -13,7 +13,7 @@
         <settings />
       </right-panel>
 
-      <right-chat-info></right-chat-info>
+      <right-chat-info />
     </div>
   </div>
 </template>

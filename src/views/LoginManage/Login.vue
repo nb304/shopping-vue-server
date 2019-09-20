@@ -18,7 +18,7 @@
         <div v-if="isShowUPLogin">
           <el-form-item prop="username">
             <span class="svg-container">
-              <svg-icon icon-class="user"/>
+              <svg-icon icon-class="user" />
             </span>
             <el-input
               v-model="loginForm2.username"
@@ -32,7 +32,7 @@
 
           <el-form-item prop="password">
             <span class="svg-container">
-              <svg-icon icon-class="password"/>
+              <svg-icon icon-class="password" />
             </span>
             <el-input
               :key="passwordType"
@@ -45,14 +45,14 @@
               @keyup.enter.native="handleLogin"
             />
             <span class="show-pwd" @click="showPwd">
-              <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
+              <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
             </span>
           </el-form-item>
 
           <el-form-item prop="code" style="position: relative;">
-          <span class="svg-container">
-            <svg-icon icon-class="code" style="font-size: 18px;"/>
-          </span>
+            <span class="svg-container">
+              <svg-icon icon-class="code" style="font-size: 18px;" />
+            </span>
             <el-input
               v-model="loginForm2.code"
               placeholder="请输入网页验证码"
@@ -79,7 +79,7 @@
       <div v-if="isShowCodeLogin">
         <el-form-item prop="phone">
           <span class="svg-container">
-            <svg-icon icon-class="phone" style="font-size: 18px;"/>
+            <svg-icon icon-class="phone" style="font-size: 18px;" />
           </span>
           <el-input
             v-model="loginCodeForm.phone"
@@ -93,7 +93,7 @@
 
         <el-form-item prop="sendCode" style="position: relative;">
           <span class="svg-container">
-            <svg-icon icon-class="code" style="font-size: 18px;"/>
+            <svg-icon icon-class="code" style="font-size: 18px;" />
           </span>
           <el-input
             v-model="loginCodeForm.code"
@@ -150,219 +150,219 @@
 </template>
 
 <script>
-  import {
-    validUsername
-  } from '@/utils/validate'
-  import {
-    productAjaxPost,
-    productAjaxGet
-  } from '@/api/table.js'
-  import { getToken, setToken, removeToken } from '@/api/cookieUtil'
+import {
+  validUsername
+} from '@/utils/validate'
+import {
+  productAjaxPost,
+  productAjaxGet
+} from '@/api/table.js'
+import { getToken, setToken, removeToken } from '@/api/cookieUtil'
 
-  export default {
-    name: 'Login',
-    data() {
-      const validateUsername = (rule, value, callback) => {
-        if (value.length < 6 || value.length > 11) {
-          callback(new Error('请输入正确的用户名'))
-        } else {
-          callback()
+export default {
+  name: 'Login',
+  data() {
+    const validateUsername = (rule, value, callback) => {
+      if (value.length < 6 || value.length > 11) {
+        callback(new Error('请输入正确的用户名'))
+      } else {
+        callback()
+      }
+    }
+    const validatePassword = (rule, value, callback) => {
+      if (value.length < 6 || value.length > 20) {
+        callback(new Error('密码在6-20位内'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      // 网页验证码
+      htmlCode: '',
+      codeLoading: true,
+      sendLoading: false,
+      // 验证码倒计时定时器
+      isSendInterVal: '',
+      // 发送验证码倒数秒
+      isSendLastInt: 60,
+      // 是否可以发送验证码
+      isSendFlagCode: true,
+      // 发送验证码的按钮名字
+      sendCodeBtn: '发送验证码',
+      // 验证码登入Form
+      loginCodeForm: {
+        phone: '',
+        code: ''
+      },
+      // 是否使用验证码登入
+      isShowCodeLogin: false,
+      // 是否使用用户名登入
+      isShowUPLogin: true,
+      loginForm: {
+        username: 'admin',
+        password: 'admin'
+      },
+      loginForm2: {
+        username: '',
+        password: '',
+        code: ''
+      },
+      loginRules: {
+        username: [{
+          required: true,
+          trigger: 'blur',
+          validator: validateUsername
+        }],
+        password: [{
+          required: true,
+          trigger: 'blur',
+          validator: validatePassword
+        }]
+      },
+      loading: false,
+      passwordType: 'password',
+      redirect: undefined
+    }
+  },
+  watch: {
+    $route: {
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
+      },
+      immediate: true
+    }
+  },
+  created() {
+    this.getCode()
+  },
+  methods: {
+    // 获取验证码
+    getCode() {
+      this.codeLoading = true
+      this.$post('/member/code').then(res => {
+        this.htmlCode = res
+        this.codeLoading = false
+      })
+        .catch(err => {
+          console.log(err)
+          console.log('err')
+        })
+    },
+    // 前往下载Chrome
+    gotoDownLoadChrome() {
+      window.open('https://www.google.cn/chrome/')
+    },
+    // 发送验证码
+    sendCode() {
+      if (this.isSendFlagCode) {
+        this.sendLoading = true
+        this.sendCodeBtn = ''
+        this.isSendFlagCode = false
+        this.$message({
+          showClose: true,
+          message: '发送成功,请查看手机短信。',
+          type: 'success'
+        })
+
+        // 发送短信业务逻辑
+
+        // 调用倒计时函数
+        this.lastInt()
+      }
+    },
+    // 验证码倒计时函数
+    lastInt() {
+      this.isSendInterVal = setInterval(() => {
+        this.sendLoading = false
+        this.isSendLastInt = this.isSendLastInt - 1
+        this.sendCodeBtn = '剩余' + this.isSendLastInt + '秒'
+        if (this.isSendLastInt <= 0) {
+          clearInterval(this.isSendInterVal)
+          this.isSendLastInt = 120
+          // 打开重新发送的Flag
+          this.isSendFlagCode = true
+          this.sendCodeBtn = '发送验证码'
         }
-      }
-      const validatePassword = (rule, value, callback) => {
-        if (value.length < 6 || value.length > 20) {
-          callback(new Error('密码在6-20位内'))
-        } else {
-          callback()
-        }
-      }
-      return {
-        // 网页验证码
-        htmlCode: '',
-        codeLoading: true,
-        sendLoading: false,
-        // 验证码倒计时定时器
-        isSendInterVal: '',
-        // 发送验证码倒数秒
-        isSendLastInt: 60,
-        // 是否可以发送验证码
-        isSendFlagCode: true,
-        // 发送验证码的按钮名字
-        sendCodeBtn: '发送验证码',
-        // 验证码登入Form
-        loginCodeForm: {
-          phone: '',
-          code: ''
-        },
-        // 是否使用验证码登入
-        isShowCodeLogin: false,
-        // 是否使用用户名登入
-        isShowUPLogin: true,
-        loginForm: {
-          username: 'admin',
-          password: 'admin'
-        },
-        loginForm2: {
-          username: '',
-          password: '',
-          code: ''
-        },
-        loginRules: {
-          username: [{
-            required: true,
-            trigger: 'blur',
-            validator: validateUsername
-          }],
-          password: [{
-            required: true,
-            trigger: 'blur',
-            validator: validatePassword
-          }]
-        },
-        loading: false,
-        passwordType: 'password',
-        redirect: undefined
+      }, 1000)
+    },
+    // 使用验证码或账号登入
+    // state == true 使用账号 state == false 使用验证码
+    isUseCodeOrUpByState(state) {
+      if (state) {
+        this.isShowUPLogin = true
+        this.isShowCodeLogin = false
+      } else {
+        this.isShowUPLogin = false
+        this.isShowCodeLogin = true
       }
     },
-    watch: {
-      $route: {
-        handler: function(route) {
-          this.redirect = route.query && route.query.redirect
-        },
-        immediate: true
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
       }
+      this.$nextTick(() => {
+        this.$refs.password.focus()
+      })
     },
-    created() {
-      this.getCode()
-    },
-    methods: {
-      // 获取验证码
-      getCode() {
-        this.codeLoading = true
-        this.$post('/member/code').then(res => {
-          this.htmlCode = res
-          this.codeLoading = false
+
+    // 登录
+    handleLogin() {
+      if (this.loginForm2.username.replace(/\s/g, '').length >= 20 || this.loginForm2.username.replace(/\s/g, '').length < 6) {
+        this.$message({
+          showClose: true,
+          message: '密码长度在6-20位',
+          type: 'warning'
+        })
+        return
+      } else if (this.loginForm2.password.replace(/\s/g, '').length > 11 || this.loginForm2.password.replace(/\s/g, '').length < 6) {
+        this.$message({
+          showClose: true,
+          message: '用户名长度在6-11位',
+          type: 'warning'
+        })
+        return
+      } else {
+        this.loading = true
+        this.$post('/member/login', {
+          username: this.loginForm2.username,
+          password: this.loginForm2.password,
+          code: this.loginForm2.code
+        }).then(res => {
+          if (res.status == 200 || res.status == 201) {
+            this.loading = true
+            setToken(this.$store.state.app.sidebar.userCookieKey, res.data[0])
+            setToken(this.$store.state.app.sidebar.userNameCookieKey, res.data[1])
+            this.$store
+              .dispatch('user/login', this.loginForm)
+              .then(() => {
+                this.$router.push({
+                  path: this.redirect || '/'
+                })
+                this.loading = false
+              })
+              .catch(() => {
+                this.loading = false
+              })
+          } else {
+            this.loading = false
+            this.$message({
+              showClose: true,
+              message: res.msg,
+              type: 'error'
+            })
+          }
         })
           .catch(err => {
+            this.loading = false
             console.log(err)
             console.log('err')
           })
-      },
-      // 前往下载Chrome
-      gotoDownLoadChrome() {
-        window.open('https://www.google.cn/chrome/')
-      },
-      // 发送验证码
-      sendCode() {
-        if (this.isSendFlagCode) {
-          this.sendLoading = true
-          this.sendCodeBtn = ''
-          this.isSendFlagCode = false
-          this.$message({
-            showClose: true,
-            message: '发送成功,请查看手机短信。',
-            type: 'success'
-          })
-
-          // 发送短信业务逻辑
-
-          // 调用倒计时函数
-          this.lastInt()
-        }
-      },
-      // 验证码倒计时函数
-      lastInt() {
-        this.isSendInterVal = setInterval(() => {
-          this.sendLoading = false
-          this.isSendLastInt = this.isSendLastInt - 1
-          this.sendCodeBtn = '剩余' + this.isSendLastInt + '秒'
-          if (this.isSendLastInt <= 0) {
-            clearInterval(this.isSendInterVal)
-            this.isSendLastInt = 120
-            // 打开重新发送的Flag
-            this.isSendFlagCode = true
-            this.sendCodeBtn = '发送验证码'
-          }
-        }, 1000)
-      },
-      // 使用验证码或账号登入
-      // state == true 使用账号 state == false 使用验证码
-      isUseCodeOrUpByState(state) {
-        if (state) {
-          this.isShowUPLogin = true
-          this.isShowCodeLogin = false
-        } else {
-          this.isShowUPLogin = false
-          this.isShowCodeLogin = true
-        }
-      },
-      showPwd() {
-        if (this.passwordType === 'password') {
-          this.passwordType = ''
-        } else {
-          this.passwordType = 'password'
-        }
-        this.$nextTick(() => {
-          this.$refs.password.focus()
-        })
-      },
-
-      // 登录
-      handleLogin() {
-        if (this.loginForm2.username.replace(/\s/g, '').length >= 20 || this.loginForm2.username.replace(/\s/g, '').length < 6) {
-          this.$message({
-            showClose: true,
-            message: '密码长度在6-20位',
-            type: 'warning'
-          })
-          return
-        } else if (this.loginForm2.password.replace(/\s/g, '').length > 11 || this.loginForm2.password.replace(/\s/g, '').length < 6) {
-          this.$message({
-            showClose: true,
-            message: '用户名长度在6-11位',
-            type: 'warning'
-          })
-          return
-        } else {
-          this.loading = true
-          this.$post('/member/login', {
-            username: this.loginForm2.username,
-            password: this.loginForm2.password,
-            code: this.loginForm2.code
-          }).then(res => {
-            if (res.status == 200 || res.status == 201) {
-              this.loading = true
-              setToken(this.$store.state.app.sidebar.userCookieKey, res.data[0])
-              setToken(this.$store.state.app.sidebar.userNameCookieKey, res.data[1])
-              this.$store
-                .dispatch('user/login', this.loginForm)
-                .then(() => {
-                  this.$router.push({
-                    path: this.redirect || '/'
-                  })
-                  this.loading = false
-                })
-                .catch(() => {
-                  this.loading = false
-                })
-            } else {
-              this.loading = false
-              this.$message({
-                showClose: true,
-                message: res.msg,
-                type: 'error'
-              })
-            }
-          })
-            .catch(err => {
-              this.loading = false
-              console.log(err)
-              console.log('err')
-            })
-        }
       }
     }
   }
+}
 </script>
 
 <style lang="scss">
