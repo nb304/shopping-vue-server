@@ -37,7 +37,7 @@
             <el-input
               :key="passwordType"
               v-model="loginForm2.password"
-              :type="passwordType"
+              type="password"
               placeholder="请输入密码"
               name="password"
               tabindex="2"

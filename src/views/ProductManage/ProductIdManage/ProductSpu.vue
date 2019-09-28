@@ -76,7 +76,6 @@
     <!-- ======================= 添加SPU ========================  -->
     <div
       v-if="addProductSpuFlag2"
-      id="addProductSpu"
       style="max-height: 400px; margin-left: 15px;"
     >
       <el-form

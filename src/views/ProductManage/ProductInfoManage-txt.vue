@@ -393,8 +393,6 @@
       <!-- ======================= 添加SPU ========================  -->
       <div
         v-if="addProductSpuFlag"
-        id="addProductSpu"
-        class="title-menu-min"
         style="max-height: 400px; margin-left: 20px;"
       >
         <el-form

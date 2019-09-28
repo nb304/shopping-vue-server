@@ -22,7 +22,8 @@ const state = {
     // 头像
     image: '',
     // 定时查询聊天记录的定时器
-    getCurrentInter: null
+    getCurrentInter: null,
+    isImageIf: true
   },
   device: 'desktop'
 }

@@ -292,6 +292,22 @@
                     @closeEditWindows="editProductInfoFlag=false"/>
     </el-dialog>
     <!-- ======================= 编辑商品信息(结束) =========================  -->
+
+    <!-- ======================= 添加商品 =========================  -->
+    <el-dialog
+      v-el-drag-dialog
+      width="77%"
+      :close-on-click-modal="true"
+      :modal="true"
+      title="添加商品信息"
+      :visible.sync="addProductFlag"
+      custom-class="productSkuInfoClass"
+      top="7vh"
+    >
+      <add ref="add" :product-id="currentFunctionProductId"
+           @closeAddProduct="addProductFlag=false"/>
+    </el-dialog>
+    <!-- ======================= 添加商品(结束) =========================  -->
   </div>
 </template>
 
@@ -308,6 +324,7 @@
   import spu from './ProductIdManage/ProductSpu.vue'
   import sku from './ProductIdManage/ProductSku.vue'
   import editProduct from './ProductIdManage/ProductEditInfo.vue'
+  import add from './ProductIdManage/ProductAdd.vue'
 
   export default {
     directives: {
@@ -317,10 +334,13 @@
       ProductIDInfo,
       spu,
       sku,
-      editProduct
+      editProduct,
+      add
     },
     data() {
       return {
+        // 是否显示商品添加窗口
+        addProductFlag: false,
         // 是否显示商品编辑
         editProductInfoFlag: false,
         // 商品信息
@@ -375,6 +395,10 @@
       }
     },
     methods: {
+      // 显示添加商品
+      showAddProduct() {
+        this.addProductFlag = true
+      },
       // 显示修改商品
       editProduct(index, o) {
         this.currentFunctionIndex = index
@@ -424,7 +448,7 @@
           this.COMMON.startLoading()
           // 发送AJAX修改数据
           var url = '/product/basics/del'
-          var param = { 'productId': obj.productId, 'state': state }
+          var param = {'productId': obj.productId, 'state': state}
           productAjaxPost(url, param).then(data => {
             if (data.status == 200) {
               this.$message({
