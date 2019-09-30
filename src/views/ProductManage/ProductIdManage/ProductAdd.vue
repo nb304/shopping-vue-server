@@ -22,7 +22,7 @@
 
               <el-form-item label="商品类目">
                 <el-cascader
-                  v-model="addProductFrom.productCategory"
+                  v-model="addProductFrom.productCategoryArr"
                   filterable
                   :options="options"
                   style="width: 100% !important;"
@@ -77,7 +77,8 @@
                 <el-input
                   v-model="addProductFrom.productBazaarPrice"
                   :rules="priceRuleShC"
-                  maxlength="9"
+                  oninput="value=value.replace(/[^\d]/g,'')"
+                  maxlength="7"
                   show-word-limit
                   placeholder="请输入市场价格"
                 />
@@ -89,7 +90,8 @@
                 <el-input
                   v-model="addProductFrom.productSystemPrice"
                   :rules="priceRuleShC"
-                  maxlength="9"
+                  oninput="value=value.replace(/[^\d]/g,'')"
+                  maxlength="7"
                   show-word-limit
                   placeholder="请输入商城价格"
                 />
@@ -128,6 +130,7 @@
                   v-model="addProductFrom.productOrderRule"
                   class="addProductFromInput"
                   placeholder="请输入商品排序"
+                  oninput="value=value.replace(/[^\d]/g,'')"
                   maxlength="7"
                   show-word-limit
                 />
@@ -459,15 +462,18 @@
   } from '@/api/table.js'
 
   export default {
-    name: "ProductAdd",
+    name: 'ProductAdd',
     data() {
       return {
         // 添加商品的表单信息
         addProductFrom: {
-          productCategory: [],
+          productCategoryArr: [],
+          productCategory: '',
           productName: '',
-          productSpu: [],
-          productSku: [],
+          productSpuArr: [],
+          productSkuArr: [],
+          productSpu: '',
+          productSku: '',
           productBrandId: '',
           productBazaarPrice: '',
           productSystemPrice: '',
@@ -532,16 +538,16 @@
       }
     },
     created() {
-      this.getProductCategoryAndBrandInfo();
+      this.getProductCategoryAndBrandInfo()
     },
     methods: {
       // 添加商品
       yesAddProduct() {
         this.isLoadingAddFlag = true
         var url = '/product/basics/add'
-        this.addProductFrom.productCategory = this.addProductFrom.productCategory[0] + "," + this.addProductFrom.productCategory[1]
-        this.addProductFrom.productSku = JSON.stringify(this.addProductFrom.productSku)
-        this.addProductFrom.productSpu = JSON.stringify(this.addProductFrom.productSpu)
+        this.addProductFrom.productCategory = this.addProductFrom.productCategoryArr[0] + ',' + this.addProductFrom.productCategoryArr[1]
+        this.addProductFrom.productSku = JSON.stringify(this.addProductFrom.productSkuArr)
+        this.addProductFrom.productSpu = JSON.stringify(this.addProductFrom.productSpuArr)
         productAjaxPost(url, this.addProductFrom).then(data => {
           if (data.status == 200) {
             // 调用成功 返回了商品类目和商品品牌信息
@@ -558,7 +564,7 @@
             })
             this.isLoadingAddFlag = false
           }
-        });
+        })
       },
       closeAddProduct() {
         this.$emit('closeAddProduct', true)
@@ -679,7 +685,7 @@
             })
             this.isLoadingAddFlag = false
           }
-        });
+        })
       },
       // 上一步
       last() {
@@ -688,19 +694,19 @@
             showClose: true,
             message: '不能再向前了哦~~',
             type: 'warning'
-          });
-          return;
+          })
+          return
         } else if (this.active == 1) {
           this.active = 0
           // 给出提示
           this.$message({
             message: '如果对`商品类目`进行修改后,SPU和SKU就会变成初始化的值哦',
             type: 'warning'
-          });
+          })
           this.isShowTwoFlag = false
           this.isShowOneFlag = true
         } else if (this.active == 2) {
-          this.active = 1;
+          this.active = 1
           this.isShowThreeFlag = false
           this.isShowTwoFlag = true
         } else if (this.active == 3 || this.active == 4) {
@@ -722,13 +728,13 @@
         // 判断是否是第一步
         if (this.active == 0) {
           // 第一步 进行逻辑判断 然后开始第二步
-          if (this.addProductFrom.productCategory == '' || this.addProductFrom.productCategory == null) {
+          if (this.addProductFrom.productCategoryArr == '' || this.addProductFrom.productCategoryArr == null) {
 
             this.message('error', '请仔细选择该商品的类目')
             return
           } else if (this.isEditCategoryFlag) {
             this.isLoadingAddFlag = true
-            var url = '/product/basics/get/sku/info?categoryId=' + this.addProductFrom.productCategory[1]
+            var url = '/product/basics/get/sku/info?categoryId=' + this.addProductFrom.productCategoryArr[1]
             productAjaxGet(url).then(data => {
               if (data.status == 200) {
                 this.addProductFrom.productSkuInfo = []
@@ -744,7 +750,7 @@
                       inputVisible: '',
                       isSystemCreate: 1
                     })
-                  });
+                  })
                 }
                 this.isLoadingAddFlag = false
                 this.isEditCategoryFlag = false
@@ -756,7 +762,7 @@
                 })
                 this.isLoadingAddFlag = false
               }
-            });
+            })
           }
 
           this.active = 1
@@ -767,19 +773,18 @@
           if (!this.ifTest) {
             if (this.addProductFrom.productName == '') {
               this.message('error', '请填写商品的名称')
-              return;
+              return
             } else if (this.addProductFrom.productBrandId == '') {
               this.message('error', '请选择商品的品牌信息')
-              return;
+              return
             } else if (this.addProductFrom.productSystemPrice == '') {
               this.message('error', '请填写商品的商城价格')
-              return;
+              return
             } else if (this.addProductFrom.productBazaarPrice == '') {
               this.message('error', '请填写商品的市场价格')
-              return;
+              return
             }
           }
-
 
           this.active = 2
           this.isShowTwoFlag = false
@@ -789,7 +794,7 @@
           if (!this.ifTest) {
             if (this.addProductFrom.productUnit == '') {
               this.message('error', '商品单位不能为空')
-              return;
+              return
             } else if (this.addProductFrom.productSketchContent == '') {
               this.message('waring', '商品简述为空的话可能会引响到后期用户搜索到该商品的几率哦')
             }
@@ -798,7 +803,6 @@
           this.isShowThreeFlag = false
           this.isShowFourFlag = true
         } else if (this.active == 3) {
-
 
           // 判断SKU和SPU是否为为空
           if (this.addProductFrom.productSkuInfo == null || this.addProductFrom.productSkuInfo.length <= 0) {
@@ -818,11 +822,11 @@
             if (data.productSkuName == '') {
               this.message('error', '请将配置名称填写完成')
               spuFlag = true
-              throw Error();
+              throw Error()
             } else if (data.dynamicTags.length <= 0) {
               this.message('error', '请添加配置的值')
               spuFlag = true
-              throw Error();
+              throw Error()
             }
             data.dynamicTags.forEach(skuValue => {
               if (skuValueVar == '') {
@@ -831,9 +835,9 @@
                 skuValueVar += ',' + skuValue
               }
             })
-            this.addProductFrom.productSku.push({
-              "productSkuName": data.productSkuName,
-              "productSkuValue": skuValueVar
+            this.addProductFrom.productSkuArr.push({
+              'productSkuName': data.productSkuName,
+              'productSkuValue': skuValueVar
             })
             this.addProductFrom.productSkuInfo[index].productSkuValue = skuValueVar
           })
@@ -861,9 +865,9 @@
                 spuValueVar += ',' + spuValue
               }
             })
-            this.addProductFrom.productSpu.push({
-              "productSpuName": data.productSpuName,
-              "productSpuValue": spuValueVar
+            this.addProductFrom.productSpuArr.push({
+              'productSpuName': data.productSpuName,
+              'productSpuValue': spuValueVar
             })
             this.addProductFrom.productSpuInfo[index].productSpuValue = spuValueVar
           })

@@ -28,7 +28,7 @@
               type="primary"
               icon="el-icon-search"
               style="width:  100%;"
-              @click="getProductInfo()"
+              @click="serachBtnFunction()"
             >搜索
             </el-button>
           </el-form-item>
@@ -448,7 +448,7 @@
           this.COMMON.startLoading()
           // 发送AJAX修改数据
           var url = '/product/basics/del'
-          var param = {'productId': obj.productId, 'state': state}
+          var param = { 'productId': obj.productId, 'state': state }
           productAjaxPost(url, param).then(data => {
             if (data.status == 200) {
               this.$message({
@@ -509,6 +509,10 @@
       // 关闭SPU窗口
       closeSpuWindows() {
         this.productSpuInfoFlag = false
+      },
+      serachBtnFunction() {
+        this.pageInfo.currentPage = 1
+        this.getProductInfo()
       },
       // 请求商品的数据信息
       getProductInfo() {

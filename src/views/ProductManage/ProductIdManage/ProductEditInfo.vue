@@ -41,10 +41,11 @@
           <el-form-item class="addProductItem" label="市场价格" style="width:100%;">
             <el-input
               v-model="editProductForm.productBazaarPrice"
-              maxlength="10"
+              maxlength="7"
               show-word-limit
               class="addProductFormInput"
               placeholder="请输入市场价格"
+              oninput="value=value.replace(/[^\d]/g,'')"
             />
           </el-form-item>
         </el-col>
@@ -54,9 +55,10 @@
           <el-form-item label="商城价格" class="addProductItem">
             <el-input
               v-model="editProductForm.productSystemPrice"
-              maxlength="10"
+              maxlength="7"
               show-word-limit
               class="addProductFormInput"
+              oninput="value=value.replace(/[^\d]/g,'')"
               placeholder="请输入商城价格"
             />
             </el-select>
@@ -83,10 +85,11 @@
           <el-form-item label="排序" class="addProductItem">
             <el-input
               v-model="editProductForm.productOrderRule"
-              maxlength="11"
+              maxlength="7"
               show-word-limit
               class="addProductFormInput"
               placeholder="请输入排序"
+              oninput="value=value.replace(/[^\d]/g,'')"
             />
             </el-select>
           </el-form-item>
@@ -110,7 +113,7 @@
 
           <el-form-item label="商品简述" class="addProductItem">
             <el-input
-              v-model="editProductForm.productSketchContentl"
+              v-model="editProductForm.productSketchContent"
               type="textarea"
               maxlength="1000"
               show-word-limit
@@ -219,7 +222,7 @@
           this.text = '正在修改商品信息'
           var url = '/product/basics/edit/info'
           productAjaxPost(url, this.editProductForm).then(data => {
-            console.log(data)
+            this.isLoading = false
             if (data.status == 200) {
               this.$message({
                 type: 'success',
@@ -239,7 +242,6 @@
                 customClass: 'zzIndex'
               })
 
-              this.COMMON.stopLoading()
             }
           })
         })
@@ -278,7 +280,7 @@
           } else {
             this.$message({
               showClose: true,
-              message: data.msg + '--请重新刷新页面',
+              message: data.msg,
               type: 'error',
               duration: 3000,
               customClass: 'zzIndex'

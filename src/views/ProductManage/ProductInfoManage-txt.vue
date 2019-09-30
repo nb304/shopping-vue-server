@@ -2,11 +2,58 @@
 <template>
   <div id="productInfoDiv" v-loading="isProductSPULoading" style="margin:30px ;">
 
+    <!--    &lt;!&ndash; ======================= 商品信息按钮集合 =========================  &ndash;&gt;-->
+    <!--    <el-form :inline="true" class="demo-form-inline productSearchForm" label-width="70px">-->
+    <!--      <el-row :gutter="24">-->
+    <!--        <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">-->
+    <!--          <el-form-item label="商品状态" style="width: 100% !important;">-->
+    <!--            <el-select v-model="productPage.state" placeholder="选择商品状态" style="width: 100% !important;">-->
+    <!--              <el-option v-for="state in productState" :key="state.value" :label="state.key" :value="state.value"/>-->
+    <!--            </el-select>-->
+    <!--          </el-form-item>-->
+    <!--        </el-col>-->
+
+    <!--        <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">-->
+    <!--          <el-form-item label="搜索商品" style="width: 100%;">-->
+    <!--            <el-input v-model="productPage.productName" placeholder="商品的名称"><i slot="prefix" class="el-icon-edit"/>-->
+    <!--            </el-input>-->
+    <!--          </el-form-item>-->
+    <!--        </el-col>-->
+
+    <!--        <el-col :lg="{span: 5}" :xs="{span: 24}" :sm="{span: 24}">-->
+    <!--          <el-button type="primary" class="searchButton" style="width: 100%; " @click.stop="showAddProduct">-->
+    <!--            <svg-icon-->
+    <!--              icon-class="tianjia"-->
+    <!--              class-name=""-->
+    <!--              style="width:14px !important; height:14px !important; margin-right:10px;"-->
+    <!--            />-->
+    <!--            添加商品-->
+    <!--          </el-button>-->
+    <!--        </el-col>-->
+
+    <!--      </el-row>-->
+    <!--      <el-row :gutter="24">-->
+    <!--        <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">-->
+    <!--          <el-button-->
+    <!--            class="searchButton"-->
+    <!--            type="primary"-->
+    <!--            icon="el-icon-search"-->
+    <!--            style="width:  100%;"-->
+    <!--            @click="queryProductInfo()"-->
+    <!--          >搜索-->
+    <!--          </el-button>-->
+    <!--        </el-col>-->
+    <!--      </el-row>-->
+    <!--    </el-form>-->
+
+    <!--    &lt;!&ndash; ======================= 商品信息按钮集合(结束) =========================  &ndash;&gt;-->
+
     <!-- ======================= 商品信息按钮集合 =========================  -->
-    <el-form :inline="true" class="demo-form-inline productSearchForm" label-width="70px">
-      <el-row :gutter="24">
+    <el-row>
+
+      <el-form ref="form" :model="pageInfo" label-width="80px">
         <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">
-          <el-form-item label="商品状态" style="width: 100% !important;">
+          <el-form-item label="商品状态">
             <el-select v-model="productPage.state" placeholder="选择商品状态" style="width: 100% !important;">
               <el-option v-for="state in productState" :key="state.value" :label="state.key" :value="state.value"/>
             </el-select>
@@ -14,49 +61,41 @@
         </el-col>
 
         <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">
-          <el-form-item label="搜索商品" style="width: 100%;">
-            <el-input v-model="productPage.productName" placeholder="商品的名称"><i slot="prefix" class="el-icon-edit"/>
-            </el-input>
+          <el-form-item label="搜索商品">
+            <el-input v-model="productPage.productName" placeholder="请输入商品名称" style="width: 100% !important;"/>
           </el-form-item>
         </el-col>
 
-        <el-col :lg="{span: 5}" :xs="{span: 24}" :sm="{span: 24}">
-          <el-button type="primary" class="searchButton" style="width: 100%; " @click.stop="showAddProduct">
-            <svg-icon
-              icon-class="tianjia"
-              class-name=""
-              style="width:14px !important; height:14px !important; margin-right:10px;"
-            />
-            添加商品
-          </el-button>
-        </el-col>
-
-        <el-col :lg="{span: 5}" :xs="{span: 24}" :sm="{span: 24}">
-          <el-button class="searchButton" type="primary" style="width:  100%; " @click="onSubmit">
-            <svg-icon
-              icon-class="tianjia"
-              class-name=""
-              style="width:14px !important; height:14px !important; margin-right:10px;"
-            />
-            批量导入商品SKU信息
-          </el-button>
-        </el-col>
-
-      </el-row>
-      <el-row :gutter="24">
         <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">
-          <el-button
-            class="searchButton"
-            type="primary"
-            icon="el-icon-search"
-            style="width:  100%;"
-            @click="queryProductInfo()"
-          >搜索
-          </el-button>
-        </el-col>
-      </el-row>
-    </el-form>
 
+          <el-form-item label="">
+            <el-button
+              class="searchButton"
+              type="primary"
+              icon="el-icon-search"
+              style="width:  100%;"
+              @click="serachBtnFunction()"
+            >搜索
+            </el-button>
+          </el-form-item>
+        </el-col>
+
+        <el-col :lg="{span: 6}" :xs="{span: 24}" :sm="{span: 24}">
+
+          <el-form-item label="">
+            <el-button type="primary" class="searchButton" style="width: 100%; " @click.stop="showAddProduct">
+              <svg-icon
+                icon-class="tianjia"
+                class-name=""
+                style="width:14px !important; height:14px !important; margin-right:10px;"
+              />
+              添加商品
+            </el-button>
+          </el-form-item>
+        </el-col>
+      </el-form>
+
+    </el-row>
     <!-- ======================= 商品信息按钮集合(结束) =========================  -->
     <el-row :gutter="24">
       <el-col :sm="{span: 24}" :xs="{span: 24}">
@@ -87,7 +126,7 @@
               查看详情
             </el-button>
           </el-table-column>
-          <el-table-column label="SKU参数" width="100">
+          <el-table-column label="商品配置" width="100">
             <el-button slot-scope="scope" type="text" size="small" @click="showProductSkuInfo(scope.row.productId)">
               查看详情
             </el-button>
@@ -162,491 +201,21 @@
 
     <!-- ======================= 商品管理弹出层 =========================  -->
 
-    <!-- ======================= 添加商品弹出层 =========================  -->
+    <!-- ======================= 添加商品 =========================  -->
     <el-dialog
       v-el-drag-dialog
-      top="7vh"
-      width="60%"
-      :append-to-body="true"
-      custom-class="addProductDiv"
-      :title="addProductTitle"
+      width="77%"
+      :close-on-click-modal="true"
+      :modal="true"
+      title="添加商品信息"
       :visible.sync="addProductFlag"
-      class="title-menu-min"
+      custom-class="productSkuInfoClass"
+      top="7vh"
     >
-      <!-- ======================= 步骤一=========================  -->
-      <div v-if="isShowOneFlag" id="stepone" class="stepList">
-
-        <el-form
-          ref="addProductTwoFrom"
-          label-position="left"
-          :inline="true"
-          :model="addProductTwoFrom"
-          label-width="80px"
-        >
-          <el-row :gutter="24">
-
-            <el-col :sm="{span: 12,offset: 6}" :xs="{span: 23}">
-
-              <el-form-item label="商品类目" style="width:100%;">
-                <el-cascader
-                  v-model="ProductMuluListIds"
-                  filterable
-                  style="width:100% !important;"
-                  :options="options"
-                  @change="handleChange"
-                />
-              </el-form-item>
-            </el-col>
-
-          </el-row>
-        </el-form>
-      </div>
-      <!-- ======================= 步骤一(结束)=========================  -->
-
-      <!-- ======================= 步骤二=========================  -->
-      <div v-if="isShowTwoFlag" id="steptwo">
-
-        <el-form
-          ref="addProductTwoFrom"
-          :inline="true"
-          label-position="left"
-          :model="addProductTwoFrom"
-          label-width="80px"
-        >
-
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 24}">
-              <el-form-item label="商品名称" style="width:100%;">
-                <el-input v-model="addProductTwoFrom.goodsName" maxlength="50" placeholder="请输入商品名称"/>
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11}" :xs="{span: 24}">
-
-              <el-form-item label="商品品牌" style="width:100%;">
-                <el-select v-model="addProductTwoFrom.goodsBrand" style="width:100% !important;" placeholder="请选择商品品牌">
-                  <el-option
-                    v-for="(item, index) in brands"
-                    :key="index"
-                    :label="item.brandName"
-                    :value="item.brandId"
-                  />
-
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 24}">
-              <el-form-item label="市场价格" style="width:100%;">
-                <el-input
-                  v-model="addProductTwoFrom.marketPrick"
-                  type="number"
-                  :rules="priceRuleShC"
-                  maxlength="9"
-                  placeholder="请输入市场价格"
-                />
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11}" :xs="{span: 24}">
-              <el-form-item label="商城价格" style="width:100%;">
-                <el-input
-                  v-model="addProductTwoFrom.shopPrick"
-                  type="number"
-                  :rules="priceRuleShC"
-                  maxlength="9"
-                  placeholder="请输入商城价格"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-        </el-form>
-      </div>
-      <!-- ======================= 步骤二(结束)=========================  -->
-
-      <!-- ======================= 步骤三=========================  -->
-      <div v-if="isShowThreeFlag" id="stepthree">
-        <el-form
-          ref="addProductThreeFrom"
-          :inline="true"
-          label-position="left"
-          :model="addProductTwoFrom"
-          label-width="80px"
-        >
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="商品卖点" style="width:100%;" class="addProductItem">
-                <el-input
-                  v-model="addProductTwoFrom.goodsSell"
-                  maxlength="50"
-                  class="addProductFormInput"
-                  placeholder="请输入商品卖点"
-                />
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="排序" style="width:100%;" class="addProductItem">
-                <el-input
-                  v-model="addProductTwoFrom.goodsSort"
-                  type="number"
-                  class="addProductFormInput"
-                  placeholder="请输入商品排序"
-                />
-              </el-form-item>
-            </el-col>
-
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="商品单位" style="width:100%;" class="addProductItem">
-                <el-input
-                  v-model="addProductTwoFrom.goodsUnit"
-                  maxlength="9"
-                  class="addProductFormInput"
-                  placeholder="请输入商品单位"
-                />
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="商品简述" style="width:100%;">
-                <el-input
-                  v-model="addProductTwoFrom.goodsSketch"
-                  maxlength="200"
-                  type="textarea"
-                  class="addProductFormInput"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="是否支持" style="width:100%;" class="addProductItem">
-                <el-radio v-model="retreatRadio" label="1">支持无理由退货</el-radio>
-                <el-radio v-model="retreatRadio" label="2">不支持无理由退货</el-radio>
-                <el-input
-                  v-if="retreatRadio == 1"
-                  v-model="addProductTwoFrom.goodsDatanum"
-                  type="number"
-                  placeholder="设置无理由退款天数(默认7天)"
-                  class="addProductFormInput"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-        </el-form>
-      </div>
-      <!-- ======================= 步骤三(结束)=========================  -->
-
-      <!-- ======================= 步骤四========================  -->
-      <div v-if="isShowFourFlag" id="stepfour">
-        <el-form
-          ref="addProductTwoFrom"
-          :inline="true"
-          label-position="left"
-          :model="addProductTwoFrom"
-          label-width="80px"
-        >
-          <el-row :gutter="24">
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="SKU" style="width:100%;" class="addProductItem">
-                <el-button type="primary" style="width:270px;" @click="addProductSKU">添加商品的SKU</el-button>
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="SPU" style="width:100%;" class="addProductItem">
-                <el-button type="primary" style="width:270px;" @click="addProductSPU">添加商品的SPU</el-button>
-              </el-form-item>
-            </el-col>
-
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="商品图片" style="width:100%;" class="addProductItem">
-                <el-button type="primary" style="width:270px;" @click="addProductImages">添加商品图片</el-button>
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="商品详情" style="width:100%;" class="addProductItem">
-                <el-button type="primary" style="width:270px;" @click="addProductInfos">添加商品详情</el-button>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-        </el-form>
-
-      </div>
-      <!-- ======================= 步骤四(结束)=========================  -->
-
-      <!-- ======================= 添加SPU ========================  -->
-      <div
-        v-if="addProductSpuFlag"
-        style="max-height: 400px; margin-left: 20px;"
-      >
-        <el-form
-          ref="addProductTwoFrom"
-          label-position="left"
-          :inline="true"
-          :model="addProductTwoFrom"
-          label-width="80px"
-        >
-          <el-row v-for="(o,index) in addProductSpuForm" :key="o.key" class="spusRowClass" :gutter="24">
-
-            <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
-              <el-col :sm="{span: 8}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input v-model="o.productSpuName" class="SpuInput" maxlength="10" placeholder="请输入Key"/>
-                </el-form-item>
-              </el-col>
-
-              <el-col :sm="{span: 8}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input v-model="o.productSpuValue" class="SpuInput" maxlength="10" placeholder="请输入值"/>
-                </el-form-item>
-              </el-col>
-
-              <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input :value="index" class="SpuInput2" disabled placeholder="排序"/>
-                </el-form-item>
-              </el-col>
-
-              <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSpuLink(o)"/>
-              </el-col>
-            </el-card>
-          </el-row>
-        </el-form>
-      </div>
-      <!-- ======================= SPU窗口按钮组 ========================  -->
-      <div v-if="addProductSpuFlag" style="margin-left: 20px;">
-        <el-row class="spusRowClass" :gutter="24">
-
-          <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
-
-            <el-collapse accordion>
-              <el-collapse-item title="操作菜单" name="1">
-                <el-col :sm="{span: 4}" :xs="{span: 23}">
-                  <el-button type="primary" style="width: 100%;" @click="addProductSpuLine">新增一行</el-button>
-                </el-col>
-
-                <el-col :sm="{span: 8}" :xs="{span: 23}">
-                  <el-button type="primary" style="width: 100%;" class="addAndClose" @click="closeSpuWindows">
-                    保存SPU配置并关闭窗口
-                  </el-button>
-                </el-col>
-
-                <el-col :sm="{span: 5}" :xs="{span: 23}">
-                  <el-button style="width: 100%;" @click="closeSpuWindows">关闭窗口</el-button>
-                </el-col>
-
-              </el-collapse-item>
-
-            </el-collapse>
-          </el-card>
-        </el-row>
-      </div>
-      <!-- ======================= SPU窗口按钮组(结束) ========================  -->
-      <!-- ======================= 添加SPU(结束) ========================  -->
-
-      <!-- ======================= 添加SKU ========================  -->
-      <div
-        v-if="addProductSkuFlag"
-        id="addProductSku"
-        class="title-menu-min"
-        style="max-height: 400px; margin-left: 20px;"
-      >
-        <el-form
-          ref="addProductTwoFrom"
-          label-position="left"
-          :inline="true"
-          :model="addProductTwoFrom"
-          label-width="80px"
-        >
-          <el-row v-for="(o,index) in addProductSkuForm.domains" :key="o.key" class="spusRowClass" :gutter="24">
-
-            <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
-              <el-col :sm="{span: 8}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input
-                    v-if="o.isSystemCreate != 1"
-                    v-model="o.productSkuKeyName"
-                    class="SpuInput"
-                    maxlength="10"
-                    placeholder="SKU名称"
-                  />
-                  <el-input
-                    v-else
-                    v-model="o.productSkuKeyName"
-                    disabled
-                    class="SpuInput"
-                    maxlength="10"
-                    placeholder="SKU名称"
-                  />
-
-                </el-form-item>
-              </el-col>
-
-              <el-col :sm="{span: 8}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input v-model="o.skuValue" class="SpuInput" maxlength="10" placeholder="SKU值"/>
-                </el-form-item>
-              </el-col>
-
-              <!-- +1 -->
-
-              <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSkuLink(o)"/>
-              </el-col>
-            </el-card>
-          </el-row>
-        </el-form>
-      </div>
-      <div v-if="addProductSkuFlag" style="margin-left: 20px;">
-        <el-row class="spusRowClass" :gutter="24">
-
-          <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
-
-            <el-collapse accordion>
-              <el-collapse-item title="操作菜单" name="1">
-                <el-col :sm="{span: 4}" :xs="{span: 23}">
-                  <el-button type="primary" style="width: 100%;" @click="addProductSkuLine">新增一行</el-button>
-                </el-col>
-
-                <el-col :sm="{span: 7}" :xs="{span: 23}">
-                  <el-button type="primary" style="width: 100%;" class="addAndClose" @click="closeSkuWindows">
-                    保存SKU配置并关闭窗口
-                  </el-button>
-                </el-col>
-
-                <el-col :sm="{span: 5}" :xs="{span: 23}">
-                  <el-button style="width: 100%;" @click="closeSkuWindows">关闭窗口</el-button>
-                </el-col>
-              </el-collapse-item>
-
-            </el-collapse>
-          </el-card>
-        </el-row>
-      </div>
-      <!-- ======================= 添加SKU(结束) ========================  -->
-
-      <!-- ======================= 添加商品图片 ========================  -->
-      <div v-if="uploadProductPLists">
-
-        <el-upload
-          ref="upload"
-          class="upload-demo"
-          action="http://192.168.0.127/ucc/vue/upload"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          name="fileImage"
-          :multiple="true"
-          limit="6"
-          accept="image/*"
-          :on-success="uploadProductImageSuccess"
-          :on-exceed="exceedFun"
-          :file-list="fileList"
-          :auto-upload="false"
-          list-type="picture"
-        >
-          <el-button slot="trigger" size="small" type="primary">选取需要上传的文件</el-button>
-          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-          <el-button style="margin-left: 10px;" size="small" @click="closeProductImages">关闭窗口</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          <div slot="tip" class="el-upload__tip">图片默认显示顺序也是根据上传的顺序规定</div>
-        </el-upload>
-      </div>
-      <!-- ======================= 添加商品图片(结束) ========================  -->
-
-      <!-- ======================= 添加商品详情 ========================  -->
-      <div v-if="uploadProductInfoFlag" class="title-menu-min" style="max-height: 400px;">
-        <el-upload
-          ref="upload"
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          name="pLists2"
-          :multiple="true"
-          limit="30"
-          accept="image/*"
-          :on-exceed="exceedFun"
-          :file-list="fileList"
-          :auto-upload="false"
-          list-type="picture"
-        >
-          <el-button slot="trigger" size="small" type="primary">选取需要上传的文件</el-button>
-          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-          <el-button style="margin-left: 10px;" size="small" @click="closeProductInfo">关闭窗口</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          <div slot="tip" class="el-upload__tip">图片默认显示顺序也是根据上传的顺序规定</div>
-        </el-upload>
-      </div>
-      <!--=======================添加商品详情（结束）========================-->
-
-      <!-- ======================= 添加商品进度=========================  -->
-      <el-steps :active="active" finish-status="success" align-center style="margin-top:30px;">
-        <el-step title="步骤1" description="选择商品类目" show-overflow-tooltip="true"/>
-        <el-step title="步骤2" description="添加宝贝基本信息" show-overflow-tooltip="true"/>
-        <el-step title="步骤3" description="添加宝贝详细信息"/>
-        <el-step title="步骤4" :description="stepFourContent"/>
-      </el-steps>
-
-      <el-row class="spusRowClass" :gutter="24">
-
-        <el-col :sm="{span: 8}" :xs="{span: 24}">
-          <el-button
-            v-if="isAddOrNextFlag"
-            type="primary"
-            :disabled="isStepBtn"
-            style="margin-top: 12px; width: 100% !important;  padding-left: 0px !important; padding-right: 0px !important;"
-            @click="next"
-          >我已阅读无误,下一步
-          </el-button>
-          <el-button
-            v-if="!isAddOrNextFlag"
-            type="primary"
-            :disabled="isStepBtn"
-            style="margin-top: 12px;  width: 100% !important;   padding-left: 0px !important; padding-right: 0px !important;"
-            @click="next"
-          >我已阅读无误,确认添加
-          </el-button>
-        </el-col>
-        <el-col :sm="{span: 8}" :xs="{span: 24}">
-          <el-button
-            type="primary"
-            style="margin-top: 12px;  width: 100% !important;  padding-left: 0px !important; padding-right: 0px !important;"
-            :disabled="isStepBtn"
-            @click="last"
-          >上一步
-          </el-button>
-        </el-col>
-
-        <el-col :sm="{span: 8}" :xs="{span: 24}">
-          <el-button
-            style="margin-top: 12px;  width: 100% !important; padding-left: 0px !important; padding-right: 0px !important;"
-            :disabled="isStepBtn"
-            @click="closeAddProduct"
-          >关闭窗口
-          </el-button>
-        </el-col>
-      </el-row>
-
+      <add ref="add"
+           @closeAddProduct="addProductFlag=false"/>
     </el-dialog>
-    <!-- ======================= 添加商品弹出层End =========================  -->
-
+    <!-- ======================= 添加商品(结束) =========================  -->
     <!-- ======================= 查看商品类目 =========================  -->
 
     <el-dialog
@@ -681,270 +250,20 @@
     </el-dialog>
     <!-- ======================= 查看商品类目(结束) =========================  -->
 
-    <!-- ======================= 查看商品SPU =========================  -->
+    <!-- ======================= 商品SPU信息 =========================  -->
     <el-dialog
       v-el-drag-dialog
-      v-loading="isProductInfoLoading"
-      title="商品SPU信息"
-      top="7vh"
-      :modal-append-to-body="true"
-      :visible.sync="productSpuFlag"
-      custom-class="editSpuDiv"
       width="70%"
+      :close-on-click-modal="true"
+      :modal="true"
+      title="商品参数信息"
+      :visible.sync="productSpuInfoFlag"
+      custom-class="productSpuInfoClass"
+      top="7vh"
     >
-      <div v-if="productSpuFlag2">
-        <div class="title-menu-min spuDialogClass" style="max-height: 400px;">
-          <el-table
-            ref="multipleTable"
-            :data="productSpuInfo"
-            tooltip-effect="dark"
-            style="width: 100%"
-            @selection-change="handleSelectionChange"
-          >
-
-            <el-table-column type="selection" width="55"/>
-            <el-table-column label="SPU名称" width="160" show-overflow-tooltip>
-              <template slot-scope="scope">{{ scope.row.productSpuName }}</template>
-            </el-table-column>
-            <el-table-column label="SPU值" show-overflow-tooltip>
-              <template slot-scope="scope">{{ scope.row.productSpuValue }}</template>
-            </el-table-column>
-            <el-table-column label="排序" width="55" show-overflow-tooltip>
-              <template slot-scope="scope">{{ scope.row.productSpuOrder }}</template>
-            </el-table-column>
-            <el-table-column label="状态" width="80" show-overflow-tooltip>
-              <template slot-scope="scope">
-
-                <el-tag v-if="scope.row.productSpuState == 1">使用中</el-tag>
-                <el-tag
-                  v-else-if="scope.row.productSpuState == 2"
-                  title="恢复正常使用"
-                  type="danger"
-                  style="cursor: pointer;"
-                  @click="normalSpu(scope.$index,scope.row)"
-                >被删除
-                </el-tag>
-                <el-tag
-                  v-else
-                  title="恢复正常使用"
-                  type="warning"
-                  style="cursor: pointer;"
-                  @click="normalSpu(scope.$index,scope.row)"
-                >注销中
-                </el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="操作" fixed="right" width="100">
-              <el-button
-                slot-scope="scope"
-                type="text"
-                size="small"
-                @click="addProductInfoSpu2(scope.$index,scope.row)"
-              >编辑
-              </el-button>
-              <el-button type="text" size="small">删除</el-button>
-            </el-table-column>
-          </el-table>
-        </div>
-        <el-row :gutter="24">
-          <el-col :sm="{span: 8}" :xs="{span: 23}">
-            <el-button style="margin-top: 12px;width: 100%;" type="primary" @click="addProductInfoSpu">新增SPU</el-button>
-          </el-col>
-          <el-col :sm="{span: 8}" :xs="{span: 23}">
-            <el-button style="margin-top: 12px;width: 100%;" type="primary" @click="batchCancelSpu()">批量注销SPU
-            </el-button>
-          </el-col>
-          <el-col :sm="{span: 8}" :xs="{span: 23}">
-            <el-button style="margin-top: 12px;width: 100%;" @click="productSpuFlag = false">关闭窗口</el-button>
-          </el-col>
-        </el-row>
-
-      </div>
-
-      <!-- ======================= 添加SPU ========================  -->
-      <div
-        v-if="addProductSpuFlag2"
-        id="addProductSpu"
-        class="title-menu-min"
-        style="max-height: 400px; margin-left: 15px;"
-      >
-        <el-form
-          ref="addProductTwoFrom"
-          label-position="left"
-          :inline="true"
-          :model="addProductTwoFrom"
-          label-width="80px"
-        >
-          <el-row v-for="(o,index) in addProductSpuForm" :key="o.key" class="spusRowClass" :gutter="24">
-
-            <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
-
-              <el-col :sm="{span: 8}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input
-                    v-model="o.productSpuName"
-                    type="textarea"
-                    maxlength="20"
-                    show-word-limit
-                    class="SpuInput"
-                    placeholder="请输入商品参数名称"
-                  />
-                </el-form-item>
-              </el-col>
-
-              <el-col :sm="{span: 8}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input
-                    v-model="o.productSpuValue"
-                    type="textarea"
-                    maxlength="100"
-                    show-word-limit
-                    class="SpuInput"
-                    placeholder="请输入商品参数值,多个值用','隔开"
-                  />
-                </el-form-item>
-              </el-col>
-
-              <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input
-                    v-model="o.productSpuOrder"
-                    maxlength="11"
-                    oninput="value=value.replace(/[^\d]/g,'')"
-                    show-word-limit
-                    class="SpuInput2"
-                    placeholder="排序"
-                  />
-                </el-form-item>
-              </el-col>
-
-              <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-button type="danger" icon="el-icon-delete" circle @click.pprevent="removeProducSpuLink(o)"/>
-              </el-col>
-            </el-card>
-          </el-row>
-        </el-form>
-      </div>
-      <!-- ======================= SPU窗口按钮组 ========================  -->
-      <div v-if="addProductSpuFlag2" style="margin-left: 10px;">
-        <el-row class="spusRowClass" :gutter="24">
-
-          <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
-
-            <el-collapse accordion>
-              <el-collapse-item title="操作菜单" name="1">
-                <el-col :sm="{span: 8}" :xs="{span: 23}">
-                  <el-button style="width: 100%;" type="primary" @click="addProductSpuLine">新增一行</el-button>
-                </el-col>
-
-                <el-col :sm="{span: 8}" :xs="{span: 23}">
-                  <el-button style="width: 100%;" type="primary" class="addAndClose" @click="addProductSpuInfo">保存当前配置
-                  </el-button>
-                </el-col>
-                <el-col :sm="{span: 8}" :xs="{span: 23}">
-                  <el-button style="width: 100%;" @click="closeSpuWindows2">关闭窗口</el-button>
-                </el-col>
-              </el-collapse-item>
-
-            </el-collapse>
-          </el-card>
-        </el-row>
-      </div>
-      <!-- ======================= SPU窗口按钮组(结束) ========================  -->
-
-      <!-- ======================= 修改SPU ========================  -->
-      <div
-        v-if="addProductSpuFlag3"
-        id="addProductSpu"
-        class="title-menu-min"
-        style="max-height: 400px; margin-left: 15px;"
-      >
-        <el-form
-          ref="addProductTwoFrom"
-          label-position="left"
-          :inline="true"
-          :model="addProductTwoFrom"
-          label-width="80px"
-        >
-          <el-row class="spusRowClass" :gutter="24">
-
-            <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
-              <el-col :sm="{span: 8}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input
-                    v-model="currentEditSpuInfo.productSpuName"
-                    type="textarea"
-                    maxlength="20"
-                    show-word-limit
-                    class="SpuInput"
-                    placeholder="请输入商品参数名称"
-                  />
-                </el-form-item>
-              </el-col>
-
-              <el-col :sm="{span: 8}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input
-                    v-model="currentEditSpuInfo.productSpuValue"
-                    type="textarea"
-                    maxlength="100"
-                    show-word-limit
-                    class="SpuInput"
-                    placeholder="请输入商品参数值"
-                  />
-                </el-form-item>
-              </el-col>
-
-              <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-form-item>
-                  <el-input
-                    v-model="currentEditSpuInfo.productSpuOrder"
-                    oninput="value=value.replace(/[^\d]/g,'')"
-                    maxlength="11"
-                    show-word-limit
-                    class="SpuInput2"
-                    placeholder="排序"
-                  />
-                </el-form-item>
-              </el-col>
-
-              <el-col :sm="{span: 4}" :xs="{span: 12}">
-                <el-button
-                  v-if="currentEditSpuInfo.productSpuState != 2"
-                  type="danger"
-                  icon="el-icon-delete"
-                  circle
-                  @click.prevent="removeProducSpu(currentEditSpuInfo)"
-                />
-                <el-button v-else type="danger" icon="el-icon-delete" circle disabled="disabled"/>
-              </el-col>
-            </el-card>
-          </el-row>
-        </el-form>
-      </div>
-      <!-- ======================= 修改SPU窗口按钮组 ========================  -->
-      <div v-if="addProductSpuFlag3" style="margin-left: 15px;">
-        <el-row class="spusRowClass" :gutter="24">
-
-          <el-card shadow="always" class="SpusClass" style="margin-bottom: 5px;width:95%;">
-
-            <el-collapse accordion>
-              <el-collapse-item title="操作菜单" name="1">
-                <el-col :sm="{span: 8}" :xs="{span:24}">
-                  <el-button type="primary" style="width: 100%;" @click="editSpuInfo()">保存当前配置</el-button>
-                </el-col>
-                <el-col :sm="{span: 8}" :xs="{span: 24}">
-                  <el-button style="width: 100%;" @click="closeSpuWindows3">关闭窗口</el-button>
-                </el-col>
-              </el-collapse-item>
-
-            </el-collapse>
-          </el-card>
-        </el-row>
-      </div>
-      <!-- ======================= 修改SPU窗口按钮组(结束) ========================  -->
+      <spu ref="spu" :product-id="currentFunctionProductId" @closeSpuWindows="productSpuInfoFlag = false"/>
     </el-dialog>
-    <!-- ======================= 查看商品SPU(结束) =========================  -->
+    <!-- ======================= 商品SPU信息(结束) =========================  -->
 
     <!-- ======================= 查看商品详细信息 =========================  -->
 
@@ -1251,269 +570,21 @@
 
     <!-- ======================= 修改商品信息 =========================  -->
 
+    <!-- ======================= 编辑商品信息 =========================  -->
     <el-dialog
       v-el-drag-dialog
-      v-loading="editProductFlag"
       width="77%"
-      :top="productTopHtml"
-      custom-class="productSkuInfoDialog title-menu-min"
-      title="編輯商品"
+      :close-on-click-modal="true"
+      :modal="true"
+      title="编辑商品信息"
       :visible.sync="editProductInfoFlag"
-      append-to-body
+      custom-class="productSkuInfoClass"
+      top="7vh"
     >
-
-      <div style="max-height: 550px;">
-        <el-form ref="editProduct" :model="editProduct" label-width="80px">
-
-          <el-row :gutter="24">
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item class="addProductItem" label="商品名称" style="width:100%;">
-                <el-input
-                  v-model="editProductForm.productName"
-                  maxlength="200"
-                  show-word-limit
-                  class="addProductFormInput"
-                  placeholder="请输入商品名称"
-                />
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-
-              <el-form-item label="商品品牌" class="addProductItem" style="width:100%;">
-                <el-select
-                  v-model="editProductForm.productBrandId"
-                  style="width:100%;"
-                  class="addProductFormInput"
-                  placeholder="请选择商品品牌"
-                >
-                  <el-option
-                    v-for="(item, index) in brands"
-                    :key="index"
-                    :label="item.brandName"
-                    :value="item.brandId"
-                  />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item class="addProductItem" label="市场价格" style="width:100%;">
-                <el-input
-                  v-model="editProductForm.productBazaarPrice"
-                  maxlength="10"
-                  show-word-limit
-                  class="addProductFormInput"
-                  placeholder="请输入市场价格"
-                />
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-
-              <el-form-item label="商城价格" class="addProductItem">
-                <el-input
-                  v-model="editProductForm.productSystemPrice"
-                  maxlength="10"
-                  show-word-limit
-                  class="addProductFormInput"
-                  placeholder="请输入商城价格"
-                />
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item class="addProductItem" label="商品卖点" style="width:100%;">
-                <el-input
-                  v-model="editProductForm.productPoints"
-                  maxlength="100"
-                  show-word-limit
-                  class="addProductFormInput"
-                  placeholder="请输入商品卖点"
-                />
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-
-              <el-form-item label="排序" class="addProductItem">
-                <el-input
-                  v-model="editProductForm.productOrderRule"
-                  maxlength="11"
-                  show-word-limit
-                  class="addProductFormInput"
-                  placeholder="请输入排序"
-                />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item class="addProductItem" label="商品单位" style="width:100%;">
-                <el-input
-                  v-model="editProductForm.productUnit"
-                  maxlength="10"
-                  show-word-limit
-                  class="addProductFormInput"
-                  placeholder="请输入商品单位"
-                />
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-
-              <el-form-item label="商品简述" class="addProductItem">
-                <el-input
-                  v-model="editProductForm.productSketchContentl"
-                  type="textarea"
-                  maxlength="1000"
-                  show-word-limit
-                  class="addProductFormInput"
-                  placeholder="请输入商品简述"
-                />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item label="是否支持" style="width:100%;" class="addProductItem">
-                <el-radio v-model="editProductForm.productIfSupport" :label="1">支持无理由退货</el-radio>
-                <el-radio v-model="editProductForm.productIfSupport" :label="2">不支持无理由退货</el-radio>
-                <el-input
-                  v-if="editProductForm.productIfSupport == 1"
-                  v-model="editProductForm.productSupportDay"
-                  oninput="value=value.replace(/[^\d]/g,'')"
-                  maxlength="3"
-                  show-word-limit
-                  placeholder="设置无理由退款天数(默认7天)"
-                  class="addProductFormInput"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-              <el-form-item class="addProductItem" label="商品图片" style="width:100%;">
-                <el-button type="primary" style="width:270px;" :disabled="!isEditFlag" @click="editProductImageFun">
-                  修改商品图片
-                </el-button>
-              </el-form-item>
-            </el-col>
-
-            <el-col :sm="{span: 11,offset: 1}" :xs="{span: 23}">
-
-              <el-form-item label="商品详情" class="addProductItem">
-                <el-button type="primary" style="width:270px;" :disabled="!isEditFlag" @click="addProductInfos">修改商品详情
-                </el-button>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row class="spusRowClass" :gutter="24">
-
-            <el-col :sm="{span: 6,offset: 1}" :xs="{span: 24}">
-              <el-button
-                type="primary"
-                style="margin-top: 12px;  width: 100% !important; "
-                :disabled="!isEditFlag"
-                @click="editProductFun()"
-              >保存编辑
-              </el-button>
-            </el-col>
-
-            <el-col :sm="{span: 6}" :xs="{span: 24}">
-              <el-button
-                style="margin-top: 12px;  width: 100% !important; margin-bottom: 10px !important;"
-                @click="editProductInfoFlag = false"
-              >关闭窗口
-              </el-button>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-
-      <!-- ======================= 修改商品图片 =========================  -->
-      <el-dialog
-        v-el-drag-dialog
-        width="77%"
-        :top="productTopHtml"
-        custom-class="productSkuInfoDialog title-menu-min"
-        title="修改商品图片"
-        :visible.sync="editProductImage"
-        append-to-body
-      >
-
-        <el-divider content-position="left">当前使用的商品图片</el-divider>
-        <el-table :data="productImages" style="width: 100%" max-height="250">
-          <el-table-column label="商品图片" width="150">
-
-            <el-image
-              slot-scope="scope"
-              style="width: 100px; height: 100px"
-              :src="scope.row.imageUrl"
-              fit="scale-down"
-            />
-          </el-table-column>
-          <el-table-column label="图片地址" show-overflow-tooltip="true">
-            <el-link slot-scope="scope" type="primary" @click="lookImage(scope.row.imageUrl)">{{ scope.row.imageUrl }}
-            </el-link>
-          </el-table-column>
-          <el-table-column prop="imageOrder" label="显示顺序" width="120">
-
-            <el-input v-model="scope.row.order" slot-scope="scope" maxlength="1"/>
-          </el-table-column>
-          <el-table-column fixed="right" label="操作" width="120">
-            <template slot-scope="scope">
-              <el-button type="text" size="small" @click.native.prevent="deleteImage(scope.$index, scope.row)">
-                移除
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-divider content-position="left">上传新的商品图片</el-divider>
-
-        <el-upload
-          ref="upload"
-          class="upload-demo"
-          action="http://192.168.0.127/ucc/vue/upload"
-          name="fileImage"
-          :multiple="true"
-          limit="6"
-          accept="image/*"
-          :file-list="fileList"
-          :auto-upload="false"
-          list-type="picture"
-          :http-request="uploadFile"
-        >
-          <el-button slot="trigger" size="small" type="primary">选取需要上传的文件</el-button>
-          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且图片数量最多为6张,最少为一张</div>
-          <div slot="tip" class="el-upload__tip">图片默认显示顺序也是根据上传的顺序规定</div>
-        </el-upload>
-
-        <el-col :sm="{span: 8}" style="margin-top:20px; margin-bottom: 20px;" :xs="{span: 23}">
-          <el-button style="width: 100%;" type="primary">确认保存</el-button>
-        </el-col>
-
-        <el-col :sm="{span: 8 ,offset: 1}" style="margin-top:20px; margin-bottom: 20px;" :xs="{span: 23}">
-          <el-button style="width: 100%;" @click="closeEditPoructImage">关闭窗口</el-button>
-        </el-col>
-      </el-dialog>
-      <!-- ======================= 修改商品图片(结束) =========================  -->
-
+      <edit-product ref="editProduct" :product-id="currentFunctionProductId"
+                    @closeEditWindows="editProductInfoFlag=false"/>
     </el-dialog>
-    <!-- ======================= 修改商品信息(结束) =========================  -->
+
 
     <!-- ======================= 商品管理弹出层End =========================  -->
   </div>
@@ -1525,12 +596,19 @@
     productAjaxPost,
     productAjaxGet
   } from '@/api/table.js'
+  import add from './ProductIdManage/ProductAdd.vue'
+  import spu from './ProductIdManage/ProductSpu.vue'
+  import sku from './ProductIdManage/ProductSku.vue'
+  import editProduct from './ProductIdManage/ProductEditInfo.vue'
 
   var systemUrl = ''
 
   export default {
     directives: {
       elDragDialog
+    },
+    components: {
+      add, spu, sku, editProduct
     },
     data() {
       return {
@@ -1544,6 +622,7 @@
         // 修改商品的表但
         editProductForm: {},
         isEditFlag: false,
+        addProductFlag: false,
         // 分页小型的flag
         pageFlag: false,
         // 当前操作的商品id
@@ -1561,6 +640,7 @@
         cancelSpuIds: [],
         // 商品SPU的数据
         productSpuInfo: [],
+        productSpuInfoFlag: false,
         // 商品分页的表单数据
         productPage: {
           productName: '', // 查询的商品名称
@@ -2327,36 +1407,8 @@
 
       // 显示SPU窗口
       shwoProductSpuInfo(id) {
-        this.COMMON.startLoading()
-        // 发送Ajax获取数据
-        var url = systemUrl + '/product/spu/get/' + id
-        productAjaxGet(url).then(data => {
-          if (data.status == 200) {
-            this.$message.success({
-              showClose: true,
-              message: '查询成功',
-              customClass: 'zzIndex',
-              duration: 1000
-            })
-            this.productSpuInfo = data.data
-            this.productSpuFlag = true
-            this.productSpuFlag2 = true
-            this.COMMON.stopLoading()
-            this.currentFunctionProductId = id
-          } else {
-            this.$message({
-              showClose: true,
-              message: data.msg + '--请重新刷新页面',
-              customClass: 'zzIndex',
-              type: 'error',
-              duration: 3000
-            })
-
-            this.productSpuFlag = true
-            this.productSpuFlag2 = true
-            this.COMMON.stopLoading()
-          }
-        })
+        this.currentFunctionProductId = id
+        this.productSpuInfoFlag = true
       },
       // 切换商品的条数
       productCurrentSize(val) {
@@ -2449,45 +1501,11 @@
         })
       },
       // 打开商品编辑窗口
-      editProduct(index, id) {
-        this.COMMON.startLoading()
-        this.currentFunctionProductIndex = index
-        // 发送AJax查询数据
-        var url = systemUrl + '/product/basics/edit/get/' + id
-        productAjaxGet(url).then(data => {
-          if (data.status == 200) {
-            this.isEditFlag = data.data.editFlag
-            this.editProductForm = data.data.productInfo
-            this.brands = data.data.brands
-            if (data.data.editFlag) {
-              this.$message({
-                type: 'success',
-                message: '查询成功!',
-                duration: 1000,
-                customClass: 'zzIndex'
-              })
-            } else {
-              this.$message({
-                showClose: true,
-                message: '该商品信息于:' + data.data.productInfo.lastTimeStr + '-被:' + data.data.productInfo.lastUpdateUserNaem +
-                  '修改:预计:时间-' + data.data.productInfo.nextTimeStr + '可重新修改',
-                duration: 0,
-                customClass: 'zzIndex'
-              })
-            }
-            this.editProductInfoFlag = true
-            this.COMMON.stopLoading()
-          } else {
-            this.$message({
-              showClose: true,
-              message: data.msg + '--请重新刷新页面',
-              type: 'error',
-              duration: 3000,
-              customClass: 'zzIndex'
-            })
-            this.COMMON.stopLoading()
-          }
-        })
+      editProduct(index, o) {
+        this.currentFunctionIndex = index
+        this.currentFunctionProductId = o
+        this.editProductInfoFlag = true
+        this.$refs.editProduct.findProductInfo(o)
       },
       editProductImageFun() {
         this.COMMON.startLoading()
@@ -2509,6 +1527,10 @@
             this.COMMON.stopLoading()
           }
         })
+      },
+      serachBtnFunction() {
+        this.productPage.currentPage = 1
+        this.getProductInfo()
       },
       // ///////////////////////////////////////////////////////////////////////////////////////
       // 查看评论具体信息，
@@ -2550,42 +1572,8 @@
       },
       // 打开添加商品弹出层
       showAddProduct() {
-        this.COMMON.startLoading()
-
-        this.$get('/product/basics/add/page/info').then(res => {
-          if (res.status == 200) {
-            // 调用成功 返回了商品类目和商品品牌信息
-            // 设置商品类目
-            this.options = res.data.productCategorys
-            // 设置商品
-            this.brands = res.data.productBrands
-
-            this.COMMON.stopLoading()
-          } else {
-            this.$message({
-              showClose: true,
-              message: res.msg,
-              type: 'error'
-            })
-            this.COMMON.stopLoading()
-          }
-        })
-          .catch(err => {
-            this.$message({
-              showClose: true,
-              message: '系统错误',
-              type: 'error'
-            })
-          })
         this.addProductFlag = true
 
-        // this.$get("http://192.168.124.11:7778",{
-
-        // }).then(res => {
-        //   console.log(res)
-        // }).catch(err => {
-        //   console.log(err)
-        // })
       },
       /** *滑动限制***/
       htmlStop() {

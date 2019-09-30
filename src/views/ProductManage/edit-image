@@ -1,0 +1,68 @@
+ <!-- ======================= 修改商品图片 =========================  -->
+      <el-dialog
+        v-el-drag-dialog
+        width="77%"
+        :top="productTopHtml"
+        custom-class="productSkuInfoDialog title-menu-min"
+        title="修改商品图片"
+        :visible.sync="editProductImage"
+        append-to-body
+      >
+
+        <el-divider content-position="left">当前使用的商品图片</el-divider>
+        <el-table :data="productImages" style="width: 100%" max-height="250">
+          <el-table-column label="商品图片" width="150">
+
+            <el-image
+              slot-scope="scope"
+              style="width: 100px; height: 100px"
+              :src="scope.row.imageUrl"
+              fit="scale-down"
+            />
+          </el-table-column>
+          <el-table-column label="图片地址" show-overflow-tooltip="true">
+            <el-link slot-scope="scope" type="primary" @click="lookImage(scope.row.imageUrl)">{{ scope.row.imageUrl }}
+            </el-link>
+          </el-table-column>
+          <el-table-column prop="imageOrder" label="显示顺序" width="120">
+
+            <el-input v-model="scope.row.order" slot-scope="scope" maxlength="1"/>
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="120">
+            <template slot-scope="scope">
+              <el-button type="text" size="small" @click.native.prevent="deleteImage(scope.$index, scope.row)">
+                移除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-divider content-position="left">上传新的商品图片</el-divider>
+
+        <el-upload
+          ref="upload"
+          class="upload-demo"
+          action="http://192.168.0.127/ucc/vue/upload"
+          name="fileImage"
+          :multiple="true"
+          limit="6"
+          accept="image/*"
+          :file-list="fileList"
+          :auto-upload="false"
+          list-type="picture"
+          :http-request="uploadFile"
+        >
+          <el-button slot="trigger" size="small" type="primary">选取需要上传的文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且图片数量最多为6张,最少为一张</div>
+          <div slot="tip" class="el-upload__tip">图片默认显示顺序也是根据上传的顺序规定</div>
+        </el-upload>
+
+        <el-col :sm="{span: 8}" style="margin-top:20px; margin-bottom: 20px;" :xs="{span: 23}">
+          <el-button style="width: 100%;" type="primary">确认保存</el-button>
+        </el-col>
+
+        <el-col :sm="{span: 8 ,offset: 1}" style="margin-top:20px; margin-bottom: 20px;" :xs="{span: 23}">
+          <el-button style="width: 100%;" @click="closeEditPoructImage">关闭窗口</el-button>
+        </el-col>
+      </el-dialog>
+      <!-- ======================= 修改商品图片(结束) =========================  -->
